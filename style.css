@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+    bottom: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: brown;
+}
+h1{
+    font-style: italic;
+}
