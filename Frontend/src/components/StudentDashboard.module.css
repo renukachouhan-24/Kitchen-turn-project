@@ -37,7 +37,7 @@
   
   /* Main content area */
   .overviewContainer {
-    max-width: 1200px;
+    /* max-width: 1200px; */
     margin: 3rem auto; /* Upar se thoda zyada space */
     padding: 0 2rem;
   }

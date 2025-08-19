@@ -18,9 +18,8 @@ const RoleSelection = () => {
         </div>
         <nav className={styles.mainNav}>
           <Link to="/dashboard">Student</Link>
-          <Link to="/dashboard">Today's Kitchen Team</Link>
+          <Link to="/today-team">Today's Kitchen Team</Link>
           <Link to="/coordinator">Coordinator</Link>
-          <a href="#">About</a>
         </nav>
       </header>
 
@@ -41,7 +40,7 @@ const RoleSelection = () => {
             </ul>
           </div>
           
-          <Link to="/dashboard" className={styles.outlineBtn}>
+          <Link to="/today-team" className={styles.outlineBtn}>
             View Today's Team
           </Link>
         </div>
