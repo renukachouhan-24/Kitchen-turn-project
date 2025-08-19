@@ -1,29 +1,149 @@
-/* src/components/RoleSelection.module.css */
+/* src/components/RoleSelection.module.css (NEW DESIGN) */
 
 .pageWrapper {
+    background-color: #fff;
+    color: #2d3748;
+    min-height: 100vh;
+  }
+  
+  /* Header / Navbar */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 5%; /* Side se zyada padding */
+    background-color: #2d3748; /* Dark background */
+    color: #fff;
+  }
+  
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
+  
+  .mainNav {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  .mainNav a {
+    text-decoration: none;
+    color: #e2e8f0;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  .mainNav a:hover {
+    color: #fff;
+  }
+  
+  /* Main Content */
+  .mainContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    padding: 5rem 8%; /* Upar-neeche aur side se padding */
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  
+  .leftColumn {
+    flex: 1;
+    max-width: 600px;
+  }
+  
+  .leftColumn h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+  }
+  
+  .description {
+    font-size: 1.1rem;
+    color: #4a5568;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+  
+  /* How it Works Card */
+  .howItWorksCard {
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  
+  .howItWorksCard h3 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .howItWorksCard ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .howItWorksCard li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #4a5568;
+  }
+  
+  .checkIcon {
+    color: #48bb78; /* Green color */
+  }
+  
+  /* View Today's Team Button */
+  .outlineBtn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    border: 2px solid #2d3748;
+    border-radius: 8px;
+    background: transparent;
+    color: #2d3748;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  
+  .outlineBtn:hover {
+    background-color: #2d3748;
+    color: #fff;
+  }
+  
+  /* Right Column Icon */
+  .rightColumn {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    min-height: 100vh;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f3f4ff 0%, #e1e2f6 100%);
-    box-sizing: border-box;
   }
-  .contentWrapper { text-align: center; max-width: 550px; width: 100%; }
-  .contentWrapper h1 { font-size: 2.5rem; font-weight: 700; color: #1e2150; margin-bottom: 0.5rem; }
-  .subtitle { font-size: 1.1rem; color: #6a7185; margin-bottom: 2.5rem; }
-  .cardsContainer { display: flex; flex-direction: column; gap: 1.25rem; }
-  .roleCard, .infoCard { background-color: #ffffff; border-radius: 12px; padding: 1.25rem 1.5rem; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04); display: flex; align-items: center; text-align: left; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; }
-  .roleCard { cursor: pointer; }
-  .roleCard:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(65, 84, 152, 0.08); }
-  .iconWrapper { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; margin-right: 1.25rem; flex-shrink: 0; }
-  .iconWrapper svg { color: #ffffff; }
-  .studentIcon { background-color: #4a6cfa; }
-  .coordinatorIcon { background-color: #c04afa; }
-  .infoIcon { width: 45px; height: 45px; background-color: #eaf2ff; }
-  .infoIcon svg { color: #4a6cfa; }
-  .textContent h2, .textContent h3 { margin: 0 0 0.25rem 0; font-size: 1.15rem; color: #1e2150; font-weight: 500; }
-  .textContent p { margin: 0; color: #6a7185; line-height: 1.5; font-size: 0.95rem; }
-  .infoCard .textContent h3 { font-size: 1rem; }
-  .cardLink { text-decoration: none; }
+  
+  .mainIconContainer {
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background-color: #2d3748;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 150px;
+    box-shadow: 
+      -10px -10px 20px rgba(255, 255, 255, 0.1),
+      10px 10px 20px rgba(0, 0, 0, 0.3),
+      inset -5px -5px 10px rgba(0, 0, 0, 0.2),
+      inset 5px 5px 10px rgba(255, 255, 255, 0.05);
+  }

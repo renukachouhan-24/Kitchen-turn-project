@@ -1,59 +1,57 @@
-// src/components/RoleSelection.jsx
+// src/components/RoleSelection.jsx (NEW DESIGN)
 
 import React from 'react';
-import { FaUserFriends, FaCog, FaInfoCircle } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styles from './RoleSelection.module.css';
+// Naye design ke liye Icons
+import { FaKey, FaCheckCircle } from 'react-icons/fa';
+import { MdOutlineFoodBank } from "react-icons/md";
 
 const RoleSelection = () => {
   return (
     <div className={styles.pageWrapper}>
-      <div className={styles.contentWrapper}>
-        <h1>Welcome to KitchenFlow</h1>
-        <p className={styles.subtitle}>Select your role to continue</p>
-        <div className={styles.cardsContainer}>
-          {/* Student Card */}
-          <Link to="/dashboard" className={styles.cardLink}>
-            <div className={styles.roleCard}>
-              <div className={`${styles.iconWrapper} ${styles.studentIcon}`}>
-                <FaUserFriends size={28} />
-              </div>
-              <div className={styles.textContent}>
-                <h2>Student</h2>
-                <p>View kitchen teams and submit skip requests</p>
-              </div>
-            </div>
-          </Link>
-          
-          {/* Coordinator Card */}
-          <Link to="/coordinator" className={styles.cardLink}>
-            <div className={styles.roleCard}>
-              <div className={`${styles.iconWrapper} ${styles.coordinatorIcon}`}>
-                <FaCog size={28} />
-              </div>
-              <div className={styles.textContent}>
-                <h2>Coordinator</h2>
-                <p>Manage skip requests and oversee kitchen duties</p>
-              </div>
-            </div>
-          </Link>
+      {/* Naya Navbar */}
+      <header className={styles.header}>
+        <div className={styles.logoContainer}>
+          <FaKey />
+          <span>KitchenFlow</span>
+        </div>
+        <nav className={styles.mainNav}>
+          <Link to="/dashboard">Student</Link>
+          <Link to="/dashboard">Today's Kitchen Team</Link>
+          <Link to="/coordinator">Coordinator</Link>
+          <a href="#">About</a>
+        </nav>
+      </header>
 
-          {/* === GETTING STARTED CARD (Waapas add kar diya hai) === */}
-          <div className={styles.infoCard}>
-            <div className={`${styles.iconWrapper} ${styles.infoIcon}`}>
-              <FaInfoCircle size={24} />
-            </div>
-            <div className={styles.textContent}>
-              <h3>Getting Started</h3>
-              <p>
-                This is a demo application. Students can view kitchen schedules
-                and request skips, while coordinators have additional privileges
-                to manage requests and oversee operations.
-              </p>
-            </div>
+      {/* Main Content Section */}
+      <main className={styles.mainContent}>
+        <div className={styles.leftColumn}>
+          <h1>Welcome to Kitchen Turn</h1>
+          <p className={styles.description}>
+            "Kitchen Turn is a smart way to manage and organize daily kitchen duties in student hostels and communities. It helps track who is responsible, ensures fairness, and improves coordination."
+          </p>
+          
+          <div className={styles.howItWorksCard}>
+            <h3>How it works:</h3>
+            <ul>
+              <li><FaCheckCircle className={styles.checkIcon} /> Students are assigned to kitchen turns fairly.</li>
+              <li><FaCheckCircle className={styles.checkIcon} /> Daily team list is automatically updated.</li>
+              <li><FaCheckCircle className={styles.checkIcon} /> Coordinator can manage and monitor turns.</li>
+            </ul>
+          </div>
+          
+          <Link to="/dashboard" className={styles.outlineBtn}>
+            View Today's Team
+          </Link>
+        </div>
+        
+        <div className={styles.rightColumn}>
+          <div className={styles.mainIconContainer}>
+            <MdOutlineFoodBank />
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
