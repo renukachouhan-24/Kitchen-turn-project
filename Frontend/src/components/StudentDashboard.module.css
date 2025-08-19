@@ -1,50 +1,83 @@
-/* src/components/StudentDashboard.module.css */
+/* src/components/StudentDashboard.module.css (Corrected with Dark Theme) */
 
-.pageWrapper { background: #f8f9fa; min-height: 100vh; box-sizing: border-box; }
-.header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; background-color: #ffffff; border-bottom: 1px solid #e9ecef; }
-.logoContainer { display: flex; align-items: center; gap: 0.75rem; font-weight: 600; font-size: 1.25rem; color: #2d3748; }
-
-/* Navbar ka Logo */
-.logoIcon { width: 40px; height: 40px; background-color: #eaf2ff; border-radius: 8px; display: flex; justify-content: center; align-items: center; }
-.logoShape { width: 18px; height: 18px; background-color: #4361ee; border-radius: 4px; transform: rotate(45deg); }
-
-.mainNav { display: flex; gap: 0.5rem; }
-.mainNav a { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; text-decoration: none; color: #4a5568; font-weight: 500; border-radius: 8px; transition: all 0.2s ease-in-out; }
-.mainNav a:hover { background-color: #e2e8f0; }
-.mainNav a.active { background-color: #eaf2ff; color: #4361ee; }
-.userProfileNav { background-color: #eaf2ff; color: #4361ee; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; }
-
-.overviewContainer { max-width: 1200px; margin: 2rem auto; background-color: #ffffff; padding: 2rem 3rem; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #e9ecef; }
-
-/* Page Title ka Logo */
-.titleLogoIcon { width: 50px; height: 50px; background-color: #f3f4f6; border-radius: 10px; display: flex; justify-content: center; align-items: center; }
-.titleLogoShape { width: 22px; height: 22px; background-color: #374151; border-radius: 5px; transform: rotate(45deg); }
-
-.overviewHeader { display: flex; justify-content: center; align-items: center; gap: 1rem; text-align: center; margin-bottom: 0.5rem; }
-.overviewHeader h1 { margin: 0; color: #333; }
-.overviewSubtitle { text-align: center; margin-top: 0; margin-bottom: 2rem; color: #777; }
-
-/* ... Baaki ke styles waise hi rahenge ... */
-.teamsDisplayContainer { display: flex; gap: 2rem; margin-bottom: 2rem; }
-.teamDisplayCard { flex: 1; background-color: #f9f9f9; border: 1px solid #e0e0e0; border-radius: 10px; padding: 1.5rem; }
-.teamCardHeader { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0; }
-.teamCardHeader .teamIcon { color: #667eea; }
-.teamCardHeader h3 { margin: 0; font-size: 1.1rem; }
-.teamList { list-style: none; padding: 0; margin: 0; }
-.teamList li { padding: 0.75rem; border-bottom: 1px solid #eee; }
-.teamList li:last-child { border-bottom: none; }
-.actionButtonsContainer { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
-.btnPrimaryOverview { background-color: #667eea; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 500; }
-.btnSecondaryOverview { background-color: #e0e0e0; color: #333; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; cursor: pointer; font-weight: 500; }
-.allStudentsContainer { padding-top: 1rem; }
-.allStudentsHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-.allStudentsHeader h2 { margin: 0; }
-.allStudentsHeader .controls { display: flex; gap: 1rem; align-items: center; }
-.searchBox { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: 8px; }
-.searchBox input { border: none; outline: none; background: transparent; }
-.allStudentsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; max-height: 400px; overflow-y: auto; padding: 1rem; background-color: #fdfdfd; border-radius: 8px; }
-.overviewStudentCard { display: flex; justify-content: space-between; align-items: center; background-color: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-.studentInfo p { margin: 0; }
-.studentName { font-weight: 500; }
-.studentPosition { font-size: 0.9rem; color: #777; }
-.studentStatusBadge { background-color: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
+/* Page background ko white rakha hai, Welcome page ki tarah */
+.pageWrapper {
+    background-color: #fff;
+    color: #2d3748;
+    min-height: 100vh;
+  }
+  
+  /* Header/Navbar ko dark theme di gayi hai */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 3rem;
+    background-color: #2d3748; /* Dark Background */
+    color: #fff;
+    border-bottom: 1px solid #4a5568;
+  }
+  
+  .logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    font-size: 1.25rem;
+  }
+  .logoIcon { width: 40px; height: 40px; background-color: rgba(255, 255, 255, 0.1); border-radius: 8px; display: flex; justify-content: center; align-items: center; }
+  .logoShape { width: 18px; height: 18px; background-color: #fff; border-radius: 4px; transform: rotate(45deg); }
+  
+  .mainNav { display: flex; gap: 0.5rem; }
+  .mainNav a { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; text-decoration: none; color: #e2e8f0; font-weight: 500; border-radius: 8px; transition: all 0.2s ease-in-out; }
+  .mainNav a:hover { background-color: #4a5568; color: #fff; }
+  .mainNav a.active { background-color: #fff; color: #2d3748; }
+  
+  .userProfileNav { background-color: rgba(255, 255, 255, 0.1); color: #fff; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; }
+  
+  /* Main content area */
+  .overviewContainer {
+    max-width: 1200px;
+    margin: 3rem auto; /* Upar se thoda zyada space */
+    padding: 0 2rem;
+  }
+  
+  .overviewHeader { display: flex; justify-content: center; align-items: center; gap: 1rem; text-align: center; margin-bottom: 0.5rem; }
+  .titleLogoIcon { width: 50px; height: 50px; background-color: #f3f4f6; border-radius: 10px; display: flex; justify-content: center; align-items: center; }
+  .titleLogoShape { width: 22px; height: 22px; background-color: #374151; border-radius: 5px; transform: rotate(45deg); }
+  .overviewHeader h1 { margin: 0; color: #2d3748; font-size: 2.5rem; }
+  .overviewSubtitle { text-align: center; margin-top: 0; margin-bottom: 2rem; color: #718096; }
+  
+  .teamsDisplayContainer { display: flex; gap: 2rem; margin-bottom: 2rem; }
+  .teamDisplayCard { flex: 1; background-color: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+  .teamCardHeader { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e0e0e0; }
+  .teamCardHeader .teamIcon { color: #4a5568; }
+  .teamCardHeader h3 { margin: 0; font-size: 1.1rem; }
+  .teamList { list-style: none; padding: 0; margin: 0; }
+  .teamList li { padding: 0.75rem; border-bottom: 1px solid #eee; }
+  .teamList li:last-child { border-bottom: none; }
+  
+  .actionButtonsContainer { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid #eee; }
+  
+  /* Buttons to match the dark theme */
+  .btnPrimaryOverview {
+    display: inline-block; padding: 0.8rem 1.5rem; border: 2px solid #2d3748; border-radius: 8px; background: #2d3748; color: #fff; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btnPrimaryOverview:hover { background-color: #4a5568; border-color: #4a5568; }
+  .btnSecondaryOverview {
+    display: inline-block; padding: 0.8rem 1.5rem; border: 2px solid #a0aec0; border-radius: 8px; background: transparent; color: #4a5568; font-weight: 600; text-decoration: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btnSecondaryOverview:hover { background-color: #f7fafc; border-color: #718096; }
+  
+  .allStudentsContainer { padding-top: 1rem; }
+  .allStudentsHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .allStudentsHeader h2 { margin: 0; }
+  .allStudentsHeader .controls { display: flex; gap: 1rem; align-items: center; }
+  .searchBox { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; border: 1px solid #ccc; border-radius: 8px; }
+  .searchBox input { border: none; outline: none; background: transparent; }
+  .allStudentsGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; max-height: 400px; overflow-y: auto; padding: 1rem; }
+  .overviewStudentCard { display: flex; justify-content: space-between; align-items: center; background-color: #fff; padding: 1rem; border-radius: 8px; border: 1px solid #eee; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+  .studentInfo p { margin: 0; }
+  .studentName { font-weight: 500; }
+  .studentPosition { font-size: 0.9rem; color: #777; }
+  .studentStatusBadge { background-color: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
