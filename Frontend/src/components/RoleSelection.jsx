@@ -1,45 +1,49 @@
 // src/components/RoleSelection.jsx
 
 import React from 'react';
-// Humne jo library install ki thi, usse icons import kar rahe hain
 import { FaUserFriends, FaCog, FaInfoCircle } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import styles from './RoleSelection.module.css';
 
 const RoleSelection = () => {
   return (
-    <div className="content-wrapper">
-      <div className="content-wrapper">
+    <div className={styles.pageWrapper}>
+      <div className={styles.contentWrapper}>
         <h1>Welcome to KitchenFlow</h1>
-        <p className="subtitle">Select your role to continue</p>
-
-        <div className="cards-container">
+        <p className={styles.subtitle}>Select your role to continue</p>
+        <div className={styles.cardsContainer}>
           {/* Student Card */}
-          <div className="role-card">
-            <div className="icon-wrapper student-icon">
-              <FaUserFriends size={28} />
+          <Link to="/dashboard" className={styles.cardLink}>
+            <div className={styles.roleCard}>
+              <div className={`${styles.iconWrapper} ${styles.studentIcon}`}>
+                <FaUserFriends size={28} />
+              </div>
+              <div className={styles.textContent}>
+                <h2>Student</h2>
+                <p>View kitchen teams and submit skip requests</p>
+              </div>
             </div>
-            <div className="text-content">
-              <h2>Student</h2>
-              <p>View kitchen teams and submit skip requests</p>
-            </div>
-          </div>
-
+          </Link>
+          
           {/* Coordinator Card */}
-          <div className="role-card">
-            <div className="icon-wrapper coordinator-icon">
-              <FaCog size={28} />
+          <Link to="/coordinator" className={styles.cardLink}>
+            <div className={styles.roleCard}>
+              <div className={`${styles.iconWrapper} ${styles.coordinatorIcon}`}>
+                <FaCog size={28} />
+              </div>
+              <div className={styles.textContent}>
+                <h2>Coordinator</h2>
+                <p>Manage skip requests and oversee kitchen duties</p>
+              </div>
             </div>
-            <div className="text-content">
-              <h2>Coordinator</h2>
-              <p>Manage skip requests and oversee kitchen duties</p>
-            </div>
-          </div>
+          </Link>
 
-          {/* Info Card */}
-          <div className="info-card">
-            <div className="icon-wrapper info-icon">
+          {/* === GETTING STARTED CARD (Waapas add kar diya hai) === */}
+          <div className={styles.infoCard}>
+            <div className={`${styles.iconWrapper} ${styles.infoIcon}`}>
               <FaInfoCircle size={24} />
             </div>
-            <div className="text-content">
+            <div className={styles.textContent}>
               <h3>Getting Started</h3>
               <p>
                 This is a demo application. Students can view kitchen schedules
