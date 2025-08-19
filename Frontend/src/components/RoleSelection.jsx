@@ -1,28 +1,17 @@
-// src/components/RoleSelection.jsx (NEW DESIGN)
+// src/components/RoleSelection.jsx
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Navbar from './Navbar'; // Naya Navbar component import karein
 import styles from './RoleSelection.module.css';
-// Naye design ke liye Icons
-import { FaKey, FaCheckCircle } from 'react-icons/fa';
+import { FaCheckCircle } from 'react-icons/fa';
 import { MdOutlineFoodBank } from "react-icons/md";
 
 const RoleSelection = () => {
   return (
     <div className={styles.pageWrapper}>
-      {/* Naya Navbar */}
-      <header className={styles.header}>
-        <div className={styles.logoContainer}>
-          <FaKey />
-          <span>KitchenFlow</span>
-        </div>
-        <nav className={styles.mainNav}>
-          <Link to="/dashboard">Student</Link>
-          <Link to="/today-team">Today's Kitchen Team</Link>
-          <Link to="/coordinator">Coordinator</Link>
-        </nav>
-      </header>
-
+      <Navbar /> {/* Navbar ko yahan use karein */}
+      
       {/* Main Content Section */}
       <main className={styles.mainContent}>
         <div className={styles.leftColumn}>
