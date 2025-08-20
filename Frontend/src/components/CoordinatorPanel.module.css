@@ -1,46 +1,80 @@
+/* src/components/CoordinatorPanel.module.css (UPDATED WITH DARK THEME) */
 
-.pageWrapper { background-color: #f7f7ff; min-height: 100vh; }
-.mainContent { margin: 2rem auto; padding: 0 1rem; }
-.titleSection { text-align: center; margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
-.titleIcon { font-size: 2rem; color: #8a63d2; }
-.titleSection h1 { font-size: 2.25rem; color: #333; margin: 0; }
-.titleSection p { color: #777; font-size: 1.1rem; margin: 0; }
+/* CHANGE: Page background changed to white */
+.pageWrapper { 
+    background-color: #fff; 
+    min-height: 100vh; 
+  }
+  
+  /* CHANGE: Header styles updated to dark theme */
+  .header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 1rem 3rem; 
+    background-color: #2d3748; 
+    color: #fff;
+    border-bottom: 1px solid #4a5568;
+  }
+  
+  .logoContainer { 
+    display: flex; 
+    align-items: center; 
+    gap: 0.75rem; 
+    font-weight: 600; 
+    font-size: 1.25rem; 
+    color: #fff; /* Text color changed to white */
+  }
+  
+  .mainNav { display: flex; gap: 0.5rem; }
+  .mainNav a { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; text-decoration: none; color: #e2e8f0; font-weight: 500; border-radius: 8px; transition: all 0.2s ease-in-out; }
+  .mainNav a:hover { background-color: #4a5568; color: #fff; }
+  .mainNav a.active { background-color: #fff; color: #2d3748; } /* Active link style changed */
+  .userProfileNav { background-color: rgba(255, 255, 255, 0.1); color: #fff; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; }
+  
+  
+  /* Main Content Styles */
+  .mainContent { max-width: 1100px; margin: 3rem auto; padding: 0 1rem; }
+  .titleSection { text-align: center; margin-bottom: 2.5rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .titleIcon { font-size: 2rem; color: #4a5568; } /* Title icon color changed */
+  .titleSection h1 { font-size: 2.25rem; color: #2d3748; margin: 0; }
+  .titleSection p { color: #718096; font-size: 1.1rem; margin: 0; }
+  
+  /* Stat Cards (No major change needed, looks good) */
+  .statCardsContainer { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+  .statCard { background: #fff; border-radius: 12px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+  .statIcon { font-size: 1.8rem; padding: 0.8rem; border-radius: 50%; }
+  .total { background-color: #eaf2ff; color: #4361ee; }
+  .pending { background-color: #fff8e1; color: #f59e0b; }
+  .approved { background-color: #e6f9f1; color: #28a745; }
+  .rejected { background-color: #ffeeee; color: #e53e3e; }
+  .statCount { font-size: 1.5rem; font-weight: 700; display: block; color: #2d3748; }
+  .statTitle { color: #6c757d; }
+  
+  /* Filter Tabs */
+  .filterTabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
+  .tab { background: #fff; border: 1px solid #e0e0e0; padding: 0.6rem 1.2rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; }
+  .tab:hover { background: #f0f0f0; }
+  .tab span { background: #e0e0e0; border-radius: 12px; padding: 0.1rem 0.5rem; font-size: 0.8rem; }
+  /* CHANGE: Active tab color changed to match dark theme */
+  .activeTab { background: #2d3748; color: #fff; border-color: #2d3748; }
+  .activeTab span { background: #4a5568; }
+  
+  /* Request List (No major change needed) */
+  .requestsList { background: #fff; border-radius: 12px; padding: 2rem; min-height: 250px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 2rem; border: 1px solid #e2e8f0; }
+  .emptyState { text-align: center; color: #adb5bd; }
+  .emptyState svg { font-size: 3rem; margin-bottom: 1rem; }
+  .emptyState p { font-size: 1.2rem; font-weight: 500; margin: 0; }
+  .emptyState span { font-size: 0.9rem; }
+  
+  /* Guidelines Card (No major change needed) */
+  .guidelinesCard { background: #f0f5ff; border: 1px solid #d9e2ff; border-radius: 12px; padding: 1.5rem; display: flex; gap: 1rem; }
+  .guidelinesIcon { color: #4361ee; font-size: 1.5rem; }
+  .guidelinesCard h3 { margin: 0 0 0.75rem 0; color: #2c47a8; }
+  .guidelinesCard ul { padding-left: 1.25rem; margin: 0; }
+  .guidelinesCard li { color: #4a5568; margin-bottom: 0.5rem; }
+  .guidelinesCard li:last-child { margin-bottom: 0; }
 
-.statCardsContainer { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
-.statCard { background: #fff; border-radius: 12px; padding: 1.5rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-.statIcon { font-size: 1.8rem; padding: 0.8rem; border-radius: 50%; color: #fff; }
-.total { background-color: #eaf2ff; color: #4361ee; }
-.pending { background-color: #fff8e1; color: #f59e0b; }
-.approved { background-color: #e6f9f1; color: #28a745; }
-.rejected { background-color: #ffeeee; color: #e53e3e; }
-.statCount { font-size: 1.5rem; font-weight: 700; display: block; }
-.statTitle { color: #6c757d; }
-
-.filterTabs { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-.tab { background: #fff; border: 1px solid #e0e0e0; padding: 0.6rem 1.2rem; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: all 0.2s ease; }
-.tab:hover { background: #f0f0f0; }
-.tab span { background: #e0e0e0; border-radius: 12px; padding: 0.1rem 0.5rem; font-size: 0.8rem; }
-.activeTab { background: #8a63d2; color: #fff; border-color: #8a63d2; }
-.activeTab span { background: #714db2; }
-
-.requestsList { background: #fff; border-radius: 12px; padding: 2rem; min-height: 250px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 2rem; }
-.emptyState { text-align: center; color: #adb5bd; }
-.emptyState svg { font-size: 3rem; margin-bottom: 1rem; }
-.emptyState p { font-size: 1.2rem; font-weight: 500; margin: 0; }
-.emptyState span { font-size: 0.9rem; }
-
-.guidelinesCard { background: #eaf2ff; border-radius: 12px; padding: 1.5rem; display: flex; gap: 1rem; }
-.guidelinesIcon { color: #4361ee; font-size: 1.5rem; }
-.guidelinesCard h3 { margin: 0 0 0.75rem 0; color: #2c47a8; }
-.guidelinesCard ul { padding-left: 1.25rem; margin: 0; }
-.guidelinesCard li { color: #4a5568; margin-bottom: 0.5rem; }
-.guidelinesCard li:last-child { margin-bottom: 0; }
 
 
-.header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; background-color: #ffffff; border-bottom: 1px solid #e9ecef; }
-.logoContainer { display: flex; align-items: center; gap: 0.75rem; font-weight: 600; font-size: 1.25rem; color: #8a63d2; }
-.mainNav { display: flex; gap: 0.5rem; }
-.mainNav a { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1.2rem; text-decoration: none; color: #4a5568; font-weight: 500; border-radius: 8px; transition: all 0.2s ease-in-out; }
-.mainNav a:hover { background-color: #e2e8f0; }
-.mainNav a.active { background-color: #e9e3f5; color: #8a63d2; }
-.userProfileNav { background-color: #e9e3f5; color: #8a63d2; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 500; }
+  
