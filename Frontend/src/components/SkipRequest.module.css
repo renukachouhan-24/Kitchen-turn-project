@@ -6,7 +6,7 @@
 .titleSection h1 { font-size: 2.25rem; color: #212529; margin-bottom: 0.5rem; }
 .titleSection p { color: #6c757d; font-size: 1.1rem; }
 .formCard { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.05); margin-bottom: 2rem; }
-.formHeader { background-color: #e53e3e; color: #fff; padding: 1.5rem 2rem; }
+.formHeader { background-color: #334056; color: #fff; padding: 1.5rem 2rem; }
 .formHeader h2 { margin: 0 0 0.25rem 0; }
 .formHeader p { margin: 0; opacity: 0.9; }
 .formBody { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
@@ -15,8 +15,8 @@
 .formGroup input, .formGroup select, .formGroup textarea { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 1rem; font-family: 'Inter', sans-serif; box-sizing: border-box; }
 .formRow { display: flex; gap: 1.5rem; }
 .formRow .formGroup { flex: 1; }
-.submitButton { background-color: #e53e3e; color: #fff; border: none; padding: 1rem; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
-.submitButton:hover { background-color: #c53030; }
+.submitButton { background-color: #334056; color: #fff; border: none; padding: 1rem; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s; }
+.submitButton:hover { background-color: #181e27; }
 .notesCard { background-color: #eaf2ff; border: 1px solid #b3caff; border-radius: 12px; padding: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
 .notesIcon { color: #4361ee; font-size: 1.5rem; margin-top: 0.25rem; }
 .notesCard h3 { margin: 0 0 0.5rem 0; color: #2c47a8; }

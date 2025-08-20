@@ -1,0 +1,171 @@
+/* src/components/TodayKitchenTeam.module.css */
+
+body, html {
+  overflow-y: hidden;
+  /* You may also have this from a previous fix */
+  overflow-x: hidden;
+}
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f7f9fc;
+  min-height: 100vh;
+}
+
+.contentWrapper {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 3rem;
+   /* Increased max-width for the new layout */
+  width: 100%;
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e2150;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* New Flexbox container for horizontal sections */
+.topSectionFlex {
+  display: flex;
+  flex-wrap: wrap; /* Allows sections to wrap on smaller screens */
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+.section {
+  flex: 1; /* Makes each section take up equal space */
+  min-width: 300px; /* Prevents sections from getting too small */
+  margin-bottom: 0; /* Override previous margin */
+}
+
+.section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e2150;
+  border-bottom: 2px solid #e0e6ed;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.menuList,
+.teamList {
+  list-style: none;
+  padding: 0;
+}
+
+.menuItem {
+  background-color: #fafbfd;
+  border-left: 4px solid #4a6cfa;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.menuItem:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+}
+
+.nutrients {
+  font-size: 0.9rem;
+  color: #6a7185;
+}
+
+.teamList li {
+  background-color: #fafbfd;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  color: #333;
+}
+
+.photoUploadBox {
+  border: 2px dashed #d1d9e6;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.photoUploadBox:hover {
+  border-color: #4a6cfa;
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6a7185;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.uploadLabel svg {
+  margin-right: 0.75rem;
+}
+
+.feedbackForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.ratingSection {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.ratingSection p {
+  margin: 0;
+  font-weight: 500;
+  color: #333;
+  margin-right: 1rem;
+}
+
+.stars .star {
+  color: #ffd700;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-right: 0.25rem;
+}
+
+.feedbackTextarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 1rem;
+  border: 1px solid #e0e6ed;
+  border-radius: 8px;
+  resize: vertical;
+  margin-bottom: 1rem;
+  font-family: inherit;
+}
+
+.submitButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #334056;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  align-self: flex-start;
+}
+
+.submitButton:hover {
+  background-color: #181e27;
+}
