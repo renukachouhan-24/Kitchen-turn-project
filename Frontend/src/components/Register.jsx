@@ -40,19 +40,19 @@ const Register = () => {
         <form className={styles.formBody} onSubmit={onSubmit}>
           <div className={styles.formGroup}>
             <label>Full Name *</label>
-            <input type="text" name="name" value={name} onChange={onChange} required />
+            <input type="text" name="name" value={name} onChange={onChange} autoComplete='off' required />
           </div>
           <div className={styles.formGroup}>
             <label>Email Address *</label>
-            <input type="email" name="email" value={email} onChange={onChange} required />
+            <input type="email" name="email" value={email} onChange={onChange} autoComplete='off' required />
           </div>
           <div className={styles.formGroup}>
             <label>Password *</label>
-            <input type="password" name="password" value={password} onChange={onChange} required minLength="6" />
+            <input type="password" name="password" value={password} onChange={onChange} autoComplete='off' required minLength="6" />
           </div>
           <div className={styles.formGroup}>
             <label>Joining Date *</label>
-            <input type="date" name="joiningDate" value={joiningDate} onChange={onChange} required />
+            <input type="date" name="joiningDate" value={joiningDate} onChange={onChange} autoComplete='off' required />
           </div>
           <button type="submit" className={styles.submitButton}>Register</button>
         </form>
