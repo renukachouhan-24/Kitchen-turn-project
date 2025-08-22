@@ -82,3 +82,32 @@
   .studentPosition { font-size: 0.9rem; color: #777; }
   .studentStatusBadge { background-color: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
   
+  /* src/components/StudentDashboard.module.css (Add this at the end) */
+
+/* ... existing styles ... */
+
+.studentStatusDropdown {
+    /* Basic styling for the dropdown */
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+}
+
+.statusActive {
+    /* ACTIVE status ke liye color */
+    background-color: #d1fae5;
+    color: #065f46;
+    border-color: #d1fae5;
+}
+
+.statusInactive {
+    /* INACTIVE status ke liye color */
+    background-color: #fecaca; /* Light red */
+    color: #b91c1c; /* Dark red text */
+    border-color: #fecaca;
+}

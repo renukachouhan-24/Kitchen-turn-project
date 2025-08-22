@@ -87,11 +87,10 @@ function App() {
       <Route path="/dashboard" element={<StudentDashboard />} />
       <Route path="/skip-request" element={<SkipRequest />} />
       <Route path="/coordinator" element={<CoordinatorPanel />} />
-      <Route path="/today-team" element={<TodayKitchenTeam />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/coordinator-requests" element={<CoordinatorRequestPanel />} /> {/* Naya route add karein */}
+      <Route path="coordinator-requests" element={<CoordinatorRequestPanel/>}/>
+      <Route path="/today-team" element={<TodayKitchenTeam />} /> 
+      <Route path="/register" element={<Register />} />{/* Naya route add karein */}
     </Routes>
   );
 }
-
 export default App;
