@@ -7,6 +7,8 @@ import 'dotenv/config';
 
 // Routes ko import karein
 import studentsRouter from './routes/students.js';
+import skipRequestsRouter from './routes/skipRequests.js';
+import authRouter from './routes/auth.js'; 
 
 const app = express();
 const port = 5000;
@@ -25,7 +27,10 @@ connection.once('open', () => {
 // -------------------------
 
 // --- API ROUTES ---
-app.use('/students', studentsRouter); // Students ke saare routes yahan se handle honge
+app.use('/students', studentsRouter); 
+app.use('/skip-requests', skipRequestsRouter);
+app.use('/api/auth', authRouter); 
+// Students ke saare routes yahan se handle honge
 // (Yahan baaki ke routes, jaise skip requests, bhi aayenge)
 // ------------------
 

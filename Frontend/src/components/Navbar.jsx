@@ -16,6 +16,7 @@ const Navbar = () => {
         <Link to="/dashboard">Student</Link>
         <Link to="/today-team">Today's Kitchen Team</Link>
         <Link to="/coordinator">Coordinator</Link>
+        <Link to="/register" className={styles.registerBtn}>Register</Link>
       </nav>
     </header>
   );

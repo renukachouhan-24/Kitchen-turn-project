@@ -1,17 +1,30 @@
 // src/components/StudentDashboard.jsx
 
-import React from 'react';
+import React, { useState, useEffect } from 'react'; // Data manage karne ke liye
+import axios from 'axios'; // API call ke liye
 import { FaUsers, FaCalendarAlt, FaSearch, FaRegCompass, FaRegPaperPlane } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import styles from './StudentDashboard.module.css';
 
-// ... (Dummy Data waisa hi rahega) ...
-const todayTeam = [ { id: 1, name: 'Alice Johnson' }, { id: 2, name: 'Bob Smith' }, { id: 3, name: 'Charlie Brown' }, { id: 4, name: 'Diana Wilson' }, { id: 5, name: 'Emma Davis' }, ];
-const tomorrowTeam = [ { id: 6, name: 'Frank Miller' }, { id: 7, name: 'Grace Taylor' }, { id: 8, name: 'Henry Clark' }, { id: 9, name: 'Isabella Martinez' }, { id: 10, name: 'Jack Anderson' }, ];
-const allStudents = [ { id: 1, name: 'Alice Johnson', position: 1 }, { id: 2, name: 'Bob Smith', position: 2 }, { id: 3, name: 'Charlie Brown', position: 3 }, { id: 4, name: 'Diana Wilson', position: 4 }, { id: 5, name: 'Emma Davis', position: 5 }, { id: 6, name: 'Frank Miller', position: 6 }, { id: 7, name: 'Grace Taylor', position: 7 }, { id: 8, name: 'Henry Clark', position: 8 }, { id: 9, name: 'Isabella Martinez', position: 9 }, { id: 10, name: 'Jack Anderson', position: 10 }, { id: 11, name: 'Liam Garcia', position: 11 }, { id: 12, name: 'Olivia Rodriguez', position: 12 }, { id: 13, name: 'Noah Hernandez', position: 13 }, { id: 14, name: 'Ava Lopez', position: 14 }, { id: 15, name: 'Ethan Gonzalez', position: 15 }, ];
-
-
 const StudentDashboard = () => {
+  // State for our data from the database
+  const [allStudents, setAllStudents] = useState([]);
+  const [todayTeam, setTodayTeam] = useState([]); // Iska logic hum baad mein banayenge
+  const [tomorrowTeam, setTomorrowTeam] = useState([]); // Iska logic hum baad mein banayenge
+
+  // Yeh function component ke load hote hi chalega
+  useEffect(() => {
+    // Backend API se students ka data fetch karein
+    axios.get('http://localhost:5000/students')
+      .then(response => {
+        // Jo data response mein aaya, use allStudents state mein set kar dein
+        setAllStudents(response.data);
+      })
+      .catch((error) => {
+        console.log("Error fetching students:", error);
+      });
+  }, []); // [] ka matlab yeh effect sirf ek baar chalega, jab component load hoga
+
   return (
     <div className={styles.pageWrapper}>
       <header className={styles.header}>
@@ -39,16 +52,15 @@ const StudentDashboard = () => {
           </div>
           <h1>Kitchen Turn Overview</h1>
         </div>
-        <p className={styles.overviewSubtitle}>Day 1 - Monday, August 19, 2025</p>
+        <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
         
-        {/* ... Baaki ka content waisa hi rahega ... */}
         <div className={styles.teamsDisplayContainer}>
           <div className={styles.teamDisplayCard}>
             <div className={styles.teamCardHeader}>
               <FaUsers className={styles.teamIcon} /><h3>Today's Kitchen Team</h3>
             </div>
             <ul className={styles.teamList}>
-              {todayTeam.map(student => <li key={student.id}>{student.name}</li>)}
+              {todayTeam.length > 0 ? todayTeam.map(student => <li key={student._id}>{student.name}</li>) : <li>No team assigned yet.</li>}
             </ul>
           </div>
           <div className={styles.teamDisplayCard}>
@@ -56,7 +68,7 @@ const StudentDashboard = () => {
               <FaCalendarAlt className={styles.teamIcon} /><h3>Tomorrow's Kitchen Team</h3>
             </div>
             <ul className={styles.teamList}>
-              {tomorrowTeam.map(student => <li key={student.id}>{student.name}</li>)}
+              {tomorrowTeam.length > 0 ? tomorrowTeam.map(student => <li key={student._id}>{student.name}</li>) : <li>No team assigned yet.</li>}
             </ul>
           </div>
         </div>
@@ -67,30 +79,24 @@ const StudentDashboard = () => {
         <div className={styles.allStudentsContainer}>
           <div className={styles.allStudentsHeader}>
             <h2>All Students</h2>
-            <div className={styles.controls}>
-              <div className={styles.searchBox}>
-                <FaSearch /><input type="text" placeholder="Search students..." />
-              </div>
-              <button className={styles.btnPrimaryOverview}>Add Student</button>
-            </div>
+            {/* ... Add Student Form yahan aayega ... */}
           </div>
           <div className={styles.allStudentsGrid}>
+            {/* Yeh list ab sirf database se aa rahi hai */}
             {allStudents.map(student => (
-              <div className={styles.overviewStudentCard} key={student.id}>
+              <div className={styles.overviewStudentCard} key={student._id}> {/* Use _id from MongoDB */}
                 <div className={styles.studentInfo}>
                   <p className={styles.studentName}>{student.name}</p>
-                  <p className={styles.studentPosition}>Position: {student.position}</p>
+                  {/* joiningDate ko aache format mein dikha rahe hain */}
+                  <p className={styles.studentPosition}>{`Joined: ${new Date(student.joiningDate).toLocaleDateString()}`}</p>
                 </div>
                 <span className={styles.studentStatusBadge}>ACTIVE</span>
               </div>
             ))}
           </div>
         </div>
-
       </main>
     </div>
   );
 };
 export default StudentDashboard;
-
-

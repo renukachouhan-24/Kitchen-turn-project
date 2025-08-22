@@ -33,3 +33,13 @@
 .mainNav a:hover {
   color: #fff;
 }
+.registerBtn {
+  background-color: #fff;
+  color: #2d3748 !important; /* Important zaroori hai taaki color override ho */
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600 !important;
+}
+.registerBtn:hover {
+    background-color: #e2e8f0;
+}
