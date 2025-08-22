@@ -27,7 +27,8 @@ import RoleSelection from './components/RoleSelection';
 import StudentDashboard from './components/StudentDashboard';
 import SkipRequest from './components/SkipRequest';
 import CoordinatorPanel from './components/CoordinatorPanel';
-import TodayKitchenTeam from './components/TodayKitchenTeam'; // Naya component import karein
+import TodayKitchenTeam from './components/TodayKitchenTeam'; 
+import Register from './components/Register';// Naya component import karein
 import './App.css';
 
 function App() {
@@ -37,7 +38,8 @@ function App() {
       <Route path="/dashboard" element={<StudentDashboard />} />
       <Route path="/skip-request" element={<SkipRequest />} />
       <Route path="/coordinator" element={<CoordinatorPanel />} />
-      <Route path="/today-team" element={<TodayKitchenTeam />} /> {/* Naya route add karein */}
+      <Route path="/today-team" element={<TodayKitchenTeam />} /> 
+      <Route path="/register" element={<Register />} />{/* Naya route add karein */}
     </Routes>
   );
 }
