@@ -21,7 +21,7 @@ router.route('/active').get((req, res) => {
 });
 
 // Route 3: Student ka status update karega
-router.route('/update-status/:id').post(async (req, res) => {
+router.route('/update-status/:id').patch(async (req, res) => { // PATCH method ka istemal
     try {
         const { status } = req.body;
         await Student.findByIdAndUpdate(req.params.id, { status });

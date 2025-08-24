@@ -1,4 +1,4 @@
-/* src/components/StudentDashboard.module.css (Corrected with Dark Theme) */
+
 
 /* Page background ko white rakha hai, Welcome page ki tarah */
 .pageWrapper {
@@ -81,13 +81,8 @@
   .studentName { font-weight: 500; }
   .studentPosition { font-size: 0.9rem; color: #777; }
   .studentStatusBadge { background-color: #d1fae5; color: #065f46; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.8rem; font-weight: 500; }
-  
-  /* src/components/StudentDashboard.module.css (Add this at the end) */
 
-/* ... existing styles ... */
-
-.studentStatusDropdown {
-    /* Basic styling for the dropdown */
+  .studentStatusDropdown {
     padding: 0.25rem 0.75rem;
     border-radius: 12px;
     font-size: 0.8rem;
@@ -99,15 +94,23 @@
 }
 
 .statusActive {
-    /* ACTIVE status ke liye color */
     background-color: #d1fae5;
     color: #065f46;
     border-color: #d1fae5;
 }
 
 .statusInactive {
-    /* INACTIVE status ke liye color */
-    background-color: #fecaca; /* Light red */
-    color: #b91c1c; /* Dark red text */
+    background-color: #fecaca;
+    color: #b91c1c;
     border-color: #fecaca;
+}
+
+.errorMessage {
+    background-color: #fecaca;
+    color: #dc2626;
+    padding: 0.8rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-weight: 500;
 }

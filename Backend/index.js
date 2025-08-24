@@ -9,6 +9,7 @@ import 'dotenv/config';
 import studentsRouter from './routes/students.js';
 import skipRequestsRouter from './routes/skipRequests.js';
 import authRouter from './routes/auth.js'; 
+import menuRouter from './routes/menu.js';
 
 const app = express();
 const port = 5000;
@@ -30,6 +31,7 @@ connection.once('open', () => {
 app.use('/students', studentsRouter); 
 app.use('/skip-requests', skipRequestsRouter);
 app.use('/api/auth', authRouter); 
+app.use('/menu', menuRouter);
 // Students ke saare routes yahan se handle honge
 // (Yahan baaki ke routes, jaise skip requests, bhi aayenge)
 // ------------------
@@ -37,9 +39,3 @@ app.use('/api/auth', authRouter);
 app.listen(port, () => {
   console.log(`🚀 Server started on http://localhost:${port}`);
 });
-
-
-
-
-
-

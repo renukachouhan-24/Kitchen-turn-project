@@ -1,83 +1,15 @@
-// // src/App.jsx
 
-// import { Routes, Route } from 'react-router-dom';
-// import RoleSelection from './components/RoleSelection';
-// import StudentDashboard from './components/StudentDashboard';
-// import SkipRequest from './components/SkipRequest';
-// import CoordinatorPanel from './components/CoordinatorPanel'; // Naya component import karein
-// import './App.css';
 
-// function App() {
-//   return (
-//     <Routes>
-//       <Route path="/" element={<RoleSelection />} />
-//       <Route path="/dashboard" element={<StudentDashboard />} />
-//       <Route path="/skip-request" element={<SkipRequest />} />
-//       <Route path="/coordinator" element={<CoordinatorPanel />} /> {/* Naya route add karein */}
-//     </Routes>
-//   );
-// }
-
-// export default App;
-
-// src/App.jsx
-
-// import { Routes, Route } from 'react-router-dom';
-// import RoleSelection from './components/RoleSelection';
-// import StudentDashboard from './components/StudentDashboard';
-// import SkipRequest from './components/SkipRequest';
-// import CoordinatorPanel from './components/CoordinatorPanel';
-// import TodayKitchenTeam from './components/TodayKitchenTeam'; 
-// import Register from './components/Register';// Naya component import karein
-// import './App.css';
-
-// function App() {
-//   return (
-//     <Routes>
-//       <Route path="/" element={<RoleSelection />} />
-//       <Route path="/dashboard" element={<StudentDashboard />} />
-//       <Route path="/skip-request" element={<SkipRequest />} />
-//       <Route path="/coordinator" element={<CoordinatorPanel />} />
-//       <Route path="/today-team" element={<TodayKitchenTeam />} /> 
-//       <Route path="/register" element={<Register />} />{/* Naya route add karein */}
-//     </Routes>
-//   );
-// }
-
-// export default App;
-
-// import { Routes, Route } from 'react-router-dom';
-// import RoleSelection from './components/RoleSelection';
-// import StudentDashboard from './components/StudentDashboard';
-// import SkipRequest from './components/SkipRequest';
-// import CoordinatorRequestPanel from './components/CoordinatorRequestPanel'; // Yahan naya naam import karein
-// import TodayKitchenTeam from './components/TodayKitchenTeam'; 
-// import Register from './components/Register';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <Routes>
-//       <Route path="/" element={<RoleSelection />} />
-//       <Route path="/dashboard" element={<StudentDashboard />} />
-//       <Route path="/skip-request" element={<SkipRequest />} />
-//       <Route path="/coordinator" element={<CoordinatorRequestPanel />} /> {/* Yahan bhi naya component use karein */}
-//       <Route path="/today-team" element={<TodayKitchenTeam />} /> 
-//       <Route path="/register" element={<Register />} />
-//     </Routes>
-//   );
-// }
-
-// export default App;
 
 import { Routes, Route } from 'react-router-dom';
 import RoleSelection from './components/RoleSelection';
 import StudentDashboard from './components/StudentDashboard';
 import SkipRequest from './components/SkipRequest';
 import CoordinatorPanel from './components/CoordinatorPanel';
-import TodayKitchenTeam from './components/TodayKitchenTeam';
+import TodayKitchenTeam from './components/TodayKitchenTeam'; // Coordinator Management View
+// import StudentViewKitchenTeam from './components/StudentViewKitchenTeam'; // REMOVED: No longer needed as TodayKitchenTeam will be the management view
 import Register from './components/Register';
-import CoordinatorRequestPanel from './components/CoordinatorRequestPanel'; // Naya component import karein
+import CoordinatorRequestPanel from './components/CoordinatorRequestPanel';
 import './App.css';
 
 function App() {
@@ -87,9 +19,10 @@ function App() {
       <Route path="/dashboard" element={<StudentDashboard />} />
       <Route path="/skip-request" element={<SkipRequest />} />
       <Route path="/coordinator" element={<CoordinatorPanel />} />
-      <Route path="coordinator-requests" element={<CoordinatorRequestPanel/>}/>
-      <Route path="/today-team" element={<TodayKitchenTeam />} /> 
-      <Route path="/register" element={<Register />} />{/* Naya route add karein */}
+      <Route path="/coordinator-requests" element={<CoordinatorRequestPanel/>}/>
+      <Route path="/today-team" element={<TodayKitchenTeam />} /> {/* UPDATED: This is now the management page */}
+      {/* <Route path="/today-team-view" element={<StudentViewKitchenTeam />} /> */} {/* REMOVED: No longer needed */}
+      <Route path="/register" element={<Register />} />
     </Routes>
   );
 }

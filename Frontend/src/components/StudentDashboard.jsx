@@ -1,4 +1,5 @@
 // src/components/StudentDashboard.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt, FaRegCompass, FaRegPaperPlane } from 'react-icons/fa';
@@ -9,77 +10,107 @@ const StudentDashboard = () => {
     const [allStudents, setAllStudents] = useState([]);
     const [todayTeam, setTodayTeam] = useState([]);
     const [tomorrowTeam, setTomorrowTeam] = useState([]);
+    const [error, setError] = useState(null);
 
     const fetchAllStudents = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/all');
             setAllStudents(response.data);
-        } catch (error) {
-            console.error("Error fetching all students:", error);
+            setError(null);
+        } catch (err) {
+            setError('Failed to load all students.');
+            console.error("Error fetching all students:", err);
         }
     };
 
     const fetchActiveStudentsForTeams = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/active');
-            const activeStudents = response.data; // Yahan koi sorting nahi hai
+            const activeStudents = response.data;
             
             if (activeStudents.length >= 5) {
-                setTodayTeam(activeStudents.slice(0, 5));
-                setTomorrowTeam(activeStudents.slice(5, 10));
+                const initialTodayTeam = activeStudents.slice(0, 5);
+                const initialTomorrowTeam = activeStudents.slice(5, 10);
+                setTodayTeam(initialTodayTeam);
+                setTomorrowTeam(initialTomorrowTeam);
+                const initialTodayTeamIds = initialTodayTeam.map(student => student._id);
+                await axios.patch('http://localhost:5000/menu/update-team', { teamMembers: initialTodayTeamIds });
+                console.log("Initial Today's kitchen team updated in backend.");
             } else {
                 setTodayTeam(activeStudents);
                 setTomorrowTeam([]);
+                await axios.patch('http://localhost:5000/menu/update-team', { teamMembers: [] });
+                console.log("Not enough students, backend today's team cleared.");
             }
-        } catch (error) {
-            console.error("Error fetching active students:", error);
+            setError(null);
+        } catch (err) {
+            setError('Failed to load kitchen teams.');
+            console.error("Error fetching active students:", err);
         }
     };
 
     useEffect(() => {
-        // Component load hote hi data fetch karein
         fetchAllStudents();
         fetchActiveStudentsForTeams();
     }, []);
 
     const handleStatusChange = async (studentId, newStatus) => {
         try {
-            await axios.post(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
-            // Status update hone ke baad, dono lists ko refresh karein
+            await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        } catch (error) {
-            console.error("Error updating status:", error);
+            setError(null);
+        } catch (err) {
+            setError('Failed to update student status.');
+            console.error("Error updating status:", err);
         }
     };
 
-    const handleAdvanceToNextDay = () => {
+    const handleAdvanceToNextDay = async () => {
         const activeStudents = allStudents.filter(s => s.status === 'active');
         
         if (activeStudents.length >= 10) {
-            // Team rotation logic
             const firstFive = activeStudents.slice(0, 5);
             const remaining = activeStudents.slice(5);
-            
-            // Aaj ki team ko list ke ant mein bhej do
             const rotatedList = [...remaining, ...firstFive];
 
-            setTodayTeam(rotatedList.slice(0, 5));
-            setTomorrowTeam(rotatedList.slice(5, 10));
+            const newTodayTeam = rotatedList.slice(0, 5);
+            const newTomorrowTeam = rotatedList.slice(5, 10);
+
+            setTodayTeam(newTodayTeam);
+            setTomorrowTeam(newTomorrowTeam);
+            setError(null);
+
+            try {
+                const newTodayTeamIds = newTodayTeam.map(student => student._id);
+                await axios.patch('http://localhost:5000/menu/update-team', { teamMembers: newTodayTeamIds });
+                console.log("Today's kitchen team updated in backend.");
+            } catch (err) {
+                setError('Failed to update today\'s team in backend.');
+                console.error("Error updating today's team in backend:", err);
+            }
         } else {
-            console.log("Not enough active students for rotation.");
+            setError("Not enough active students (minimum 10 needed) for a full rotation.");
         }
     };
 
     const handleResetData = async () => {
         try {
-            await axios.post('http://localhost:5000/students/reset');
+            await axios.patch('http://localhost:5000/students/reset');
             console.log("All data reset successfully.");
-            // Reset ke baad data fetch karke UI update karein
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        } catch (error) {
-            console.error("Error resetting data:", error);
+            setError(null);
+            try {
+                await axios.patch('http://localhost:5000/menu/update-team', { teamMembers: [] });
+                console.log("Today's kitchen team cleared in backend on reset.");
+            } catch (err) {
+                setError('Failed to clear today\'s team in backend on reset.');
+                console.error("Error clearing today's team in backend on reset:", err);
+            }
+        } catch (err) {
+            setError('Failed to reset data.');
+            console.error("Error resetting data:", err);
         }
     };
 
@@ -96,7 +127,7 @@ const StudentDashboard = () => {
                     <Link to="/dashboard" className={styles.active}><FaRegCompass /><span>Kitchen Overview</span></Link>
                     <Link to="/skip-request"><FaRegPaperPlane /><span>Skip Request</span></Link>
                 </nav>
-                <div className={styles.userProfileNav}>Student</div>
+                <div className={styles.userProfileNav}>Coordinator</div>
             </header>
             
             <main className={styles.overviewContainer}>
@@ -108,13 +139,15 @@ const StudentDashboard = () => {
                 </div>
                 <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
                 
+                {error && <div className={styles.errorMessage}>{error}</div>}
+
                 <div className={styles.teamsDisplayContainer}>
                     <div className={styles.teamDisplayCard}>
                         <div className={styles.teamCardHeader}>
                             <FaUsers className={styles.teamIcon} /><h3>Today's Kitchen Team</h3>
                         </div>
                         <ul className={styles.teamList}>
-                            {todayTeam.length > 0 ? todayTeam.map(student => <li key={student._id}>{student.name}</li>) : <li>No team assigned yet.</li>}
+                            {todayTeam.length > 0 ? todayTeam.map(({ _id, name }) => <li key={_id}>{name}</li>) : <li>No team assigned yet.</li>}
                         </ul>
                     </div>
                     <div className={styles.teamDisplayCard}>
@@ -122,29 +155,30 @@ const StudentDashboard = () => {
                             <FaCalendarAlt className={styles.teamIcon} /><h3>Tomorrow's Kitchen Team</h3>
                         </div>
                         <ul className={styles.teamList}>
-                            {tomorrowTeam.length > 0 ? tomorrowTeam.map(student => <li key={student._id}>{student.name}</li>) : <li>No team assigned yet.</li>}
+                            {tomorrowTeam.length > 0 ? tomorrowTeam.map(({ _id, name }) => <li key={_id}>{name}</li>) : <li>No team assigned yet.</li>}
                         </ul>
                     </div>
                 </div>
                 
-                <div className={styles.actionButtonsContainer}>
+                {/* YAHAN SE BUTTONS HATA DIYE GAYE HAIN */}
+                {/* <div className={styles.actionButtonsContainer}>
                     <button className={styles.btnPrimaryOverview} onClick={handleAdvanceToNextDay}>Advance to Next Day</button>
                     <button className={styles.btnSecondaryOverview} onClick={handleResetData}>Reset All Data</button>
-                </div>
+                </div> */}
                 
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
                     <div className={styles.allStudentsGrid}>
-                        {allStudents.map(student => (
-                            <div className={styles.overviewStudentCard} key={student._id}>
+                        {allStudents.map(({ _id, name, status, joiningDate }) => (
+                            <div className={styles.overviewStudentCard} key={_id}>
                                 <div className={styles.studentInfo}>
-                                    <p className={styles.studentName}>{student.name}</p>
-                                    <p className={styles.studentPosition}>{`Joined: ${new Date(student.joiningDate).toLocaleDateString()}`}</p>
+                                    <p className={styles.studentName}>{name}</p>
+                                    <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
                                 </div>
                                 <select
-                                    className={`${styles.studentStatusDropdown} ${student.status === 'inactive' ? styles.statusInactive : styles.statusActive}`}
-                                    value={student.status}
-                                    onChange={(e) => handleStatusChange(student._id, e.target.value)}
+                                    className={`${styles.studentStatusDropdown} ${status === 'inactive' ? styles.statusInactive : styles.statusActive}`}
+                                    value={status}
+                                    onChange={(e) => handleStatusChange(_id, e.target.value)}
                                 >
                                     <option value="active">ACTIVE</option>
                                     <option value="inactive">INACTIVE</option>
@@ -159,3 +193,8 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
+
+
+
+
+
