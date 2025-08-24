@@ -1,5 +1,3 @@
-// src/components/StudentDashboard.jsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt, FaRegCompass, FaRegPaperPlane } from 'react-icons/fa';
@@ -15,7 +13,13 @@ const StudentDashboard = () => {
     const fetchAllStudents = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/all');
-            setAllStudents(response.data);
+            // 'on_leave' students ko neeche dikhane ke liye sort karein
+            const sortedStudents = response.data.sort((a, b) => {
+                if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
+                if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
+                return 0;
+            });
+            setAllStudents(sortedStudents);
             setError(null);
         } catch (err) {
             setError('Failed to load all students.');
@@ -25,6 +29,7 @@ const StudentDashboard = () => {
 
     const fetchActiveStudentsForTeams = async () => {
         try {
+            // Ab hum sirf 'active' students ko fetch karenge, 'on_leave' students ko nahi
             const response = await axios.get('http://localhost:5000/students/active');
             const activeStudents = response.data;
             
@@ -116,11 +121,10 @@ const StudentDashboard = () => {
 
     return (
         <div className={styles.pageWrapper}>
+            {/* ...Header... */}
             <header className={styles.header}>
                 <div className={styles.logoContainer}>
-                    <div className={styles.logoIcon}>
-                        <div className={styles.logoShape}></div>
-                    </div>
+                    <div className={styles.logoIcon}><div className={styles.logoShape}></div></div>
                     <span>KitchenFlow</span>
                 </div>
                 <nav className={styles.mainNav}>
@@ -169,19 +173,20 @@ const StudentDashboard = () => {
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
                     <div className={styles.allStudentsGrid}>
-                        {allStudents.map(({ _id, name, status, joiningDate }) => (
-                            <div className={styles.overviewStudentCard} key={_id}>
+                        {allStudents.map((student) => (
+                            <div className={styles.overviewStudentCard} key={student._id}>
                                 <div className={styles.studentInfo}>
-                                    <p className={styles.studentName}>{name}</p>
-                                    <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
+                                    <p className={styles.studentName}>{student.name}</p>
+                                    <p className={styles.studentPosition}>{`Joined: ${new Date(student.joiningDate).toLocaleDateString()}`}</p>
                                 </div>
                                 <select
-                                    className={`${styles.studentStatusDropdown} ${status === 'inactive' ? styles.statusInactive : styles.statusActive}`}
-                                    value={status}
-                                    onChange={(e) => handleStatusChange(_id, e.target.value)}
+                                    className={`${styles.studentStatusDropdown} ${student.status === 'inactive' || student.status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
+                                    value={student.status}
+                                    onChange={(e) => handleStatusChange(student._id, e.target.value)}
                                 >
                                     <option value="active">ACTIVE</option>
                                     <option value="inactive">INACTIVE</option>
+                                    <option value="on_leave">ON LEAVE</option>
                                 </select>
                             </div>
                         ))}
@@ -193,8 +198,3 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
-
-
-
-
-

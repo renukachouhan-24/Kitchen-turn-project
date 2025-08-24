@@ -1,4 +1,4 @@
-// src/components/CoordinatorRequestPanel.jsx
+// export default CoordinatorRequestPanel;
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -8,50 +8,57 @@ const CoordinatorRequestPanel = () => {
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    const fetchRequests = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/skip-requests/');
+            setRequests(response.data);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchRequests = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/skip-requests/');
-                setRequests(response.data);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setLoading(false);
-            }
-        };
         fetchRequests();
     }, []);
 
-    // New: Function to handle 'Approve' button click
-    const handleApprove = async (id) => {
-        // Find the request and update its status
-        const updatedRequests = requests.map(request =>
-            request._id === id ? { ...request, status: 'Approved' } : request
-        );
-        setRequests(updatedRequests);
+    // Function to handle 'Approve' button click
+    const handleApprove = async (id, studentName) => {
+        try {
+            // Backend ko update karne ke liye request bhejain
+            await axios.patch(`http://localhost:5000/skip-requests/approve/${id}`, { studentName });
+            
+            // UI ko turant update karne ke liye local state change karein
+            const updatedRequests = requests.map(request =>
+                request._id === id ? { ...request, status: 'Approved' } : request
+            );
+            setRequests(updatedRequests);
+            
+            alert(`${studentName} ki request approved hai. Student ko kitchen duty se hata diya gaya hai.`);
 
-        // Optional: Send the update to the backend
-        // try {
-        //     await axios.patch(`http://localhost:5000/skip-requests/approve/${id}`);
-        // } catch (error) {
-        //     console.error("Error approving request:", error);
-        // }
+        } catch (error) {
+            console.error("Error approving request:", error);
+            alert("Approval failed.");
+        }
     };
 
-    // New: Function to handle 'Reject' button click
+    // Function to handle 'Reject' button click
     const handleReject = async (id) => {
-        // Find the request and update its status
-        const updatedRequests = requests.map(request =>
-            request._id === id ? { ...request, status: 'Rejected' } : request
-        );
-        setRequests(updatedRequests);
+        try {
+            await axios.patch(`http://localhost:5000/skip-requests/reject/${id}`);
+            
+            const updatedRequests = requests.map(request =>
+                request._id === id ? { ...request, status: 'Rejected' } : request
+            );
+            setRequests(updatedRequests);
 
-        // Optional: Send the update to the backend
-        // try {
-        //     await axios.patch(`http://localhost:5000/skip-requests/reject/${id}`);
-        // } catch (error) {
-        //     console.error("Error rejecting request:", error);
-        // }
+            alert("Request rejected.");
+
+        } catch (error) {
+            console.error("Error rejecting request:", error);
+            alert("Rejection failed.");
+        }
     };
 
     if (loading) {
@@ -85,13 +92,13 @@ const CoordinatorRequestPanel = () => {
                             <div className={styles.actions}>
                                 {request.status === 'Pending' ? (
                                     <>
-                                        <button 
-                                            onClick={() => handleApprove(request._id)}
+                                        <button
+                                            onClick={() => handleApprove(request._id, request.studentName)}
                                             className={`${styles.actionButton} ${styles.approveButton}`}>
                                             Approve
                                         </button>
-                                        <button 
-                                            onClick={() => handleReject(request._id)}
+                                        <button
+                                            onClick={() => handleReject(request._id, request.studentName)}
                                             className={`${styles.actionButton} ${styles.rejectButton}`}>
                                             Reject
                                         </button>

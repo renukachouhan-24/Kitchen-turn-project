@@ -48,6 +48,7 @@ body, html {
     justify-content: space-between;
     position: relative;
     transition: background-color 0.3s ease; /* Smooth color transition */
+    overflow-wrap: break-word;  
 }
 
 /* Card background color based on status */
