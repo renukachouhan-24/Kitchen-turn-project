@@ -85,7 +85,7 @@ html, body {
 
 .sectionHeader .sectionIcon {
     font-size: 2rem;
-    color: #4a6cfa;
+    color: #2d3748;
 }
 
 .sectionHeader h2 {
@@ -130,7 +130,7 @@ html, body {
 
 .selectInput:focus, .textInput:focus {
     outline: none;
-    border-color: #4a6cfa;
+    border-color: #2d3748;
     box-shadow: 0 0 0 2px rgba(74, 108, 250, 0.2);
 }
 
@@ -140,10 +140,10 @@ html, body {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.8rem 1.5rem;
-    background-color: #4a6cfa;
+    background-color: #2d3748;
     color: #ffffff;
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.2s;
@@ -153,7 +153,7 @@ html, body {
 }
 
 .addMealButton:hover {
-    background-color: #3b5ace;
+    background-color: #242c3a;
     transform: translateY(-2px);
 }
 
@@ -205,7 +205,7 @@ html, body {
 
 .menuItem {
     background-color: #fff;
-    border-left: 4px solid #4a6cfa;
+    border-left: 4px solid #2d3748;
     padding: 0.8rem 1rem;
     margin-bottom: 0.8rem;
     border-radius: 6px;
@@ -310,7 +310,7 @@ html, body {
 }
 
 .photoUploadBox:hover {
-    border-color: #4a6cfa;
+    border-color: #2d3748;
 }
 
 .fileInput {
@@ -336,7 +336,7 @@ html, body {
 
 .choosePhotoButton {
     padding: 0.8rem 1.5rem;
-    background-color: #38a169;
+    background-color: #52b881;
     color: #ffffff;
     border: none;
     border-radius: 50px;

@@ -1,27 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react'; // 1. useEffect ko import kiya gaya hai
 import { FaUpload, FaStar, FaPlusCircle, FaTimesCircle, FaUtensils, FaUsers } from 'react-icons/fa';
 import Navbar from './Navbar';
 import styles from './TodayKitchenTeam.module.css';
 
 const mealTypes = ['breakfast', 'lunch', 'snacks', 'dinner'];
 
-const TodayKitchenTeam = () => {
-    // Hardcoded data for demonstration without backend
-    const [todayMenu, setTodayMenu] = useState({
-        breakfast: [{ _id: 'b1', foodName: 'Poha', nutrients: 'Carbs, Fiber' }],
-        lunch: [{ _id: 'l1', foodName: 'Dal Roti, Rice', nutrients: 'Protein, Carbs' }],
-        snacks: [{ _id: 's1', foodName: 'Samosa', nutrients: 'Carbs, Fat' }],
-        dinner: [{ _id: 'd1', foodName: 'Paneer Sabzi, Roti', nutrients: 'Protein, Carbs, Vitamins' }],
-    });
-    
-    const [kitchenTeam, setKitchenTeam] = useState([
-        { _id: 'st1', name: 'Nikita Panwar' },
-        { _id: 'st2', name: 'Prachi Kurwale' },
-        { _id: 'st3', name: 'Renuka Chouhan' },
-        { _id: 'st4', name: 'Khushi Kumari' },
-        { _id: 'st5', name: 'Pammi' },
-    ]);
+// Ye aapke naye code ke anusaar ek constant hai, isme koi badlav nahi kiya gaya hai
+const kitchenTeam = [
+    { _id: 'st1', name: 'Nikita Panwar' },
+    { _id: 'st2', name: 'Prachi Kurwale' },
+    { _id: 'st3', name: 'Renuka Chouhan' },
+    { _id: 'st4', name: 'Khushi Kumari' },
+    { _id: 'st5', name: 'Pammi' },
+];
 
+const TodayKitchenTeam = () => {
+    // 2. UPDATED: useState ab shuruaat me localStorage se data load karega
+    const [todayMenu, setTodayMenu] = useState(() => {
+        const savedMenu = localStorage.getItem('todayMenu');
+        if (savedMenu) {
+            return JSON.parse(savedMenu);
+        } else {
+            return {
+                breakfast: [],
+                lunch: [],
+                snacks: [],
+                dinner: [],
+            };
+        }
+    });
+
+    // 3. NEW: useEffect hook menu me badlav hone par use localStorage me save karega
+    useEffect(() => {
+        localStorage.setItem('todayMenu', JSON.stringify(todayMenu));
+    }, [todayMenu]);
+    
     const [ratings, setRatings] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
     const totalRatings = Object.values(ratings).reduce((sum, count) => sum + count, 0);
 
@@ -53,14 +66,13 @@ const TodayKitchenTeam = () => {
         }));
     };
 
-    // NAYA: Rating Submission function jisse rating ko badal sakte hain
     const handleRatingSubmit = (starValue) => {
         setRatings(prevRatings => {
             const newRatings = { ...prevRatings };
             if (selectedRating !== 0) {
-                newRatings[selectedRating] -= 1; // Purani rating ko hatao
+                newRatings[selectedRating] -= 1;
             }
-            newRatings[starValue] += 1; // Nayi rating ko jodo
+            newRatings[starValue] += 1;
             return newRatings;
         });
         setSelectedRating(starValue);
@@ -82,8 +94,7 @@ const TodayKitchenTeam = () => {
         if (totalFiles > 5) {
             alert(`You can only upload a maximum of 5 photos. You have already selected ${uploadedPhotos.length} photos.`);
             return;
-        }
-    
+        }    
         const newPhotos = files.map(file => {
             return {
                 name: file.name,
@@ -110,14 +121,12 @@ const TodayKitchenTeam = () => {
                     <p>Streamline your daily kitchen operations</p>
                 </div>
 
-                {/* Manage Today's Kitchen Team & Menu */}
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
                         <FaPlusCircle className={styles.sectionIcon} />
                         <h2>Manage Today's Kitchen Team & Menu</h2>
                     </div>
                     
-                    {/* Meal Input Form */}
                     <form onSubmit={handleAddMealItem} className={styles.mealInputFormGrid}>
                         <div className={styles.formGroup}>
                             <label htmlFor="mealType">Meal type</label>
@@ -156,7 +165,6 @@ const TodayKitchenTeam = () => {
                         </button>
                     </form>
 
-                    {/* Display Current Menu */}
                     <div className={styles.currentMenuGrid}>
                         {mealTypes.map(type => (
                             <div key={type} className={styles.mealCard}>
@@ -185,9 +193,7 @@ const TodayKitchenTeam = () => {
                     </div>
                 </section>
                 
-                {/* Roster and Poll in one row */}
                 <div className={`${styles.managementSection} ${styles.rosterAndPollContainer}`}>
-                    {/* Kitchen Roster Section */}
                     <div className={styles.rosterSectionContent}>
                         <div className={styles.sectionHeader}>
                             <FaUsers className={styles.sectionIcon} />
@@ -205,7 +211,6 @@ const TodayKitchenTeam = () => {
                         </div>
                     </div>
                     
-                    {/* Food Feedback Poll Section */}
                     <div className={styles.ratingPollSectionContent}>
                         <div className={styles.sectionHeader}>
                             <FaStar className={styles.sectionIcon} />
@@ -243,7 +248,6 @@ const TodayKitchenTeam = () => {
                     </div>
                 </div>
 
-                {/* Photo Upload Section moved to the bottom */}
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
                         <FaUpload className={styles.sectionIcon} />
@@ -269,7 +273,6 @@ const TodayKitchenTeam = () => {
                             Choose Photos ({uploadedPhotos.length}/5)
                         </button>
                         
-                        {/* Display uploaded photos */}
                         {uploadedPhotos.length > 0 && (
                             <div className={styles.uploadedPhotosContainer}>
                                 {uploadedPhotos.map((photo, index) => (
