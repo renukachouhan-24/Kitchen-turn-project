@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
-import Navbar from './Navbar'; // Naya Navbar component import kiya gaya hai
+import Navbar from './Navbar';
 import styles from './StudentDashboard.module.css';
 
 const StudentDashboard = () => {
@@ -36,14 +36,9 @@ const StudentDashboard = () => {
                 const initialTomorrowTeam = activeStudents.slice(5, 10);
                 setTodayTeam(initialTodayTeam);
                 setTomorrowTeam(initialTomorrowTeam);
-                const initialTodayTeamIds = initialTodayTeam.map(student => student._id);
-                await axios.patch('http://localhost:5000/menu/update-team', { teamMembers: initialTodayTeamIds });
-                console.log("Initial Today's kitchen team updated in backend.");
             } else {
                 setTodayTeam(activeStudents);
                 setTomorrowTeam([]);
-                await axios.patch('http://localhost:5000/menu/update-team', { teamMembers: [] });
-                console.log("Not enough students, backend today's team cleared.");
             }
             setError(null);
         } catch (err) {
