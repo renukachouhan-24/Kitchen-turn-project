@@ -173,16 +173,16 @@ const StudentDashboard = () => {
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
                     <div className={styles.allStudentsGrid}>
-                        {allStudents.map((student) => (
-                            <div className={styles.overviewStudentCard} key={student._id}>
+                        {allStudents.map(({ _id, name, status, joiningDate }) => (
+                            <div className={styles.overviewStudentCard} key={_id}>
                                 <div className={styles.studentInfo}>
-                                    <p className={styles.studentName}>{student.name}</p>
-                                    <p className={styles.studentPosition}>{`Joined: ${new Date(student.joiningDate).toLocaleDateString()}`}</p>
+                                    <p className={styles.studentName}>{name}</p>
+                                    <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
                                 </div>
                                 <select
-                                    className={`${styles.studentStatusDropdown} ${student.status === 'inactive' || student.status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
-                                    value={student.status}
-                                    onChange={(e) => handleStatusChange(student._id, e.target.value)}
+                                    className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
+                                    value={status}
+                                    onChange={(e) => handleStatusChange(_id, e.target.value)}
                                 >
                                     <option value="active">ACTIVE</option>
                                     <option value="inactive">INACTIVE</option>
