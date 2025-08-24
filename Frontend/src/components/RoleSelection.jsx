@@ -11,7 +11,7 @@ import { MdOutlineFoodBank } from "react-icons/md";
 const RoleSelection = () => {
   return (
     <div className={styles.pageWrapper}>
-      <Navbar /> {/* Navbar ko yahan use karein */}
+      <Navbar showRegister={true}/> {/* Navbar ko yahan use karein */}
       
       {/* Main Content Section */}
       <main className={styles.mainContent}>

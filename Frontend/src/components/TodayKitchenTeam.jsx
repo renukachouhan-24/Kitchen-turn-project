@@ -102,7 +102,7 @@ const TodayKitchenTeam = () => {
 
     return (
         <div className={styles.pageContainer}>
-            <Navbar />
+             <Navbar showRegister={false} />
 
             <div className={styles.contentWrapper}>
                 <div className={styles.welcomeHeader}>

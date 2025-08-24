@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaUsers, FaCalendarAlt, FaRegCompass, FaRegPaperPlane } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
+import Navbar from './Navbar'; // Naya Navbar component import kiya gaya hai
 import styles from './StudentDashboard.module.css';
 
 const StudentDashboard = () => {
@@ -13,7 +13,6 @@ const StudentDashboard = () => {
     const fetchAllStudents = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/all');
-            // 'on_leave' students ko neeche dikhane ke liye sort karein
             const sortedStudents = response.data.sort((a, b) => {
                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -29,7 +28,6 @@ const StudentDashboard = () => {
 
     const fetchActiveStudentsForTeams = async () => {
         try {
-            // Ab hum sirf 'active' students ko fetch karenge, 'on_leave' students ko nahi
             const response = await axios.get('http://localhost:5000/students/active');
             const activeStudents = response.data;
             
@@ -121,18 +119,7 @@ const StudentDashboard = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            {/* ...Header... */}
-            <header className={styles.header}>
-                <div className={styles.logoContainer}>
-                    <div className={styles.logoIcon}><div className={styles.logoShape}></div></div>
-                    <span>KitchenFlow</span>
-                </div>
-                <nav className={styles.mainNav}>
-                    <Link to="/dashboard" className={styles.active}><FaRegCompass /><span>Kitchen Overview</span></Link>
-                    <Link to="/skip-request"><FaRegPaperPlane /><span>Skip Request</span></Link>
-                </nav>
-                <div className={styles.userProfileNav}>Coordinator</div>
-            </header>
+            <Navbar showRegister={false} showSkipRequest={true}/>
             
             <main className={styles.overviewContainer}>
                 <div className={styles.overviewHeader}>
@@ -163,12 +150,6 @@ const StudentDashboard = () => {
                         </ul>
                     </div>
                 </div>
-                
-                {/* YAHAN SE BUTTONS HATA DIYE GAYE HAIN */}
-                {/* <div className={styles.actionButtonsContainer}>
-                    <button className={styles.btnPrimaryOverview} onClick={handleAdvanceToNextDay}>Advance to Next Day</button>
-                    <button className={styles.btnSecondaryOverview} onClick={handleResetData}>Reset All Data</button>
-                </div> */}
                 
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
