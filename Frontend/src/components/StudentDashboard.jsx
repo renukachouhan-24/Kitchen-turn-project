@@ -1,3 +1,5 @@
+// src/components/StudentDashboard.jsx
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
@@ -10,6 +12,7 @@ const StudentDashboard = () => {
     const [tomorrowTeam, setTomorrowTeam] = useState([]);
     const [error, setError] = useState(null);
 
+    // Ye functions data fetch karte hain, inmein koi change nahi karna hai
     const fetchAllStudents = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/all');
@@ -47,11 +50,24 @@ const StudentDashboard = () => {
         }
     };
 
+    // ** Final useEffect Hook **
     useEffect(() => {
+        // Initial fetch jab component load ho
         fetchAllStudents();
         fetchActiveStudentsForTeams();
-    }, []);
+        
+        // Frontend timer jo har 24 ghante data refresh karega
+        // Isse UI backend se sync mein rahegi
+        const refreshInterval = setInterval(() => {
+            fetchAllStudents();
+            fetchActiveStudentsForTeams();
+        }, 86400000); // 24 hours = 86400000ms
 
+        // Cleanup function: component unmount hone par timer clear karein
+        return () => clearInterval(refreshInterval);
+    }, []); // Empty dependency array, so it runs only once
+
+    // ... (baaki ka code waisa hi rahega, usmein koi badlav nahi) ...
     const handleStatusChange = async (studentId, newStatus) => {
         try {
             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
