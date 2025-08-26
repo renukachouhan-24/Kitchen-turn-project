@@ -1,501 +1,259 @@
-/* src/components/RoleSelection.module.css */
- .pageWrapper {
-    color: #2d3748;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    background-color: #fcdfd9;
+/* src/components/RoleSelection.module.css (FINAL CLEANED CODE) */
+
+.pageWrapper {
+  color: #2d3748;
+  background-color: #fcdfd9; /* Page background color */
 }
 
-.bgVideo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    z-index: -1; 
-}
-
- 
-.pageWrapper::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); 
-    z-index: -1;
-}
- 
- 
 .mainContent {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6rem;
-    padding: 5rem 8%;
-    max-width: 100%;
-    margin: auto;
-    background-color: #fcdfd9;
-    position: relative;
-    z-index: 1;
-    font-size: 20px;
-    flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rem;
+  padding: 5rem 8%;
+  max-width: 1400px;
+  margin: auto;
+  min-height: 100vh;
 }
- 
+
 .leftColumn {
-    flex: 1;
-    max-width: 600px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+  flex: 1;
+  max-width: 600px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
- 
+
 .mainTitleContainer {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .welcomeHeading {
-  
-    font-weight: 500;
-    color: #2d3748;
-    margin: 0;
-    line-height: 1;
+  font-size: 3rem;
+  font-weight: 500;
+  color: #2d3748;
+  margin: 0;
+  line-height: 1;
 }
 
 .navgurukulLogo {
-    height: 110px;
-    width: auto;
-    margin-bottom: 30px;
+  height: 110px;
+  width: auto;
+  margin-bottom: 30px;
 }
-
-
 
 .description {
-    font-size: 20px;
-    color: #4a5568;
-    line-height: 1.7;
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
+  font-size: 20px;
+  color: #4a5568;
+  line-height: 1.7;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
 }
- 
 
-.howItWorksCard {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #4a5568;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
- 
-.howItWorksCard h3 {
-    margin-top: 0;
-    margin-bottom: 0.4rem;
-    color: #2d3748;
-}
- 
-.howItWorksCard ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    font-size: 1.2rem;
-}
- 
-.howItWorksCard li {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: #333435;
-}
- 
-.checkIcon {
-    color: #48bb78;
-}
- 
- 
 .outlineBtn {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    border: 2px solid #f05f40;
-    border-radius: 8px;
-    background: transparent;
-    color: #f05f40 !important;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  border: 2px solid #f05f40;
+  border-radius: 8px;
+  background: transparent;
+  color: #f05f40 !important;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
 }
- 
+
 .outlineBtn:hover {
-    background-color: #f05f40;
-    color: #fff !important;
+  background-color: #f05f40;
+  color: #fff !important;
 }
- 
- 
+
 .rightColumn {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
- 
+
 .mainIconContainer {
-    position: relative;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 150px;
-    box-shadow: 
-        -10px -10px 20px rgba(255, 255, 255, 0.1),
-        10px 10px 20px rgba(0, 0, 0, 0.3),
-        inset -5px -5px 10px rgba(0, 0, 0, 0.2),
-        inset 5px 5px 10px rgba(255, 255, 255, 0.05);
-}
-
-.foodIcon {
-    position: absolute;
-    z-index: 1;
-    font-size: 150px;
-    color: #ffffff;
-}
-
-@media (max-width: 992px) {
-    .mainContent {
-        flex-direction: column;
-        text-align: center;
-        gap: 3rem;
-    }
-
-    .leftColumn {
-        max-width: 100%;
-    }
-
-    .mainHeading, .subHeading {
-        font-size: 3rem;
-        margin-top: 0;
-    }
-
-    .description {
-        font-size: 1rem;
-    }
-
-    .howItWorksCard {
-        padding: 1.5rem;
-    }
-
-    .mainIconContainer {
-        width: 300px;
-        height: 300px;
-    }
-
-    .foodIcon {
-        font-size: 120px;
-    }
-} 
-
-
-
-/* src/components/RoleSelection.module.css */
-.pageWrapper {
-    color: #2d3748;
-    min-height: 100vh;
-    position: relative;
-    overflow: hidden;
-    background-color: #fcdfd9;
+  position: relative;
+  width: 350px;
+  height: 350px;
 }
 
 .bgVideo {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    z-index: -1; 
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
-.pageWrapper::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4); 
-    z-index: -1;
+/* ===== STYLES FOR 'HOW IT WORKS' SECTION (RENAMED) ===== */
+.howItWorksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  width: 100%;
 }
 
-/* NAYA: Styles for the "Why Choose KitchenFlow" section */
+.howItWorksCard {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: #fef4f2;
+  padding: 1.2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 1px solid #feeae6;
+  transition: all 0.3s ease-in-out; 
+}
+
+.howItWorksCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.howItWorksIconCircle {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  background-color: #48bb78;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.howItWorksText {
+  display: flex;
+  flex-direction: column;
+}
+
+.howItWorksTitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #dd6b20;
+}
+
+.howItWorksTitleIcon {
+  font-size: 1rem;
+}
+
+.howItWorksText p {
+  margin: 0;
+  font-size: 1rem;
+  color: #4a5568;
+}
+
+/* ===== STYLES FOR 'WHY CHOOSE US' SECTION (ORIGINAL NAMES) ===== */
 .featuresSection {
-    background-color: #f8f9fa; /* Light background color */
-    padding: 5rem 8%;
-    text-align: center;
+  background-color: #fff;
+  padding: 5rem 8%;
+  text-align: center;
 }
 
 .featuresHeader h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
 }
 
 .featuresHeader p {
-    font-size: 1.1rem;
-    color: #4a5568;
-    max-width: 700px;
-    margin: 0 auto 3rem auto;
+  font-size: 1.1rem;
+  color: #4a5568;
+  max-width: 700px;
+  margin: 0 auto 3rem auto;
 }
 
 .brandName {
-    color: #f05f40; /* Highlight the brand name */
+  color: #f05f40;
 }
 
 .featuresGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    max-width: 1200px;
-    margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+  margin: auto;
 }
 
 .featureCard {
-    background-color: #ffffff;
-    padding: 2.5rem 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #ffffff;
+  padding: 2.5rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .featureCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
 .featureIconBox {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    color: #fff;
-    margin: 0 auto 1.5rem auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #fff;
+  margin: 0 auto 1.5rem auto;
 }
 
-/* Icons Colors */
 .iconBlue { background-color: #4a6cfa; }
 .iconGreen { background-color: #48bb78; }
 .iconPurple { background-color: #805ad5; }
 .iconOrange { background-color: #f6ad55; }
 
 .featureCard h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
 }
 
 .featureCard p {
-    font-size: 0.95rem;
-    color: #718096;
-    line-height: 1.5;
+  font-size: 0.95rem;
+  color: #718096;
+  line-height: 1.5;
 }
 
-/* PURANA: Main content area */
-.mainContent {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6rem;
-    padding: 5rem 8%;
-    max-width: 1400px;
-    margin: auto;
-    position: relative;
-    z-index: 1;
-    font-size: 20px;
-    flex-grow: 1;
-}
- 
-.leftColumn {
-    flex: 1;
-    max-width: 600px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
- 
-.mainTitleContainer {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.welcomeHeading {
-    font-size: 3rem;
-    font-weight: 500;
-    color: #2d3748;
-    margin: 0;
-    line-height: 1;
-}
-
-.navgurukulLogo {
-    height: 110px;
-    width: auto;
-    margin-bottom: 30px;
-}
-
-.description {
-    font-size: 20px;
-    color: #4a5568;
-    line-height: 1.7;
-    margin-top: 2.5rem;
-    margin-bottom: 2.5rem;
-}
- 
-.howItWorksCard {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #4a5568;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 0.5rem;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
- 
-.howItWorksCard h3 {
-    margin-top: 0;
-    margin-bottom: 0.4rem;
-    color: #2d3748;
-}
- 
-.howItWorksCard ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    font-size: 1.2rem;
-}
- 
-.howItWorksCard li {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: #333435;
-}
- 
-.checkIcon {
-    color: #48bb78;
-}
- 
-.outlineBtn {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    border: 2px solid #f05f40;
-    border-radius: 8px;
-    background: transparent;
-    color: #f05f40 !important;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.2s;
-}
- 
-.outlineBtn:hover {
-    background-color: #f05f40;
-    color: #fff !important;
-}
- 
-.rightColumn {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
- 
-.mainIconContainer {
-    position: relative;
-    width: 350px;
-    height: 350px;
-    border-radius: 50%;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 150px;
-    box-shadow: 
-        -10px -10px 20px rgba(255, 255, 255, 0.1),
-        10px 10px 20px rgba(0, 0, 0, 0.3),
-        inset -5px -5px 10px rgba(0, 0, 0, 0.2),
-        inset 5px 5px 10px rgba(255, 255, 255, 0.05);
-}
-
-.foodIcon {
-    position: absolute;
-    z-index: 1;
-    font-size: 150px;
-    color: #ffffff;
-}
-
+/* ===== MEDIA QUERIES FOR RESPONSIVENESS ===== */
 @media (max-width: 992px) {
-    .mainContent {
-        flex-direction: column;
-        text-align: center;
-        gap: 3rem;
-    }
+  .mainContent {
+      flex-direction: column;
+      text-align: center;
+      gap: 3rem;
+  }
 
-    .leftColumn {
-        max-width: 100%;
-    }
+  .leftColumn {
+      max-width: 100%;
+      align-items: center;
+  }
 
-    .mainHeading, .subHeading {
-        font-size: 3rem;
-        margin-top: 0;
-    }
+  .welcomeHeading {
+      font-size: 2.5rem;
+  }
 
-    .description {
-        font-size: 1rem;
-    }
+  .description {
+      font-size: 1rem;
+  }
 
-    .howItWorksCard {
-        padding: 1.5rem;
-    }
-
-    .mainIconContainer {
-        width: 300px;
-        height: 300px;
-    }
-
-    .foodIcon {
-        font-size: 120px;
-    }
+  .mainIconContainer {
+      width: 300px;
+      height: 300px;
+  }
 }
-
-
-
-
-
-
-
- 
-
- 
