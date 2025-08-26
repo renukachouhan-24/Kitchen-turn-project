@@ -12,19 +12,19 @@ html, body {
 .pageContainer {
     display: flex;
     flex-direction: column;
-    background-color: #f7f9fc;
+    background-color: #fff;
     min-height: 100vh;
     height: 100%;
     overflow: hidden;
 }
 
 .contentWrapper {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     padding: 3rem;
     width: 100%;
-    max-width: 1200px;
+    max-width: 100%;
     margin: 2rem auto;
     
     /* NAYA: This is the ONLY element that should scroll vertically */
@@ -140,12 +140,13 @@ html, body {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.8rem 1.5rem;
-    background-color: #2d3748;
-    color: #ffffff;
+    background-color: #fff;
+    color: #f05f40;
     border: none;
     border-radius: 5px;
     font-weight: 600;
     cursor: pointer;
+    border: solid #f05f40 2px;
     transition: background-color 0.2s, transform 0.2s;
     margin-top: 1.5rem;
     font-size: 1rem;
@@ -153,8 +154,9 @@ html, body {
 }
 
 .addMealButton:hover {
-    background-color: #242c3a;
+    background-color: #f05f40;
     transform: translateY(-2px);
+    color: #fff;
 }
 
 .currentMenuGrid {

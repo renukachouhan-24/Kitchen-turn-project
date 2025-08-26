@@ -4,9 +4,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 5%;
-  background-color: #2d3748; 
-  color: #fff;
+  padding: 1.9rem 5%;
+  background-color: #fff; 
+  color:#000000;
+  
 }
 
 .logoContainer {
@@ -14,15 +15,16 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
-  font-size: 1.5rem;
-  color: #fff;
+  font-size: 2.3rem;
+  color: #f05f40;
+ 
 }
+ 
 
-/* New CSS rule for the chef icon image */
 .chefIcon {
-  height: 60px; /* Adjust height as needed */
+  height: 60px; 
   width: auto;
-  margin-right: 0px; /* Spacing from the text */
+  margin-right: 0px; 
 }
 
 .mainNav {
@@ -32,36 +34,43 @@
 
 .mainNav a{
   text-decoration: none;
-  color: #e2e8f0;
+  color: #000000;
   font-weight: 500;
+  font-size: 23px;
   transition: color 0.2s;
+  padding: 10px;
 }
 
 .mainNav a:hover {
-  color: #fff;
+  color: #f05f40;
 }
 .registerBtn {
   background-color: #fff;
-  color: #2d3748 !important; /* Important zaroori hai taaki color override ho */
-  padding: 0.5rem 1rem;
+  color: #f05f40 !important; 
+  padding: 1rem 2rem !important;
   border-radius: 6px;
+  font-size: 20px;
+  border: solid #f05f40 1px;
   font-weight: 600 !important;
 }
 .registerBtn:hover {
-  background-color: #e2e8f0;
+  background-color: #f05f40;
+  color:#fff !important ;
 }
 
 .skipRequestBtn {
-    background-color: #4a5568; /* Example color */
-    color: #fff !important;
-    padding: 0.5rem 1rem;
+    background-color: #fff; 
+    color: #f05f40 !important;
+    padding: 1rem 2rem !important;
     border-radius: 6px;
     font-weight: 600 !important;
     display: flex;
     align-items: center;
+    border: solid #f05f40 1px;
     gap: 0.5rem;
 }
 
 .skipRequestBtn:hover {
-    background-color: #374151;
+    background-color: #f05f40;
+    color: #fff !important;
 }
