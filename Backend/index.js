@@ -34,7 +34,7 @@ app.use('/menu', menuRouter);
 
 // KITCHEN TEAM ROTATION CRON JOB (Final 24-Hour Schedule)
 // Ab yeh task har din subah 6 AM par run hoga
-cron.schedule('*/2 * * * *', async () => {
+cron.schedule('0 6 * * *', async () => {
     console.log('⏰ Running daily kitchen team rotation...');
     try {
         const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });

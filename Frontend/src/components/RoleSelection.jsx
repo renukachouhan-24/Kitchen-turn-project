@@ -47,7 +47,7 @@ const RoleSelection = () => {
                             playsInline
                             className={styles.bgVideo}
                         />
-                        <MdOutlineFoodBank className={styles.foodIcon} />
+                        {/* <MdOutlineFoodBank className={styles.foodIcon} /> */}
                     </div>
                 </div>
             </main>
