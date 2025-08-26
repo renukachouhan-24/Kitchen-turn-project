@@ -476,7 +476,7 @@ const TodayKitchenTeam = () => {
 
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
-                        <FaPlusCircle className={styles.sectionIcon} />
+                        {/* <FaPlusCircle className={styles.sectionIcon} /> */}
                         <h2>Manage Today's Kitchen Team & Menu</h2>
                     </div>
                     
@@ -522,7 +522,7 @@ const TodayKitchenTeam = () => {
                         {mealTypes.map(type => (
                             <div key={type} className={styles.mealCard}>
                                 <div className={styles.mealCardHeader}>
-                                    <FaUtensils className={styles.mealIcon} />
+                                    {/* <FaUtensils className={styles.mealIcon} /> */}
                                     <h3>{type.charAt(0).toUpperCase() + type.slice(1)}</h3>
                                     <span className={styles.itemCount}>{todayMenu[type] ? todayMenu[type].length : 0} item(s)</span>
                                 </div>
@@ -603,7 +603,7 @@ const TodayKitchenTeam = () => {
 
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
-                        <FaCommentDots className={styles.sectionIcon} />
+                        {/* <FaCommentDots className={styles.sectionIcon} /> */}
                         <h2>Meal Feedback & Comments</h2>
                     </div>
                     <form onSubmit={handleFeedbackSubmit} className={styles.feedbackForm}>
@@ -651,7 +651,7 @@ const TodayKitchenTeam = () => {
 
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
-                        <FaUpload className={styles.sectionIcon} />
+                        {/* <FaUpload className={styles.sectionIcon} /> */}
                         <h2>Upload Today's Meal Photo</h2>
                     </div>
                     <div className={styles.photoUploadBox}>
