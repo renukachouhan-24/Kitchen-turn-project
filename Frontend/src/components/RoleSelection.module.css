@@ -5,7 +5,7 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-  background-color: white;
+  background-color: #fcdfd9; /* Friend's version */
 }
 
 .bgVideo {
@@ -36,7 +36,7 @@
   justify-content: center;
   gap: 6rem;
   padding: 5rem 8%;
-  max-width: 1400px;
+  max-width: 100%; /* Friend's version */
   margin: auto;
   background-color: #fcdfd9;
   position: relative;
@@ -62,8 +62,7 @@
 }
 
 .welcomeHeading {
-  font-size: 3rem;
-  font-weight: 600;
+  font-weight: 500; /* Friend's version */
   color: #2d3748;
   margin: 0;
   line-height: 1;
@@ -83,7 +82,7 @@
   margin-bottom: 2.5rem;
 }
 
-/* ===== PURANA .howItWorksCard HATAKAR YEH NAYA CODE ADD KIYA GAYA HAI ===== */
+/* Aapka banaya naya Feature Card wala design rakha gaya hai */
 .featuresContainer {
   display: flex;
   flex-direction: column;
@@ -147,7 +146,6 @@
   font-size: 1rem;
   color: #4a5568;
 }
-/* =========================================================================== */
 
 .outlineBtn {
   display: inline-block;
@@ -230,8 +228,3 @@
       font-size: 120px;
   }
 }
-
-
-
-
-

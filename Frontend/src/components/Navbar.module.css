@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 5%;
+  padding: 2rem 5%; /* Friend's version */
   background-color: #fff; 
   color:#000000;
 }
@@ -14,9 +14,8 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 2rem; /* Friend's version */
   color: #000000;
-  /* Smooth color change ke liye transition yahan add kiya hai */
   transition: color 0.2s; 
 }
 
@@ -26,18 +25,15 @@
   margin-right: 0px; 
 }
 
-/* === YEH FINAL UPDATED CODE HAI LOGO LINK KE LIYE === */
 .logoLink {
   text-decoration: none;
   outline: none;
   color: inherit;
 }
 
-/* Jab Link par hover ho, to uske andar wale Container ka color badlo */
 .logoLink:hover .logoContainer {
   color: #f05f40; 
 }
-/* ================================================== */
 
 .mainNav {
   display: flex;
@@ -48,7 +44,7 @@
   text-decoration: none;
   color: #000000;
   font-weight: 500;
-  font-size: 20px;
+  font-size: 25px; /* Friend's version */
   transition: color 0.2s;
   padding: 10px;
 }
@@ -63,7 +59,7 @@
   padding: 2rem 3rem;
   border-radius: 6px;
   font-size: 20px;
-  border: solid #f05f40 1px;
+  border: solid #f05f40 2px;
   font-weight: 600 !important;
 }
 
@@ -80,7 +76,7 @@
     font-weight: 600 !important;
     display: flex;
     align-items: center;
-    border: solid #f05f40 1px;
+    border: solid #f05f40 2px;
     gap: 0.5rem;
 }
 
@@ -88,7 +84,3 @@
     background-color: #f05f40;
     color: #fff !important;
 }
-
-
-
-
