@@ -140,7 +140,7 @@ const TodayKitchenTeam = () => {
 
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
-                        <FaPlusCircle className={styles.sectionIcon} />
+                        
                         <h2>Manage Today's Kitchen Team & Menu</h2>
                     </div>
                     
@@ -186,7 +186,7 @@ const TodayKitchenTeam = () => {
                         {mealTypes.map(type => (
                             <div key={type} className={styles.mealCard}>
                                 <div className={styles.mealCardHeader}>
-                                    <FaUtensils className={styles.mealIcon} />
+                                     
                                     <h3>{type.charAt(0).toUpperCase() + type.slice(1)}</h3>
                                     <span className={styles.itemCount}>{todayMenu[type] ? todayMenu[type].length : 0} item(s)</span>
                                 </div>
@@ -267,7 +267,7 @@ const TodayKitchenTeam = () => {
 
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
-                        <FaUpload className={styles.sectionIcon} />
+                       
                         <h2>Upload Today's Meal Photo</h2>
                     </div>
                     <div className={styles.photoUploadBox}>

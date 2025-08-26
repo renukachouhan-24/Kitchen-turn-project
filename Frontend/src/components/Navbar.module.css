@@ -4,10 +4,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.9rem 5%;
+  padding: 2rem 5%;
   background-color: #fff; 
   color:#000000;
-  
 }
 
 .logoContainer {
@@ -15,17 +14,30 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
-  font-size: 2.3rem;
-  color: #f05f40;
- 
+  font-size: 2rem;
+  color: #000000;
+  /* Smooth color change ke liye transition yahan add kiya hai */
+  transition: color 0.2s; 
 }
- 
 
 .chefIcon {
   height: 60px; 
   width: auto;
   margin-right: 0px; 
 }
+
+/* === YEH FINAL UPDATED CODE HAI LOGO LINK KE LIYE === */
+.logoLink {
+  text-decoration: none;
+  outline: none;
+  color: inherit;
+}
+
+/* Jab Link par hover ho, to uske andar wale Container ka color badlo */
+.logoLink:hover .logoContainer {
+  color: #f05f40; 
+}
+/* ================================================== */
 
 .mainNav {
   display: flex;
@@ -36,7 +48,7 @@
   text-decoration: none;
   color: #000000;
   font-weight: 500;
-  font-size: 23px;
+  font-size: 25px;
   transition: color 0.2s;
   padding: 10px;
 }
@@ -44,15 +56,17 @@
 .mainNav a:hover {
   color: #f05f40;
 }
+
 .registerBtn {
   background-color: #fff;
   color: #f05f40 !important; 
   padding: 1rem 2rem !important;
   border-radius: 6px;
   font-size: 20px;
-  border: solid #f05f40 1px;
+  border: solid #f05f40 2px;
   font-weight: 600 !important;
 }
+
 .registerBtn:hover {
   background-color: #f05f40;
   color:#fff !important ;
@@ -66,7 +80,7 @@
     font-weight: 600 !important;
     display: flex;
     align-items: center;
-    border: solid #f05f40 1px;
+    border: solid #f05f40 2px;
     gap: 0.5rem;
 }
 
