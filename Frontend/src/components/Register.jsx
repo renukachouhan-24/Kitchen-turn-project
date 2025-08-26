@@ -23,7 +23,7 @@ const Register = () => {
       const res = await axios.post('http://localhost:5000/api/auth/register', formData);
       console.log(res.data);
       alert('Registration successful! Please log in.');
-      navigate('/'); // Registration ke baad main page par bhej dein
+      navigate('/'); 
     } catch (err) {
       console.error(err.response.data);
       alert('Error: ' + err.response.data.msg);

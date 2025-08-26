@@ -5,7 +5,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 5%;
-  background-color: #2d3748;
+  background-color: #2d3748; 
   color: #fff;
 }
 
@@ -16,6 +16,13 @@
   font-weight: 600;
   font-size: 1.5rem;
   color: #fff;
+}
+
+/* New CSS rule for the chef icon image */
+.chefIcon {
+  height: 60px; /* Adjust height as needed */
+  width: auto;
+  margin-right: 0px; /* Spacing from the text */
 }
 
 .mainNav {
@@ -41,11 +48,9 @@
   font-weight: 600 !important;
 }
 .registerBtn:hover {
-    background-color: #e2e8f0;
+  background-color: #e2e8f0;
 }
 
-/* src/components/Navbar.module.css */
-/* ... existing styles ... */
 .skipRequestBtn {
     background-color: #4a5568; /* Example color */
     color: #fff !important;
