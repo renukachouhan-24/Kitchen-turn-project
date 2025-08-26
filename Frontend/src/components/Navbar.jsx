@@ -1,10 +1,4 @@
- 
-
-
-
-
-
-import React from 'react';
+ import React from 'react';
 import { Link } from 'react-router-dom';
 // FaUserChef को हटा दिया गया है क्योंकि अब हम image का उपयोग करेंगे
 import { FaRegPaperPlane } from 'react-icons/fa'; 
