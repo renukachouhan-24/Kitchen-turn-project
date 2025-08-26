@@ -593,3 +593,110 @@ html, body {
         font-size: 0.9rem;
     }
 }
+/* src/components/TodayKitchenTeam.module.css */
+
+/* ... existing code ... */
+
+/* NAYA: Styles for Feedback Section */
+.feedbackForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.feedbackInputContainer {
+    position: relative;
+    width: 100%;
+}
+
+.feedbackTextarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #c8d3e6;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    box-sizing: border-box;
+    min-height: 100px;
+    resize: vertical;
+    padding-right: 2.5rem; /* Emoji button ke liye space */
+}
+
+.emojiButton {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 1.5rem;
+    color: #6a7185;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.emojiButton:hover {
+    color: #2d3748;
+}
+
+.emojiPicker {
+    position: absolute;
+    bottom: 4rem; /* Textarea ke upar dikhane ke liye */
+    right: 0;
+    z-index: 10; /* Baaki elements ke upar dikhane ke liye */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.submitButton {
+    padding: 0.8rem 1.5rem;
+    background-color: #3b5ace;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+    font-size: 1rem;
+    align-self: flex-start;
+}
+
+.submitButton:hover {
+    background-color: #2e4395;
+    transform: translateY(-2px);
+}
+
+.feedbackListContainer {
+    background-color: #eef2f8;
+    border: 1px solid #dee5ed;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.feedbackList {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feedbackItem {
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    border-left: 4px solid #1e2150;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.feedbackComment {
+    margin: 0;
+    font-size: 1rem;
+    color: #4a5568;
+}
+
+.noFeedback {
+    text-align: center;
+    color: #6a7185;
+    font-style: italic;
+    margin: 0;
+}
+
+/*... existing code ...*/
