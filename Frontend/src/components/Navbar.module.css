@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 5%;
+  padding: 2rem 5%; /* Friend's version */
   background-color: #fff; 
   color:#000000;
 }
@@ -14,9 +14,8 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 600;
-  font-size: 2rem;
+  font-size: 2rem; /* Friend's version */
   color: #000000;
-  /* Smooth color change ke liye transition yahan add kiya hai */
   transition: color 0.2s; 
 }
 
@@ -26,18 +25,15 @@
   margin-right: 0px; 
 }
 
-/* === YEH FINAL UPDATED CODE HAI LOGO LINK KE LIYE === */
 .logoLink {
   text-decoration: none;
   outline: none;
   color: inherit;
 }
 
-/* Jab Link par hover ho, to uske andar wale Container ka color badlo */
 .logoLink:hover .logoContainer {
   color: #f05f40; 
 }
-/* ================================================== */
 
 .mainNav {
   display: flex;
@@ -48,7 +44,7 @@
   text-decoration: none;
   color: #000000;
   font-weight: 500;
-  font-size: 25px;
+  font-size: 25px; /* Friend's version */
   transition: color 0.2s;
   padding: 10px;
 }
@@ -60,7 +56,7 @@
 .registerBtn {
   background-color: #fff;
   color: #f05f40 !important; 
-  padding: 1rem 2rem !important;
+  padding: 2rem 3rem;
   border-radius: 6px;
   font-size: 20px;
   border: solid #f05f40 2px;
@@ -75,7 +71,7 @@
 .skipRequestBtn {
     background-color: #fff; 
     color: #f05f40 !important;
-    padding: 1rem 2rem !important;
+    padding: 1rem 2rem;
     border-radius: 6px;
     font-weight: 600 !important;
     display: flex;
