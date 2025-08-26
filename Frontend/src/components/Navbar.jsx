@@ -1,17 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaRegPaperPlane } from 'react-icons/fa';
+import { FaRegPaperPlane } from 'react-icons/fa'; 
 import styles from './Navbar.module.css';
-import chefIcon from '../assets/chef.png'; 
+import ladyChefIcon from '../assets/chef.png';  
 
 const Navbar = ({ showRegister, showSkipRequest }) => {
     return (
         <header className={styles.header}>
-            <Link to="/"><div className={styles.logoContainer}>
-                
-                <img src={chefIcon} alt="Chef Icon" className={styles.chefIcon} />
-                <span className='logoName'>KitchenFlow</span>
-            </div></Link>
+            {/* ====== CHANGE IS HERE ====== */}
+            {/* Is Link tag par className add kiya gaya hai */}
+            <Link to="/" className={styles.logoLink}>
+                <div className={styles.logoContainer}>
+                    <img src={ladyChefIcon} alt="Lady Chef Icon" className={styles.chefIcon} />
+                    <span>KitchenFlow</span>
+                </div>
+            </Link>
+            {/* =========================== */}
+
             <nav className={styles.mainNav}>
                 <Link to="/dashboard">Student</Link>
                 <Link to="/today-team">Today's Kitchen Team</Link>
