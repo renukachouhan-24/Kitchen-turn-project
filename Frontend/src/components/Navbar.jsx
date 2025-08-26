@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaRegPaperPlane } from 'react-icons/fa'; 
+import { FaRegPaperPlane } from 'react-icons/fa';
 import styles from './Navbar.module.css';
-import chefIcon from '../assets/chef.png';  
+import chefIcon from '../assets/chef.png'; 
+
 const Navbar = ({ showRegister, showSkipRequest }) => {
     return (
         <header className={styles.header}>

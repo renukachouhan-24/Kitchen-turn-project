@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar'; 
@@ -21,12 +13,11 @@ const RoleSelection = () => {
             
             <main className={styles.mainContent}>
                 <div className={styles.leftColumn}>
-                    {/* Yahan par heading ko do alag lines me split kiya gaya hai */}
-                    <div className={styles.mainTitleContainer}>
-                        <h1 className={styles.welcomeHeading}>Welcome to</h1>
+                    <h1 className={styles.mainHeading}>
+                        <h2 className={styles.subHeading}>Welcome to </h2>
                         <img src={navgurukulLogo} alt="Navgurukul Logo" className={styles.navgurukulLogo} />
-                    </div>
-                     {/* <h2 className={styles.subHeading}>Kitchen</h2>  */}
+                    </h1>
+                    <h2 className={styles.subHeading}>Kitchen </h2>
                     
                     <p className={styles.description}>
                         "Kitchen Turn is a smart way to manage and organize daily kitchen duties in student hostels and communities. It helps track who is responsible, ensures fairness, and improves coordination."
@@ -56,7 +47,7 @@ const RoleSelection = () => {
                             playsInline
                             className={styles.bgVideo}
                         />
-                        {/* <MdOutlineFoodBank className={styles.foodIcon} /> */}
+                        <MdOutlineFoodBank className={styles.foodIcon} />
                     </div>
                 </div>
             </main>
@@ -65,15 +56,3 @@ const RoleSelection = () => {
 };
 
 export default RoleSelection;
-
-
-
-
-
-
-
-
-
-
-
- 
