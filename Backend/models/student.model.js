@@ -1,4 +1,5 @@
 // backend/models/student.model.js
+
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
@@ -21,6 +22,8 @@ const studentSchema = new Schema({
         required: true,
         default: 'active' 
     },
+    // Naya field yahan add kiya gaya hai
+    turnOrder: { type: Number, required: true, unique: true },
 }, {
     timestamps: true,
 });

@@ -79,7 +79,7 @@ const RoleSelection = () => {
                         <h1 className={styles.welcomeHeading}>Welcome to</h1>
                         <img src={navgurukulLogo} alt="Navgurukul Logo" className={styles.navgurukulLogo} />
                     </div>
-                     <h2 className={styles.subHeading}>Kitchen</h2> 
+                     {/* <h2 className={styles.subHeading}>Kitchen</h2>  */}
                     
                     <p className={styles.description}>
                         "Kitchen Turn is a smart way to manage and organize daily kitchen duties in student hostels and communities. It helps track who is responsible, ensures fairness, and improves coordination."
