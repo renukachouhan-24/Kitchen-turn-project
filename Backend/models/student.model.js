@@ -8,7 +8,7 @@ const studentSchema = new Schema({
     email: { 
         type: String,
         required: true,
-        unique: true, 
+        unique: true, // email ko unique rehne dein
         trim: true,
     },
     password: { 
@@ -22,8 +22,8 @@ const studentSchema = new Schema({
         required: true,
         default: 'active' 
     },
-    // Naya field yahan add kiya gaya hai
-    turnOrder: { type: Number, required: true, unique: true },
+    // turnOrder field se 'unique: true' hata diya gaya hai
+    turnOrder: { type: Number, required: true }, 
 }, {
     timestamps: true,
 });

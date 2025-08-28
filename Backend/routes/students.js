@@ -1,11 +1,12 @@
+// backend/routes/students.js
+
 import { Router } from 'express';
 import Student from '../models/student.model.js';
 
 const router = Router();
 
-// Route 1: Saare students ki list bhejta hai (UI grid ke liye)
+// Route 1: Sabhi students ki list bhejta hai
 router.route('/all').get((req, res) => {
-    // turnOrder ke hisaab se sort karna chahiye
     Student.find().sort({ turnOrder: 1 })
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -13,7 +14,6 @@ router.route('/all').get((req, res) => {
 
 // Route 2: Sirf active students ki list bhejta hai (teams ke liye)
 router.route('/active').get((req, res) => {
-    // turnOrder ke hisaab se sort karna chahiye
     Student.find({ status: 'active' }).sort({ turnOrder: 1 })
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' + err));
@@ -30,11 +30,10 @@ router.route('/update-status/:id').patch(async (req, res) => {
     }
 });
 
-// Route 4: Sabhi students ka status reset karega
+// Route 4: Sabhi students ka status aur turnOrder reset karega
 router.route('/reset').post(async (req, res) => {
     try {
         await Student.updateMany({}, { status: 'active' });
-        // turnOrder ko bhi reset karein
         const allStudents = await Student.find({}).sort({ createdAt: 1 });
         for(let i=0; i < allStudents.length; i++){
             await Student.findByIdAndUpdate(allStudents[i]._id, { turnOrder: i });
@@ -49,9 +48,6 @@ router.route('/reset').post(async (req, res) => {
 router.route('/add').post(async (req, res) => {
     try {
         const { name, email, password, joiningDate } = req.body;
-        
-        // ** Yahan naya logic add kiya gaya hai **
-        // Database mein students ki ginti karein taaki naye student ko aakhri number mil sake
         const count = await Student.countDocuments();
         
         const newStudent = new Student({
@@ -60,7 +56,6 @@ router.route('/add').post(async (req, res) => {
             password,
             joiningDate,
             status: 'active',
-            // turnOrder ko ginti ke hisaab se set karein
             turnOrder: count 
         });
         
@@ -71,5 +66,28 @@ router.route('/add').post(async (req, res) => {
     }
 });
 
-export default router;
+// ⚡ Naya Endpoint: Kitchen Team ko aage badhata hai
+router.route('/advance-day').post(async (req, res) => {
+    try {
+        const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
+        
+        if (activeStudents.length >= 5) {
+            // Pehle 5 students ko nikaal kar aakhri mein daal dein
+            const firstFive = activeStudents.slice(0, 5);
+            const remaining = activeStudents.slice(5);
+            const rotatedStudents = [...remaining, ...firstFive];
+            
+            // Ab naye turnOrder ko database mein update karein
+            for (let i = 0; i < rotatedStudents.length; i++) {
+                await Student.findByIdAndUpdate(rotatedStudents[i]._id, { turnOrder: i });
+            }
+            res.json('Kitchen team advanced to next day.');
+        } else {
+            res.status(400).json('Not enough active students for a full rotation.');
+        }
+    } catch (error) {
+        res.status(500).json('Error during rotation: ' + error);
+    }
+});
 
+export default router;

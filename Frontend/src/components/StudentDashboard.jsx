@@ -33,9 +33,14 @@ const StudentDashboard = () => {
             const response = await axios.get('http://localhost:5000/students/active');
             const activeStudents = response.data;
             
-            if (activeStudents.length >= 5) {
+            if (activeStudents.length >= 10) { // Ab 10 students ki zaroorat hai
                 const initialTodayTeam = activeStudents.slice(0, 5);
                 const initialTomorrowTeam = activeStudents.slice(5, 10);
+                setTodayTeam(initialTodayTeam);
+                setTomorrowTeam(initialTomorrowTeam);
+            } else if (activeStudents.length > 5) {
+                const initialTodayTeam = activeStudents.slice(0, 5);
+                const initialTomorrowTeam = activeStudents.slice(5);
                 setTodayTeam(initialTodayTeam);
                 setTomorrowTeam(initialTomorrowTeam);
             } else {
@@ -50,13 +55,15 @@ const StudentDashboard = () => {
     };
 
     useEffect(() => {
+        // Shuru mein data fetch karein
         fetchAllStudents();
         fetchActiveStudentsForTeams();
         
+        // ⏰ Har 1 minute (60000ms) baad data refresh karein
         const refreshInterval = setInterval(() => {
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        }, 86400000); // 24 hours = 86400000ms
+        }, 86400000); 
 
         return () => clearInterval(refreshInterval);
     }, []);
@@ -64,6 +71,7 @@ const StudentDashboard = () => {
     const handleStatusChange = async (studentId, newStatus) => {
         try {
             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
+            // Data ko update karne ke baad fir se fetch karein
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);
@@ -72,9 +80,6 @@ const StudentDashboard = () => {
             console.error("Error updating status:", err);
         }
     };
-
-    // Unused functions ko yahan hata diya gaya hai
-    // handleAdvanceToNextDay aur handleResetData ko ab is code mein zaroorat nahi hai.
 
     return (
         <div className={styles.pageWrapper}>
@@ -87,6 +92,7 @@ const StudentDashboard = () => {
                     </div>
                     <h1>Kitchen Turn Overview</h1>
                 </div>
+                {/* Yahan par hum date ko dynamic nahi rakh rahe hain, lekin aap ise aage kar sakte hain */}
                 <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
                 
                 {error && <div className={styles.errorMessage}>{error}</div>}
@@ -138,5 +144,3 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
-
-
