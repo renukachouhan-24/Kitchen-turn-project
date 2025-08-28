@@ -1,79 +1,82 @@
+/* src/components/RoleSelection.module.css */
+/* --- Main page container and base styles --- */
+
+
 .pageWrapper {
-    color: #2d3748; /* Default text color for light background */
+    color: #2d3748;
     min-height: 100vh;
     position: relative;
-    overflow: hidden;
+    overflow-x: hidden; 
     display: flex;
     flex-direction: column;
-  background: linear-gradient(to top, #fff, #fadad3);/* Gradient background */
+    background: linear-gradient(to top, #fff, #fadad3);
 }
 
-/* Main Content Section - Column layout for top-to-bottom flow */
 .mainContent {
     display: flex;
-    flex-direction: column; /* Elements ek ke neeche ek */
-    align-items: center; /* Horizontally center content */
-    justify-content: center; /* Vertically center content */
-    gap: 2rem;  
-    padding: 3rem 8%;  
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    padding: 3rem 8%;
     max-width: 100%;
-    margin: auto; /* Centers content vertically */
+    margin: auto;
     position: relative;
     z-index: 1;
     flex-grow: 1;
 }
 
-/* Welcome Title and Navgurukul Logo */
+
 .mainTitleContainer {
     display: flex;
+    flex-direction: row;
     align-items: center;
-    
-    justify-content: center; /* Center align for the combined title */
+    justify-content: center;
     gap: 1rem;
-    /* margin-bottom: 0.5rem; Margin ko kam kiya */
     animation: fadeInDown 1s ease-out;
 }
 
 .welcomeHeading {
-    font-size: 3.5rem; /* Screenshot se match karne ke liye size adjust kiya */
+    font-size: 3.5rem;
     font-weight: 800;
     margin-bottom: 0;
     line-height: 1.1;
     color: #2d3748;
-    
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .navgurukulLogo {
-    height: 150px; /* Screenshot se match karne ke liye size adjust kiya */
+    height: 150px;
     width: auto;
     filter: none;
     animation: fadeInDown 1s ease-out 0.2s forwards;
     opacity: 0;
-      margin-top: 0;
+    margin-top: 0;
 }
 
 .description {
     font-size: 1.2rem;
     color: #4a5568;
     line-height: 1.7;
-    margin-bottom: 2rem; /* Margin ko adjust kiya */
-    text-align: center; /* Description ko center kiya */
+    margin-bottom: 2rem;
+    text-align: center;
     animation: fadeInUp 1s ease-out 0.3s forwards;
     opacity: 0;
-    max-width: 800px; /* Max width for description */
+    max-width: 800px;
+    padding: 0 1rem; 
 }
 
-/* How It Works Cards Container */
 .howItWorksContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
     margin-bottom: 2.5rem;
-    max-width: 1500px; /* Max width for cards */
+    max-width: 1500px;
     width: 100%;
     animation: fadeIn 1s ease-out 0.6s forwards;
     opacity: 0;
+    padding: 0 1rem; 
 }
 
 .howItWorksCard {
@@ -94,14 +97,14 @@
 }
 
 .howItWorksIconCircle {
-    background-color: #eaf2ff; /* Light blue background for icon */
+    background-color: #eaf2ff;
     border-radius: 50%;
     padding: 0.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
-    color: #2a2e40; /* Blue icon color */
+    color: #2a2e40;
     flex-shrink: 0;
 }
 
@@ -123,25 +126,25 @@
 .howItWorksText p {
     margin: 0;
     color: #6c757d;
-    font-size: 1.30rem;
+    font-size: 1rem; 
     line-height: 1.5;
 }
 
-/* View Today's Team Button */
+
 .outlineBtn {
     display: inline-block;
-    padding: 1rem 2.5rem !important;
+    padding: 1rem 2.5rem;
     border: 2px solid #f05f40;
     border-radius: 8px;
     background: transparent;
     color: #f05f40;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 1.2rem; 
     text-decoration: none;
     transition: all 0.3s ease;
     animation: fadeInUp 1s ease-out 0.9s forwards;
     opacity: 0;
-    margin-top: 2rem; /* Gap from cards */
+    margin-top: 2rem;
 }
 
 .outlineBtn:hover {
@@ -151,15 +154,9 @@
 }
 
 
-
-/* src/components/RoleSelection.module.css */
-
-/* ... (existing styles) ... */
-
-/* NAYA: About Us Section styles */
 .aboutUsSection {
     padding: 5rem 8%;
-    background-color: #f8f9fa; /* Light background color */
+    background-color: #f8f9fa;
     text-align: left;
 }
 
@@ -180,7 +177,7 @@
 
 .aboutUsContent p {
     margin-bottom: 1rem;
-    font-size: 1.6rem;
+    font-size: 1rem;
 }
 
 .aboutUsContent strong {
@@ -188,52 +185,45 @@
     font-weight: 700;
 }
 
-/* ... (existing footer and other styles) ... */
 
-
-/* Image Carousel Wrapper */
 .imageCarouselWrapper {
     position: relative;
-    width: 100%; /* Full width for carousel */
-    max-width: 1500px; /* Max width for 3 images + gaps + arrow space */
+    width: 100%;
+    max-width: 1500px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 40px; /* Arrows ke liye space */
-    margin-bottom: 2.5rem; 
+    padding: 0 40px;
+    margin-bottom: 2.5rem;
 }
 
 .imageCarousel {
-    display: grid; /* Flex se Grid mein badla */
-    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    gap: 3rem; /* Images ke beech ka space */
-    overflow: hidden; /* Images ko container ke andar rakhega */
+    display: flex;
+    gap: 3rem;
     width: 100%;
-    height: 100%;
-    justify-content: center; /* Images ko center karega */
-    align-items: center;
-    scroll-behavior: smooth; /* Smooth scrolling for carousel */
 }
 
 .carouselImage {
-    width: 550px; /* Grid item ki full width */
-    height: 400px; /* Har image ki height (square) */
-    object-fit:cover;/* Image ko container mein fit karega */
-    border-radius: 8px; /* Rounded corners */
+    
+    flex-shrink: 0; 
+    flex-grow: 0;
+    width: calc(33.333% - 2rem); 
+    height: auto; 
+    object-fit: cover;
+    border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease; /* Smooth transition for hover */
-    flex-shrink: 0; /* Images ko shrink hone se roke */
+    transition: transform 0.3s ease;
+    scroll-snap-align: center; 
 }
 
 .carouselImage:hover {
-    transform: scale(1.05); /* Zoom effect on hover */
+    transform: scale(1.05);
 }
 
 .carouselArrowLeft, .carouselArrowRight {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-     
     color: #2a2e40;
     border: none;
     border-radius: 50%;
@@ -241,36 +231,23 @@
     cursor: pointer;
     font-size: 2.5rem;
     transition: background-color 0.3s ease;
-    z-index: 10; /* Arrows ko images ke upar dikhane ke liye */
+    z-index: 10;
 }
 
- 
+.carouselArrowLeft { left: 0px; }
+.carouselArrowRight { right: 0; }
 
-.carouselArrowLeft {
-    left: 0px;
-    
-}
-
-.carouselArrowRight {
-    right: 0;
-}
-
-
- 
+/* 
 .featuresSection {
     background-color: #f7f9fc;
-    padding: 5rem 0; 
+    padding: 5rem 0;
     text-align: center;
     color: #2d3748;
     position: relative;
-
     z-index: 1;
 }
 
-.featuresHeader {
-    margin-bottom: 3rem;
-}
-
+.featuresHeader { margin-bottom: 3rem; }
 .featuresHeader h2 {
     font-size: 2.8rem;
     font-weight: 700;
@@ -278,10 +255,7 @@
     color: #2d3748;
 }
 
-.brandName {
-    color: #4a5568;
-}
-
+.brandName { color: #4a5568; }
 .featuresHeader p {
     font-size: 1.1rem;
     color: #6c757d;
@@ -296,7 +270,6 @@
     gap: 66px;
     max-width: 1200px;
     margin: 0 auto;
-    
 }
 
 .featureCard {
@@ -316,11 +289,7 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.featureCard:hover h3 {
-  
-    color: #f05f40; /* Hover color */
-}
-
+.featureCard:hover h3 { color: #f05f40; }
 .featureIconBox {
     width: 70px;
     height: 70px;
@@ -336,175 +305,43 @@
 .iconBlue { background-color: #4361ee; }
 .iconGreen { background-color: #28a745; }
 .iconPurple { background-color: #6f42c1; }
-.iconOrange { background-color: #fd7e14; }
+.iconOrange { background-color: #fd7e14; } */
 
-.featureCard h3 {
+/* .featureCard h3 {
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 0.8rem;
     color: #2d3748;
-    transition: color 0.3s ease; /* Smooth color transition */
+    transition: color 0.3s ease;
 }
 
 .featureCard p {
     font-size: 0.95rem;
     color: #6c757d;
     line-height: 1.6;
-}
+} */
 
-
-/* Animations */
 @keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
 }
 
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .mainContent {
-        flex-direction: column;
-        text-align: center;
-        gap: 3rem;
-    }
-
-    .mainTitleContainer {
-        justify-content: center;
-    }
-
-    .welcomeHeading {
-        font-size: 3.5rem;
-    }
-
-    .navgurukulLogo {
-        height: 60px;
-    }
-
-    .description {
-        font-size: 1rem;
-    }
-
-    .howItWorksContainer {
-        grid-template-columns: 1fr;
-    }
-
-    .howItWorksCard {
-        padding: 1.5rem;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .howItWorksText h4 {
-        justify-content: center;
-    }
-
-    .outlineBtn {
-        padding: 0.7rem 1.5rem;
-        font-size: 0.9rem;
-    }
-
-    .imageCarouselWrapper {
-        width: 100%;
-        padding: 0 20px;
-    }
-
-    .imageCarousel {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjust for smaller screens */
-        gap: 0.5rem;
-    }
-
-    .carouselImage {
-        height: 120px;
-    }
-
-    .featuresSection {
-        padding: 3rem 5%;
-    }
-
-    .featuresHeader h2 {
-        font-size: 2.2rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .mainContent {
-        padding: 3rem 5%;
-    }
-
-    .welcomeHeading {
-        font-size: 2.5rem;
-    }
-
-    .navgurukulLogo {
-        height: 50px;
-    }
-
-    .featuresHeader h2 {
-        font-size: 1.8rem;
-    }
-
-    .featuresGrid {
-        grid-template-columns: 1fr;
-    }
-
-    .imageCarousel {
-        grid-template-columns: 1fr; /* Single column on very small screens */
-        gap: 1rem;
-    }
-
-    .carouselImage {
-        width: 100%;
-        height: 150px;
-    }
-
-    .carouselArrowLeft, .carouselArrowRight {
-        display: none; /* Hide arrows on very small screens if they clutter */
-    }
-}
- 
-
-
-/* src/components/RoleSelection.module.css */
-/* ... (Existing styles) ... */
-
-/* NAYA: Footer styles */
+/* 
 .navgurukulFooter {
     background-color: #fcdfd9;
     color: #555;
@@ -524,7 +361,7 @@
 }
 
 .footerLeft {
-    flex: 0 0 400px; /* Width increased for better spacing */
+    flex: 0 0 400px;
     margin-right: 2rem;
     text-align: left;
     display: flex;
@@ -569,7 +406,7 @@
 }
 
 .footerContactInfo {
-    margin-top: 1.5rem; /* Add margin to separate from logo */
+    margin-top: 1.5rem;
     font-size: 0.9rem;
     line-height: 1.6;
     color: #4a5568;
@@ -586,7 +423,7 @@
 }
 
 .footerRight {
-    display: flex; /* Changed from grid to flex for better control */
+    display: flex;
     flex-direction: column;
     gap: 1.5rem;
     flex-grow: 1;
@@ -624,7 +461,6 @@
     color: #f05f40;
 }
 
-/* NAYA: Style for the bottom copyright section */
 .footerBottom {
     padding-top: 1rem;
     margin-top: 2rem;
@@ -632,11 +468,68 @@
     text-align: center;
     font-size: 0.85rem;
     color: #777;
-}
+} */
 
-/* Media Queries for Responsiveness */
 @media (max-width: 992px) {
-    .footerContainer {
+   
+    .mainContent {
+        flex-direction: column;
+        text-align: center;
+        gap: 3rem;
+    }
+    .mainTitleContainer {
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    .welcomeHeading {
+        font-size: 3rem;
+    }
+    .navgurukulLogo {
+        height: 100px;
+    }
+    .description {
+        font-size: 1rem;
+    }
+    .howItWorksContainer {
+        grid-template-columns: 1fr;
+    }
+    .howItWorksCard {
+        padding: 1.5rem;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .howItWorksText h4 {
+        justify-content: center;
+    }
+    .outlineBtn {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+    }
+   
+    .imageCarouselWrapper {
+        padding: 0 20px;
+    }
+    .imageCarousel {
+       
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    .carouselImage {
+        width: 100%;
+        height: 200px;
+    }
+   
+    /* .featuresGrid {
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        gap: 2rem;
+    }
+    .featureCard {
+        padding: 2rem 1rem;
+    }
+   */
+    /* .footerContainer {
         flex-direction: column;
         align-items: center;
         text-align: center;
@@ -656,11 +549,55 @@
     }
     .footerColumn {
         text-align: center;
-    }
+    } */
 }
-
 @media (max-width: 576px) {
-    .navgurukulFooter {
+  
+    .mainContent {
+        padding: 3rem 5%;
+    }
+    .welcomeHeading {
+        font-size: 2.5rem;
+    }
+    .navgurukulLogo {
+        height: 50px;
+    }
+    .description {
+        font-size: 1rem;
+    }
+    .howItWorksContainer {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+    }
+    .howItWorksCard {
+        padding: 1rem;
+    }
+   
+    .imageCarouselWrapper {
+        padding: 0;
+    }
+    .imageCarousel {
+       
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .carouselImage {
+        width: 100%;
+        height: 150px;
+    }
+    .carouselArrowLeft, .carouselArrowRight {
+        display: none;
+    }
+  
+    /* .featuresGrid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .featureCard {
+        padding: 1.5rem 1rem;
+    } */
+ 
+    /* .navgurukulFooter {
         padding: 2rem 5%;
     }
     .footerRight {
@@ -668,5 +605,296 @@
     }
     .footerColumn {
         text-align: center;
+    } */
+}
+
+
+
+
+
+/* src/components/RoleSelection.module.css */
+
+/* --- Existing styles (main content, etc.) remain unchanged --- */
+
+/* ============================== */
+/* --- FOOTER STYLES (Responsive) --- */
+/* ============================== */
+
+/* Main Footer Container */
+.navgurukulFooter {
+    background-color: #fcdfd9;
+    color: #555;
+    padding: 3rem 8%;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+}
+
+.footerContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Items ko upar se align rakhe */
+    flex-wrap: wrap; /* Chote screens par wrap hone de */
+    max-width: 1200px;
+    margin: 0 auto 2rem auto;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 2rem;
+}
+
+/* Left Column - Logo and Info */
+.footerLeft {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Left align kare */
+    text-align: left;
+    max-width: 400px; /* Width ko thoda kam kiya */
+    gap: 1.5rem; /* Elements ke beech space */
+}
+
+.footerLogoSection {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.navgurukulFooterLogo {
+    height: 70px;
+    width: auto;
+}
+
+.footerContactInfo {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #4a5568;
+    margin: 0;
+    padding: 0;
+}
+
+/* Social Icons */
+.footerSocialIcons {
+    display: flex;
+    gap: 1rem;
+}
+
+.footerSocialIcons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #f05f40;
+    border: solid #f05f40 1px;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.footerSocialIcons a:hover {
+    background-color: #f05f40;
+    color: #fff;
+}
+
+/* Right Columns - Links */
+.footerRight {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Auto-fit columns */
+    gap: 1.5rem;
+}
+
+.footerColumn {
+    text-align: center;
+}
+
+.footerColumn h4 {
+    font-size: 1.2rem; /* Thoda bada font size */
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+}
+
+.footerColumn ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footerColumn ul li {
+    margin-bottom: 0.75rem;
+}
+
+.footerColumn ul li a {
+    color: #3f3f3f;
+    font-size: 1rem; /* Thoda bada font size */
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footerColumn ul li a:hover {
+    color: #f05f40;
+}
+
+/* Bottom Copyright Section */
+.footerBottom {
+    padding-top: 1rem;
+    margin-top: 1rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* ================================== */
+/* --- MOBILE RESPONSIVE STYLES --- */
+/* ================================== */
+
+@media (max-width: 768px) {
+    /* Footer ka layout mobile ke liye badla */
+    .navgurukulFooter {
+        padding: 2rem 5%; /* Mobile ke liye padding kam ki */
+    }
+
+    .footerContainer {
+        flex-direction: column; /* Columns ko ek ke neeche ek rakha */
+        align-items: center;
+        text-align: center;
+    }
+
+    .footerLeft {
+        align-items: center;
+        text-align: center;
+        margin-right: 0;
+        margin-bottom: 2rem;
+    }
+
+    .footerSocialIcons {
+        justify-content: center;
+    }
+
+    .footerRight {
+        grid-template-columns: 1fr; /* Mobile par har column full width ka hoga */
+        gap: 2rem;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+/* src/components/RoleSelection.module.css */
+
+/* ... (Your existing styles) ... */
+
+/* Features Section */
+.featuresSection {
+    background-color: #f7f9fc;
+    padding: 5rem 0;
+    text-align: center;
+    color: #2d3748;
+    position: relative;
+    z-index: 1;
+}
+
+.featuresHeader { margin-bottom: 3rem; }
+.featuresHeader h2 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+}
+
+.brandName { color: #4a5568; }
+.featuresHeader p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.featuresGrid {
+    display: grid;
+    /* NAYA: responsive grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 66px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem; /* NAYA: Padding for mobile to prevent overflow */
+}
+
+.featureCard {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 2.5rem 1.5rem;
+    /* width: 250px; /* Purana fixed width */
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.featureCard:hover {
+    transform: translateY(-10px);
+    border: 2px solid #f4bfb5;
+    background-color: #f7e6e4;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.featureCard:hover h3 { color: #f05f40; }
+.featureIconBox {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    margin: 0 auto 1.5rem auto;
+    color: #fff;
+}
+
+.iconBlue { background-color: #4361ee; }
+.iconGreen { background-color: #28a745; }
+.iconPurple { background-color: #6f42c1; }
+.iconOrange { background-color: #fd7e14; }
+
+.featureCard h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: #2d3748;
+    transition: color 0.3s ease;
+}
+
+.featureCard p {
+    font-size: 0.95rem;
+    color: #6c757d;
+    line-height: 1.6;
+}
+
+/* ... (Your other styles) ... */
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    /* ... (Your existing media query styles) ... */
+
+    .featuresGrid {
+        /* NAYA: Tablet screens ke liye gap kam kiya */
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    /* ... (Your existing media query styles) ... */
+
+    .featuresGrid {
+        /* NAYA: Mobile screens ke liye ek hi column */
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 }
