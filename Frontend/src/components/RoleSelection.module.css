@@ -1,3 +1,6 @@
+body{
+    overflow: scroll !important;
+}
 .pageWrapper {
   color: #2d3748; /* Default text color for light background */
   min-height: 100vh;

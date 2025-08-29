@@ -199,3 +199,16 @@ body, html {
 .skipCountBadge { background-color: #e2e8f0; color: #4a5568; font-weight: bold; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
 .noStudentFound { text-align: center; color: #718096; padding: 1rem; }
 .loading { display: flex; justify-content: center; align-items: center; height: 100vh; font-size: 1.5rem; color: #2d3748; }
+
+.approvedCountDiv {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+}
