@@ -1,3 +1,298 @@
+// // src/components/StudentDashboard.jsx
+
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
+// import Navbar from './Navbar';
+// import styles from './StudentDashboard.module.css';
+
+// const StudentDashboard = () => {
+//     const [allStudents, setAllStudents] = useState([]);
+//     const [todayTeam, setTodayTeam] = useState([]);
+//     const [tomorrowTeam, setTomorrowTeam] = useState([]);
+//     const [error, setError] = useState(null);
+
+//     const fetchAllStudents = async () => {
+//         try {
+//             const response = await axios.get('http://localhost:5000/students/all');
+//             const sortedStudents = response.data.sort((a, b) => {
+//                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
+//                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
+//                 return 0;
+//             });
+//             setAllStudents(sortedStudents);
+//             setError(null);
+//         } catch (err) {
+//             setError('Failed to load all students.');
+//             console.error("Error fetching all students:", err);
+//         }
+//     };
+
+//     const fetchActiveStudentsForTeams = async () => {
+//         try {
+//             const response = await axios.get('http://localhost:5000/students/active');
+//             const activeStudents = response.data;
+            
+//             if (activeStudents.length >= 10) { // Ab 10 students ki zaroorat hai
+//                 const initialTodayTeam = activeStudents.slice(0, 5);
+//                 const initialTomorrowTeam = activeStudents.slice(5, 10);
+//                 setTodayTeam(initialTodayTeam);
+//                 setTomorrowTeam(initialTomorrowTeam);
+//             } else if (activeStudents.length > 5) {
+//                 const initialTodayTeam = activeStudents.slice(0, 5);
+//                 const initialTomorrowTeam = activeStudents.slice(5);
+//                 setTodayTeam(initialTodayTeam);
+//                 setTomorrowTeam(initialTomorrowTeam);
+//             } else {
+//                 setTodayTeam(activeStudents);
+//                 setTomorrowTeam([]);
+//             }
+//             setError(null);
+//         } catch (err) {
+//             setError('Failed to load kitchen teams.');
+//             console.error("Error fetching active students:", err);
+//         }
+//     };
+
+//     useEffect(() => {
+//         // Shuru mein data fetch karein
+//         fetchAllStudents();
+//         fetchActiveStudentsForTeams();
+        
+//         // ⏰ Har 1 minute (60000ms) baad data refresh karein
+//         const refreshInterval = setInterval(() => {
+//             fetchAllStudents();
+//             fetchActiveStudentsForTeams();
+//         }, 86400000); 
+
+//         return () => clearInterval(refreshInterval);
+//     }, []);
+
+//     const handleStatusChange = async (studentId, newStatus) => {
+//         try {
+//             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
+//             // Data ko update karne ke baad fir se fetch karein
+//             fetchAllStudents();
+//             fetchActiveStudentsForTeams();
+//             setError(null);
+//         } catch (err) {
+//             setError('Failed to update student status.');
+//             console.error("Error updating status:", err);
+//         }
+//     };
+
+//     return (
+//         <div className={styles.pageWrapper}>
+//             <Navbar showRegister={false} showSkipRequest={true}/>
+            
+//             <main className={styles.overviewContainer}>
+//                 <div className={styles.overviewHeader}>
+//                     <div className={styles.titleLogoIcon}>
+//                         <div className={styles.titleLogoShape}></div>
+//                     </div>
+//                     <h1>Kitchen Turn Overview</h1>
+//                 </div>
+//                 {/* Yahan par hum date ko dynamic nahi rakh rahe hain, lekin aap ise aage kar sakte hain */}
+//                 <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
+                
+//                 {error && <div className={styles.errorMessage}>{error}</div>}
+
+//                 <div className={styles.teamsDisplayContainer}>
+//                     <div className={styles.teamDisplayCard}>
+//                         <div className={styles.teamCardHeader}>
+//                             <FaUsers className={styles.teamIcon} /><h3>Today's Kitchen Team</h3>
+//                         </div>
+//                         <ul className={styles.teamList}>
+//                             {todayTeam.length > 0 ? todayTeam.map(({ _id, name }) => <li key={_id}>{name}</li>) : <li>No team assigned yet.</li>}
+//                         </ul>
+//                     </div>
+//                     <div className={styles.teamDisplayCard}>
+//                         <div className={styles.teamCardHeader}>
+//                             <FaCalendarAlt className={styles.teamIcon} /><h3>Tomorrow's Kitchen Team</h3>
+//                         </div>
+//                         <ul className={styles.teamList}>
+//                             {tomorrowTeam.length > 0 ? tomorrowTeam.map(({ _id, name }) => <li key={_id}>{name}</li>) : <li>No team assigned yet.</li>}
+//                         </ul>
+//                     </div>
+//                 </div>
+                
+//                 <div className={styles.allStudentsContainer}>
+//                     <h2>All Students</h2>
+//                     <div className={styles.allStudentsGrid}>
+//                         {allStudents.map(({ _id, name, status, joiningDate }) => (
+//                             <div className={styles.overviewStudentCard} key={_id}>
+//                                 <div className={styles.studentInfo}>
+//                                     <p className={styles.studentName}>{name}</p>
+//                                     <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
+//                                 </div>
+//                                 <select
+//                                     className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
+//                                     value={status}
+//                                     onChange={(e) => handleStatusChange(_id, e.target.value)}
+//                                 >
+//                                     <option value="active">ACTIVE</option>
+//                                     <option value="inactive">INACTIVE</option>
+//                                     <option value="on_leave">ON LEAVE</option>
+//                                 </select>
+//                             </div>
+//                         ))}
+//                     </div>
+//                 </div>
+//             </main>
+//         </div>
+//     );
+// };
+
+// export default StudentDashboard;
+
+
+// src/components/StudentDashboard.jsx
+
+// import React, { useState, useEffect } from 'react';
+// import axios from 'axios';
+// import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
+// import Navbar from './Navbar';
+// import styles from './StudentDashboard.module.css';
+
+// const StudentDashboard = () => {
+//     const [allStudents, setAllStudents] = useState([]);
+//     const [todayTeam, setTodayTeam] = useState([]);
+//     const [tomorrowTeam, setTomorrowTeam] = useState([]);
+//     const [error, setError] = useState(null);
+
+//     const fetchAllStudents = async () => {
+//         try {
+//             const response = await axios.get('http://localhost:5000/students/all');
+//             const sortedStudents = response.data.sort((a, b) => {
+//                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
+//                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
+//                 return 0;
+//             });
+//             setAllStudents(sortedStudents);
+//             setError(null);
+//         } catch (err) {
+//             setError('Failed to load all students.');
+//             console.error("Error fetching all students:", err);
+//         }
+//     };
+
+//     const fetchActiveStudentsForTeams = async () => {
+//         try {
+//             const response = await axios.get('http://localhost:5000/students/active');
+//             const activeStudents = response.data;
+            
+//             if (activeStudents.length >= 10) { 
+//                 const initialTodayTeam = activeStudents.slice(0, 5);
+//                 const initialTomorrowTeam = activeStudents.slice(5, 10);
+//                 setTodayTeam(initialTodayTeam);
+//                 setTomorrowTeam(initialTomorrowTeam);
+//             } else if (activeStudents.length > 5) {
+//                 const initialTodayTeam = activeStudents.slice(0, 5);
+//                 const initialTomorrowTeam = activeStudents.slice(5);
+//                 setTodayTeam(initialTodayTeam);
+//                 setTomorrowTeam(initialTomorrowTeam);
+//             } else {
+//                 setTodayTeam(activeStudents);
+//                 setTomorrowTeam([]);
+//             }
+//             setError(null);
+//         } catch (err) {
+//             setError('Failed to load kitchen teams.');
+//             console.error("Error fetching active students:", err);
+//         }
+//     };
+
+//     useEffect(() => {
+//         // Initial data fetch when the component mounts
+//         fetchAllStudents();
+//         fetchActiveStudentsForTeams();
+        
+//         // ⏰ Set interval to refresh data every 1 minute (60000ms)
+//         const refreshInterval = setInterval(() => {
+//             console.log('Refreshing data...');
+//             fetchAllStudents();
+//             fetchActiveStudentsForTeams();
+//         }, 60000); 
+
+//         // Cleanup function to clear the interval when the component unmounts
+//         return () => clearInterval(refreshInterval);
+//     }, []);
+
+//     const handleStatusChange = async (studentId, newStatus) => {
+//         try {
+//             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
+//             fetchAllStudents();
+//             fetchActiveStudentsForTeams();
+//             setError(null);
+//         } catch (err) {
+//             setError('Failed to update student status.');
+//             console.error("Error updating status:", err);
+//         }
+//     };
+
+//     return (
+//         <div className={styles.pageWrapper}>
+//             <Navbar showRegister={false} showSkipRequest={true}/>
+            
+//             <main className={styles.overviewContainer}>
+//                 <div className={styles.overviewHeader}>
+//                     <div className={styles.titleLogoIcon}>
+//                         <div className={styles.titleLogoShape}></div>
+//                     </div>
+//                     <h1>Kitchen Turn Overview</h1>
+//                 </div>
+//                 <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
+                
+//                 {error && <div className={styles.errorMessage}>{error}</div>}
+
+//                 <div className={styles.teamsDisplayContainer}>
+//                     <div className={styles.teamDisplayCard}>
+//                         <div className={styles.teamCardHeader}>
+//                             <FaUsers className={styles.teamIcon} /><h3>Today's Kitchen Team</h3>
+//                         </div>
+//                         <ul className={styles.teamList}>
+//                             {todayTeam.length > 0 ? todayTeam.map(({ _id, name }) => <li key={_id}>{name}</li>) : <li>No team assigned yet.</li>}
+//                         </ul>
+//                     </div>
+//                     <div className={styles.teamDisplayCard}>
+//                         <div className={styles.teamCardHeader}>
+//                             <FaCalendarAlt className={styles.teamIcon} /><h3>Tomorrow's Kitchen Team</h3>
+//                         </div>
+//                         <ul className={styles.teamList}>
+//                             {tomorrowTeam.length > 0 ? tomorrowTeam.map(({ _id, name }) => <li key={_id}>{name}</li>) : <li>No team assigned yet.</li>}
+//                         </ul>
+//                     </div>
+//                 </div>
+                
+//                 <div className={styles.allStudentsContainer}>
+//                     <h2>All Students</h2>
+//                     <div className={styles.allStudentsGrid}>
+//                         {allStudents.map(({ _id, name, status, joiningDate }) => (
+//                             <div className={styles.overviewStudentCard} key={_id}>
+//                                 <div className={styles.studentInfo}>
+//                                     <p className={styles.studentName}>{name}</p>
+//                                     <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
+//                                 </div>
+//                                 <select
+//                                     className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
+//                                     value={status}
+//                                     onChange={(e) => handleStatusChange(_id, e.target.value)}
+//                                 >
+//                                     <option value="active">ACTIVE</option>
+//                                     <option value="inactive">INACTIVE</option>
+//                                     <option value="on_leave">ON LEAVE</option>
+//                                 </select>
+//                             </div>
+//                         ))}
+//                     </div>
+//                 </div>
+//             </main>
+//         </div>
+//     );
+// };
+
+// export default StudentDashboard;
+
 // src/components/StudentDashboard.jsx
 
 import React, { useState, useEffect } from 'react';
@@ -13,6 +308,7 @@ const StudentDashboard = () => {
     const [error, setError] = useState(null);
 
     const fetchAllStudents = async () => {
+        // ... (existing code for fetching all students)
         try {
             const response = await axios.get('http://localhost:5000/students/all');
             const sortedStudents = response.data.sort((a, b) => {
@@ -29,11 +325,12 @@ const StudentDashboard = () => {
     };
 
     const fetchActiveStudentsForTeams = async () => {
+        // ... (existing code for fetching active students)
         try {
             const response = await axios.get('http://localhost:5000/students/active');
             const activeStudents = response.data;
             
-            if (activeStudents.length >= 10) { // Ab 10 students ki zaroorat hai
+            if (activeStudents.length >= 10) { 
                 const initialTodayTeam = activeStudents.slice(0, 5);
                 const initialTomorrowTeam = activeStudents.slice(5, 10);
                 setTodayTeam(initialTodayTeam);
@@ -55,12 +352,13 @@ const StudentDashboard = () => {
     };
 
     useEffect(() => {
-        // Shuru mein data fetch karein
+        // Initial data fetch
         fetchAllStudents();
         fetchActiveStudentsForTeams();
         
-        // ⏰ Har 1 minute (60000ms) baad data refresh karein
+        // ⏰ Set interval to refresh data every 24 hours (86400000ms)
         const refreshInterval = setInterval(() => {
+            console.log('Refreshing data after 24 hours...');
             fetchAllStudents();
             fetchActiveStudentsForTeams();
         }, 86400000); 
@@ -68,10 +366,12 @@ const StudentDashboard = () => {
         return () => clearInterval(refreshInterval);
     }, []);
 
+    // ... (rest of the component remains the same)
+
     const handleStatusChange = async (studentId, newStatus) => {
+        // ... (existing code)
         try {
             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
-            // Data ko update karne ke baad fir se fetch karein
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);
@@ -92,8 +392,7 @@ const StudentDashboard = () => {
                     </div>
                     <h1>Kitchen Turn Overview</h1>
                 </div>
-                {/* Yahan par hum date ko dynamic nahi rakh rahe hain, lekin aap ise aage kar sakte hain */}
-                <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
+                <p className={styles.overviewSubtitle}>Day 1 - Monday, August 29, 2025</p>
                 
                 {error && <div className={styles.errorMessage}>{error}</div>}
 
