@@ -56,7 +56,7 @@ const StudentDashboard = () => {
         const refreshInterval = setInterval(() => {
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        }, 86400000); // 24 hours = 86400000ms
+        }, 60000); // 24 hours = 86400000ms
 
         return () => clearInterval(refreshInterval);
     }, []);
@@ -138,5 +138,12 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
+
+
+
+
+
+
+
 
 
