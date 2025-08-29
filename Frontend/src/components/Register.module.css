@@ -1,12 +1,121 @@
 /* frontend/src/components/Register.module.css */
-.pageWrapper { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 2rem; background: linear-gradient(135deg, #f3f4ff 0%, #e1e2f6 100%); box-sizing: border-box; }
-.formCard { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 30px rgba(0,0,0,0.1); width: 100%; max-width: 550px; height: 630px;}
-.formHeader { background-color: #f27559; color: #fff; padding: 1.5rem 2rem; text-align: center; }
-.formHeader h2 { margin: 0; font-size: 28px;}
-.formHeader p { margin: 0.25rem 0 0 0; opacity: 0.9; font-size: 20px;}
-.formBody { padding: 1.50rem; display: flex; flex-direction: column; gap: 1.75rem; }
-.formGroup { display: flex; flex-direction: column; gap: 0.5rem; }
-.formGroup label { font-weight: 500; color: #4a5568; font-size: 19px;}
-.formGroup input { width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
-.submitButton { background-color: #f27559; color: #fff; border: none; padding: 1rem; border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;  font-size: 24px;}
-.submitButton:hover { background-color: #fff; color: #f27559; border: solid #f27559 2px;  }
+
+.pageWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f3f4ff 0%, #e1e2f6 100%);
+    box-sizing: border-box;
+}
+
+.formCard {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 550px;
+    /* Removed fixed height to make it responsive */
+}
+
+.formHeader {
+    background-color: #f27559;
+    color: #fff;
+    padding: 1.5rem 2rem;
+    text-align: center;
+}
+
+.formHeader h2 {
+    margin: 0;
+    font-size: 2rem; /* Adjusted font size for responsiveness */
+}
+
+.formHeader p {
+    margin: 0.25rem 0 0 0;
+    opacity: 0.9;
+    font-size: 1.2rem; /* Adjusted font size for responsiveness */
+}
+
+.formBody {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.formGroup label {
+    font-weight: 500;
+    color: #4a5568;
+    font-size: 1.1rem; /* Adjusted font size for readability */
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.submitButton {
+    background-color: #f27559;
+    color: #fff;
+    border: none;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 1.25rem; /* Adjusted font size for responsiveness */
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submitButton:hover {
+    background-color: #fff;
+    color: #f27559;
+    border: solid #f27559 2px;
+}
+
+/* --- Responsive Styles for Mobile and Tablets --- */
+@media (max-width: 576px) {
+    .pageWrapper {
+        padding: 1rem; /* Reduced padding on small screens */
+    }
+
+    .formCard {
+        max-width: 100%; /* Make the card take full width */
+    }
+
+    .formHeader {
+        padding: 1rem; /* Reduced padding on header */
+    }
+
+    .formHeader h2 {
+        font-size: 1.5rem; /* Smaller font for mobile */
+    }
+
+    .formHeader p {
+        font-size: 1rem; /* Smaller font for mobile */
+    }
+
+    .formBody {
+        padding: 1rem;
+        gap: 1.25rem; /* Reduced gap between form groups */
+    }
+
+    .formGroup label {
+        font-size: 1rem; /* Adjusted font size */
+    }
+
+    .submitButton {
+        font-size: 1.1rem; /* Adjusted font size */
+    }
+}
