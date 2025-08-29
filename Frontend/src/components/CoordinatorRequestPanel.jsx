@@ -1,37 +1,58 @@
+// src/components/CoordinatorRequestPanel.jsx (FINAL CODE - HANDLES MISSING BACKEND ROUTE)
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import { FaUserShield, FaExclamationCircle } from 'react-icons/fa';
+import { FaUserShield, FaExclamationCircle, FaSearch } from 'react-icons/fa';
 import styles from './CoordinatorRequestPanel.module.css';
 import Navbar from './Navbar'; 
 
 const CoordinatorRequestPanel = () => {
     const [requests, setRequests] = useState([]);
+    const [studentStats, setStudentStats] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
 
-    const fetchRequests = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/skip-requests/');
-            setRequests(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setLoading(false);
+    // === SIRF IS FUNCTION ME CHANGE KIYA GAYA HAI ===
+    const fetchData = async () => {
+        setLoading(true);
+
+        const requestsPromise = axios.get('http://localhost:5000/skip-requests/');
+        const statsPromise = axios.get('http://localhost:5000/skip-requests/stats');
+
+        // Promise.allSettled istemaal karenge taaki ek API fail hone par doosri chalti rahe
+        const [requestsResult, statsResult] = await Promise.allSettled([requestsPromise, statsPromise]);
+
+        // Requests wala data check karein
+        if (requestsResult.status === 'fulfilled') {
+            const sortedRequests = requestsResult.value.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            setRequests(sortedRequests);
+        } else {
+            console.error("Error fetching requests:", requestsResult.reason.message);
         }
+
+        // Stats wala data check karein
+        if (statsResult.status === 'fulfilled') {
+            setStudentStats(statsResult.value.data);
+        } else {
+            // Agar stats wala route nahi milta (404 Error), to console me error dikhao, lekin app crash mat karo
+            console.error("Could not fetch student stats (backend route '/stats' might be missing):", statsResult.reason.message);
+            setStudentStats([]); // Stats ko khaali set kar do
+        }
+
+        setLoading(false);
     };
 
     useEffect(() => {
-        fetchRequests();
+        fetchData();
+        const intervalId = setInterval(fetchData, 15000);
+        return () => clearInterval(intervalId);
     }, []);
 
     const handleApprove = async (id, studentName) => {
         try {
             await axios.patch(`http://localhost:5000/skip-requests/approve/${id}`, { studentName });
-            const updatedRequests = requests.map(request =>
-                request._id === id ? { ...request, status: 'Approved' } : request
-            );
-            setRequests(updatedRequests);
             alert(`${studentName} ki request approved hai.`);
+            fetchData();
         } catch (error) {
             console.error("Error approving request:", error);
             alert("Approval failed.");
@@ -41,90 +62,103 @@ const CoordinatorRequestPanel = () => {
     const handleReject = async (id) => {
         try {
             await axios.patch(`http://localhost:5000/skip-requests/reject/${id}`);
-            const updatedRequests = requests.map(request =>
-                request._id === id ? { ...request, status: 'Rejected' } : request
-            );
-            setRequests(updatedRequests);
             alert("Request rejected.");
+            fetchData();
         } catch (error) {
             console.error("Error rejecting request:", error);
             alert("Rejection failed.");
         }
     };
+    
+    const filteredStats = studentStats.filter(student => 
+        student.studentName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     if (loading) {
-        return <div className={styles.loading}>Loading requests...</div>;
+        return <div className={styles.loading}>Loading Dashboard...</div>;
     }
 
     return (
         <div className={styles.pageWrapper}>
             <Navbar />
             
-            <main className={styles.mainContent}>
-                <div className={styles.titleSection}>
-                    <FaUserShield className={styles.titleIcon} />
-                    <h1>Coordinator Requests</h1>
-                    <p>View and manage all incoming kitchen turn skip requests.</p>
-                </div>
+            <div className={styles.titleSection}>
+                <FaUserShield className={styles.titleIcon} />
+                <h1>Coordinator Dashboard</h1>
+                <p>View and manage all incoming kitchen turn skip requests.</p>
+            </div>
 
-                {/* Yahan se Stat Cards aur Filter Tabs hata diye gaye hain */}
+            <main className={styles.dashboardContainer}>
                 
-                <div className={styles.requestsGrid}>
-                    {requests.length === 0 ? (
-                        <div className={styles.emptyState}>
-                            <FaExclamationCircle />
-                            <p>No requests found</p>
-                            <span>All requests have been processed.</span>
-                        </div>
-                    ) : (
-                        requests.map(request => (
-                            <div key={request._id} className={`${styles.requestCard} ${styles[request.status.toLowerCase()]}`}>
-                                <div className={styles.cardHeader}>
-                                    <h3 className={styles.kitchenName}>Main Kitchen</h3>
-                                    <div className={`${styles.statusBadge} ${styles[request.status.toLowerCase()]}`}>
-                                        {request.status}
+                {/* Section 1: All Requests */}
+                <div className={styles.requestsContainer}>
+                    <h2>All Requests</h2>
+                    <div className={styles.requestsGrid}>
+                        {requests.length === 0 ? (
+                            <div className={styles.emptyState}>
+                                <FaExclamationCircle />
+                                <p>No Requests Found</p>
+                            </div>
+                        ) : (
+                            requests.map(request => (
+                                <div key={request._id} className={`${styles.requestCard} ${styles[request.status.toLowerCase()]}`}>
+                                    <div className={styles.cardHeader}>
+                                        <h3>Main Kitchen</h3>
+                                        <div className={`${styles.statusBadge} ${styles[request.status.toLowerCase()]}`}>
+                                            {request.status}
+                                        </div>
+                                    </div>
+                                    <div className={styles.requestDetails}>
+                                        <p><strong>Skip Date:</strong> {new Date(request.startDate).toLocaleDateString()}</p>
+                                        <p><strong>Requested By:</strong> {request.studentName}</p>
+                                        <p><strong>Reason:</strong> {request.reason}</p>
+                                    </div>
+                                    <div className={styles.actions}>
+                                        {request.status === 'Pending' ? (
+                                            <>
+                                                <button onClick={() => handleApprove(request._id, request.studentName)} className={`${styles.actionButton} ${styles.approveButton}`}>Approve</button>
+                                                <button onClick={() => handleReject(request._id)} className={`${styles.actionButton} ${styles.rejectButton}`}>Reject</button>
+                                            </>
+                                        ) : (
+                                            <span className={styles.actionTaken}>Action Taken</span>
+                                        )}
                                     </div>
                                 </div>
-                                <div className={styles.requestDetails}>
-                                    <p><strong>Skip Date:</strong> {new Date(request.startDate).toLocaleDateString()}</p>
-                                    <p><strong>Requested By:</strong> {request.studentName}</p>
-                                    <p><strong>Reason:</strong> {request.reason}</p>
-                                </div>
-                                <div className={styles.actions}>
-                                    {request.status === 'Pending' ? (
-                                        <>
-                                            <button
-                                                onClick={() => handleApprove(request._id, request.studentName)}
-                                                className={`${styles.actionButton} ${styles.approveButton}`}>
-                                                Approve
-                                            </button>
-                                            <button
-                                                onClick={() => handleReject(request._id, request.studentName)}
-                                                className={`${styles.actionButton} ${styles.rejectButton}`}>
-                                                Reject
-                                            </button>
-                                        </>
-                                    ) : (
-                                        <span className={styles.actionTaken}>Action Taken</span>
-                                    )}
-                                </div>
-                            </div>
-                        ))
-                    )}
+                            ))
+                        )}
+                    </div>
                 </div>
+
+                {/* Section 2: Sidebar */}
+                <aside className={styles.statsSidebar}>
+                    <h3>Student Skip History</h3>
+                    <div className={styles.searchBox}>
+                        <FaSearch className={styles.searchIcon} />
+                        <input 
+                            type="text" 
+                            placeholder="Search student..." 
+                            className={styles.searchInput}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                    </div>
+                    <ul className={styles.studentList}>
+                        {filteredStats.length > 0 ? (
+                            filteredStats.map((student, index) => (
+                                <li key={index} className={styles.studentListItem}>
+                                    <span>{student.studentName}</span>
+                                    <span className={styles.skipCountBadge}>{student.skipCount}</span>
+                                </li>
+                            ))
+                        ) : (
+                            <li className={styles.noStudentFound}>No student found.</li>
+                        )}
+                    </ul>
+                </aside>
+
             </main>
         </div>
     );
 };
 
 export default CoordinatorRequestPanel;
-
-
-
-
-
-
-
-
-
-

@@ -1,56 +1,4 @@
-// // backend/index.js
-
-// import express from "express";
-// import cors from "cors";
-// import mongoose from "mongoose";
-// import 'dotenv/config'; 
-// import cron from 'node-cron'; // cron import karein
-
-// // Import statements
-// import studentsRouter from './routes/students.js';
-// import skipRequestsRouter from './routes/skipRequests.js';
-// import authRouter from './routes/auth.js'; 
-// import menuRouter from './routes/menu.js';
-
-// const app = express();
-// const port = 5000;
-
-// app.use(cors());
-// app.use(express.json());
-
-// const uri = process.env.MONGO_URI;
-// mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-// const connection = mongoose.connection;
-// connection.once('open', () => {
-//   console.log("✅ MongoDB database connection established successfully");
-// });
-
-// app.use('/students', studentsRouter); 
-// app.use('/skip-requests', skipRequestsRouter);
-// app.use('/api/auth', authRouter); 
-// app.use('/menu', menuRouter);
-
-// // ⏰ Naya CRON JOB jo har 1 minute baad chalega
-// // Ismein hum 'advance-day' route ko call karenge
-// cron.schedule('0 6 * * * *', async () => {
-//     console.log('⏰ Running 1-minute kitchen team rotation...');
-//     try {
-//         const response = await fetch('http://localhost:5000/students/advance-day', {
-//             method: 'POST',
-//             headers: { 'Content-Type': 'application/json' }
-//         });
-//         const result = await response.json();
-//         console.log(`✅ Rotation successful: ${result}`);
-//     } catch (error) {
-//         console.error("🚫 Error during 1-minute rotation:", error);
-//     }
-// });
-
-// app.listen(port, () => {
-//   console.log(`🚀 Server started on http://localhost:${port}`);
-// });
-
-// backend/index.js
+// backend/index.js (Updated with Correct Rotation Logic)
 
 import express from "express";
 import cors from "cors";
@@ -58,6 +6,9 @@ import mongoose from "mongoose";
 import 'dotenv/config'; 
 import cron from 'node-cron'; 
 
+import Student from './models/student.model.js'; 
+
+// Import statements ko sahi kiya gaya hai
 import studentsRouter from './routes/students.js';
 import skipRequestsRouter from './routes/skipRequests.js';
 import authRouter from './routes/auth.js'; 
@@ -70,7 +21,8 @@ app.use(cors());
 app.use(express.json());
 
 const uri = process.env.MONGO_URI;
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+// Deprecated options hata diye gaye hain, naye Mongoose version ko inki zaroorat nahi
+mongoose.connect(uri); 
 const connection = mongoose.connection;
 connection.once('open', () => {
   console.log("✅ MongoDB database connection established successfully");
@@ -81,27 +33,60 @@ app.use('/skip-requests', skipRequestsRouter);
 app.use('/api/auth', authRouter); 
 app.use('/menu', menuRouter);
 
-// ⏰ Naya CRON JOB jo ab har din subah 6 AM par chalega
-// '0 6 * * *' ka matlab hai:
-// 0: Minute (0)
-// 6: Hour (6 AM)
-// *: Day of month (Har din)
-// *: Month (Har mahine)
-// *: Day of week (Hafte ke har din)
-cron.schedule('0 6 * * *', async () => {
-    console.log('⏰ Running daily kitchen team rotation...');
-    try {
-        const response = await fetch('http://localhost:5000/students/advance-day', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' }
-        });
-        const result = await response.json();
-        console.log(`✅ Rotation successful: ${result}`);
-    } catch (error) {
-        console.error("🚫 Error during daily rotation:", error);
-    }
+// KITCHEN TEAM ROTATION CRON JOB (CORRECTED LOGIC)
+// Testing ke liye har minute chalega ('*/1 * * * *')
+// KITCHEN TEAM ROTATION CRON JOB (FINAL & SIMPLER LOGIC)
+
+
+// KITCHEN TEAM ROTATION CRON JOB (FINAL & SIMPLER LOGIC)
+// KITCHEN TEAM ROTATION CRON JOB (FINAL TEAM-BASED LOGIC)
+cron.schedule('*/1 * * * *', async () => {
+  console.log('⏰ Running daily kitchen team rotation...');
+  try {
+      const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
+      
+      const teamSize = 5;
+      if (activeStudents.length >= teamSize) {
+          
+          // Step 1: Purani team aur baaki students ko alag karein
+          const onDutyTeam = activeStudents.slice(0, teamSize);
+          const offDutyStudents = activeStudents.slice(teamSize);
+
+          // Step 2: Naya order banayein (purani team aakhir mein)
+          const newOrder = [...offDutyStudents, ...onDutyTeam];
+          
+          // Step 3: Safe tareeke se naya order database mein update karein
+          // Pehle sabko temporary "safe" zone mein bhejenge
+          const tempUpdatePromises = newOrder.map((student, index) => 
+              Student.findByIdAndUpdate(student._id, { turnOrder: index + 1000 })
+          );
+          await Promise.all(tempUpdatePromises);
+
+          // Phir sabko unka final naya turnOrder denge (0, 1, 2...)
+          const finalUpdatePromises = newOrder.map((student, index) => 
+              Student.findByIdAndUpdate(student._id, { turnOrder: index })
+          );
+          await Promise.all(finalUpdatePromises);
+          
+          console.log(`✅ Team Rotation Successful. ${teamSize} students moved to the end of the line.`);
+
+      } else {
+          console.log(`❌ Not enough active students for a team rotation of ${teamSize}.`);
+      }
+  } catch (error) {
+      console.error("🚫 Error during team rotation cron job:", error);
+  }
 });
 
 app.listen(port, () => {
   console.log(`🚀 Server started on http://localhost:${port}`);
 });
+
+
+
+
+
+
+
+
+
