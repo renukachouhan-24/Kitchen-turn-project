@@ -6,8 +6,8 @@ const { Schema } = mongoose;
 const skipRequestSchema = new Schema({
   studentName: { type: String, required: true },
   reason: { type: String, required: true },
-  startDate: { type: Date, required: true },
-  numberOfDays: { type: Number, required: true },
+  // startDate: { type: Date, required: true },
+  // numberOfDays: { type: Number, required: true },
   status: {
     type: String,
     required: true,

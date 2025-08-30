@@ -183,8 +183,9 @@ const TodayKitchenTeam = () => {
                                 type="text" 
                                 id="foodName" 
                                 name="foodName"
-                                placeholder="e.g., Aloo Paratha"
+                                placeholder="Enter food"
                                 className={styles.textInput}
+                                autoComplete='off'
                             />
                         </div>
                         <div className={styles.formGroup}>
@@ -193,8 +194,9 @@ const TodayKitchenTeam = () => {
                                 type="text" 
                                 id="nutrients" 
                                 name="nutrients"
-                                placeholder="e.g., Carbs, Protein, Fiber"
+                                placeholder="Enter Nutrients"
                                 className={styles.textInput}
+                                autoComplete='off'
                             />
                         </div>
                         <button type="submit" className={styles.addMealButton}>

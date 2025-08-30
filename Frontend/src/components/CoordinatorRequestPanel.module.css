@@ -1,5 +1,3 @@
-/* src/components/CoordinatorRequestPanel.module.css (Updated with new proportions) */
-
 body, html {
     margin: 0;
     padding: 0;
@@ -12,7 +10,6 @@ body, html {
     min-height: 100vh; 
 }
 
-/* === MAIN LAYOUT === */
 .dashboardContainer {
     display: flex;
     padding: 2rem;
@@ -32,7 +29,6 @@ body, html {
 }
 
 .statsSidebar {
-    /* === CHANGE HERE: Sidebar ki width badhai gayi hai === */
     width: 500px;
     flex-shrink: 0;
     background-color: #ffffff;
@@ -43,7 +39,6 @@ body, html {
     margin-top: 3.5rem;
 }
 
-/* === REQUEST GRID & CARDS === */
 .requestsGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr); 
@@ -60,7 +55,6 @@ body, html {
     justify-content: space-between;
     transition: all 0.3s ease;
     border: 1px solid #e2e8f0;
-    /* === CHANGE HERE: Card ki height badhai gayi hai === */
     min-height: 200px;
 }
 
@@ -165,7 +159,6 @@ body, html {
 .emptyState p { font-size: 1.2rem; font-weight: 500; margin: 0; }
 
 
-/* === TITLE & OTHER STYLES === */
 .titleSection { 
     text-align: center; 
     padding: 2rem 1rem 0;
@@ -180,7 +173,6 @@ body, html {
 .titleSection h1 { font-size: 2.25rem; color: #2d3748; margin: 0; }
 .titleSection p { color: #718096; font-size: 1.1rem; margin: 0; }
 
-/* === SIDEBAR STYLES === */
 .statsSidebar h3 {
     color: #2d3748;
     margin-top: 0;
