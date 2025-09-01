@@ -13,6 +13,8 @@ import studentsRouter from './routes/students.js';
 import skipRequestsRouter from './routes/skipRequests.js';
 import authRouter from './routes/auth.js'; 
 import menuRouter from './routes/menu.js';
+import feedbackRoutes from './routes/feedback.js';
+import ratingRouter from './routes/ratings.js';
 
 const app = express();
 const port = 5000;
@@ -32,6 +34,8 @@ app.use('/students', studentsRouter);
 app.use('/skip-requests', skipRequestsRouter);
 app.use('/api/auth', authRouter); 
 app.use('/menu', menuRouter);
+app.use('/api/feedback',feedbackRoutes);
+app.use('/api/ratings',ratingRouter);
 
 // KITCHEN TEAM ROTATION CRON JOB (CORRECTED LOGIC)
 // Testing ke liye har minute chalega ('*/1 * * * *')

@@ -83,15 +83,6 @@
     box-sizing: border-box; 
 }
 
-.formRow { 
-    display: flex; 
-    gap: 1.5rem; 
-}
-
-.formRow .formGroup { 
-    flex: 1; 
-}
-
 .submitButton { 
     background-color: #f27559; 
     color: #fff; 

@@ -1,0 +1,69 @@
+/* frontend/src/components/FeedbackModal.module.css */
+.modalBackdrop {
+     position: fixed; 
+     top: 0; left: 0; 
+     width: 100%; 
+     height: 100%; 
+     background-color: rgba(0, 0, 0, 0.6); 
+     display: flex; 
+     justify-content: center; 
+     align-items: center; 
+     z-index: 1000; 
+     backdrop-filter: blur(5px); 
+    }
+.modalContent { 
+    background: #fff; 
+    padding: 2rem; 
+    border-radius: 12px; 
+    width: 90%; 
+    max-width: 600px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+    max-height: 80vh; 
+    display: flex; 
+    flex-direction: column;
+ }
+.modalHeader {
+     display: flex; 
+     justify-content: space-between; 
+     align-items: center; 
+     border-bottom: 1px solid #e9ecef; 
+     padding-bottom: 1rem; 
+     margin-bottom: 1rem; 
+    }
+.modalHeader h2 {
+     margin: 0; 
+     font-size: 1.5rem; 
+     color: #1e2150; 
+    }
+.closeButton {
+     background: none; 
+     border: none; 
+     font-size: 1.5rem; 
+     cursor: pointer; 
+     color: #6c757d; 
+    }
+.modalBody {
+     overflow-y: auto; 
+    }
+.feedbackList { 
+    list-style: none; 
+    padding: 0; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.8rem; 
+}
+.feedbackItem { 
+    background-color: #f8f9fa;
+    border-left: 3px solid #4361ee;
+    padding: 1rem;
+    border-radius: 4px;
+ }
+.feedbackComment { 
+    margin: 0;
+    color: #343a40;
+    font-size: 0.95rem;
+ }
+.noFeedback { 
+    text-align: center;
+    color: #868e96;
+ }

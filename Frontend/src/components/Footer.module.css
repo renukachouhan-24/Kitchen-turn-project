@@ -1,0 +1,132 @@
+.kitchenflowFooter {
+    background-color: #fcdfd9; /* Light peach color */
+    padding: 20px 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.footerContentWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    border-bottom: 1px solid #ffafa2; /* The horizontal line */
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.footerSection {
+    flex: 2; /* Navgurukul section takes up more space */
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.navgurukulLogo {
+    width: 250px;
+    height: auto;
+}
+
+.projectDescription {
+    font-size: 1rem;
+    line-height: 1.5;
+    max-width: 400px;
+}
+
+.socialIcons {
+    display: flex;
+    gap: 15px;
+    
+}
+
+.socialIcons a {
+    color: #ff6347;
+     border: solid #f05f40 2px;
+     border-radius:50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     padding: 10px;
+     width: 20px;
+     height: 20px;
+    font-size: 1.5rem;
+}
+.socialIcons a:hover{
+    color: #fff;
+    background-color: #f05f40;
+}
+ 
+.footerMemorialLogo {
+    flex: 1;  
+    min-width: 200px;
+    display: flex;
+    justify-content: flex-end;  
+    align-items: center;
+}
+
+.memorialLogo {
+    width: 170px;
+    height: auto;
+}
+ 
+.footerCraftedBy {
+    text-align: center;
+    font-size: 1em;
+    color: #555;
+}
+ 
+
+@media (max-width: 768px) {
+    .footerContentWrapper {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footerSection,
+    .footerMemorialLogo {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 20px;
+        justify-content: center;
+        align-items: center;  
+        text-align: center;
+    }
+    
+    .footerSection {
+        margin-bottom: 20px;  
+    }
+
+    .socialIcons {
+        justify-content: center;  
+    }
+}
+
+
+
+
+.footerColumn ul {
+    list-style: none;  
+    padding: 0;      
+    margin: 0;      
+}
+
+.footerColumn ul li {
+    margin-bottom: 8px;  
+}
+
+.footerColumn ul li a {
+    line-height: 1.9;
+    text-decoration: none;   
+    color: #555;            
+    font-size: 1rem;      
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.footerColumn ul li a:hover {
+    color: #ff6347; /* Changes link color to a bright orange on hover */
+}

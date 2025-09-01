@@ -1,34 +1,17 @@
 /* src/components/TodayKitchenTeam.module.css */
 
-/* Basic page structure */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    overflow-x: hidden;
-}
-
+ 
 .pageContainer {
-    display: flex;
-    flex-direction: column;
-    background-color: #fcf2f3;
+    background-color: #fff;
+    color: #2d3748;
     min-height: 100vh;
-    height: 100%;
-    overflow: hidden;
 }
 
+ 
 .contentWrapper {
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    padding: 3rem;
-    width: 95%;
-    max-width: 1500px;
+    max-width: 1400px;
     margin: 2rem auto;
-    overflow-y: auto;
-    flex-grow: 1;
-    height: calc(100% - 4rem);
+    padding: 0 2rem;
 }
 
 .welcomeHeader {
@@ -39,35 +22,21 @@ html, body {
 .welcomeHeader h1 {
     font-size: 2.5rem;
     font-weight: 700;
-    color: #1e2150;
+    color: #2d3748;  
     margin-bottom: 0.5rem;
 }
 
 .welcomeHeader p {
     font-size: 1.1rem;
-    color: #6a7185;
-    max-width: 800px;
-    margin: 0 auto;
-    line-height: 1.5;
-}
-
-.errorMessage {
-    background-color: #fecaca;
-    color: #dc2626;
-    padding: 0.8rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    font-weight: 500;
-    font-size: 1rem;
+    color: #4a5568;  
 }
 
 .managementSection {
-    background-color: #fcfdff;
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e9eff6;
+    background-color: #fff;  
+    border-radius: 12px;
+    padding: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
     margin-bottom: 2rem;
 }
 
@@ -76,578 +45,293 @@ html, body {
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    border-bottom: 2px solid #e0e6ed;
-    padding-bottom: 0.8rem;
-}
-
-.sectionHeader .sectionIcon {
-    font-size: 2rem;
-    color: #f05f40;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1rem;
 }
 
 .sectionHeader h2 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    color: #1e2150;
+    color: #2d3748;
     margin: 0;
 }
 
+.sectionHeader .sectionIcon {
+    color: #f05f40; 
+}
+ 
 .mealInputFormGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    align-items: end;
     gap: 1.5rem;
     margin-bottom: 2rem;
-    background-color: #eef2f8;
+    background-color: #f8f9fa;
     padding: 1.5rem;
     border-radius: 8px;
-    border: 1px solid #dee5ed;
 }
 
-.formGroup {
-    text-align: left;
-}
-
-.formGroup label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    color: #334056;
-    font-size: 1rem;
-}
-
-.selectInput,
-.textInput {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #c8d3e6;
-    border-radius: 6px;
-    font-size: 1rem;
-    background-color: #fff;
-    box-sizing: border-box;
-}
-
-.selectInput:focus,
-.textInput:focus {
-    outline: none;
-    border-color: #2d3748;
-    box-shadow: 0 0 0 2px rgba(74, 108, 250, 0.2);
-}
+.formGroup { text-align: left; }
+.formGroup label { display: block; margin-bottom: 0.5rem; font-weight: 500; color: #334056; }
+.selectInput, .textInput { width: 100%; padding: 0.8rem; border: 1px solid #c8d3e6; border-radius: 6px; font-size: 1rem; box-sizing: border-box; }
 
 .addMealButton {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
     padding: 0.8rem 1.5rem;
-    background-color: #fff;
-    color: #f05f40;
-    border: solid #f05f40 2px;
-    border-radius: 5px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
-    margin-top: 1.5rem;
-    font-size: 1rem;
-    grid-column: span 1;
-}
-
-.addMealButton:hover {
-    background-color: #f05f40;
-    transform: translateY(-2px);
+    background-color: #f05f40;;  
     color: #fff;
+    border: none; border-radius: 6px; font-weight: 600; cursor: pointer;
+    transition: background-color 0.2s; font-size: 1rem; height: 47px;
 }
+.addMealButton:hover { background-color: #fff; color: #f05f40; border: solid #f05f40 2px; }
 
-.currentMenuGrid {
+.currentMenuGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.mealCard { background-color: #f8f9fa; padding: 1.5rem; border-radius: 8px; }
+.mealCardHeader { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+.mealCardHeader h3 { font-size: 1.2rem; font-weight: 600; color: #1e2150; margin: 0; }
+.itemCount { margin-left: auto; font-size: 0.9rem; font-weight: 500; color: #6a7185; background: #eef2f8; padding: 2px 8px; border-radius: 10px; }
+.menuList { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.8rem; }
+.menuItem { background-color: #fff; border-left: 4px solid #4361ee; padding: 0.8rem 1rem; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 1rem; }
+.nutrients { font-size: 0.9rem; color: #6a7185; }
+.removeMealButton { background: none; border: none; color: #ef4444; font-size: 1.1rem; cursor: pointer; transition: color 0.2s; }
+.removeMealButton:hover { color: #dc2626; }
+
+ 
+.rosterAndPollContainer { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem; align-items: flex-start; }
+.rosterSectionContent, .ratingPollSectionContent { width: 100%; }
+.rosterDisplay h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+.teamList { list-style: none; padding: 0.5rem; margin: 0; max-height: 200px; overflow-y: auto; border: 1px solid #e0e6ed; border-radius: 8px; }
+.teamMemberItem { background-color: #fff; padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.ratingPollContainer { background-color: #f8f9fa; padding: 1.5rem; border-radius: 8px; text-align: center; }
+.pollQuestion { font-size: 1.1rem; font-weight: 500; color: #334056; margin-bottom: 1rem; }
+.starSelection { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
+.pollStar { color: #c8d3e6; font-size: 2rem; cursor: pointer; transition: color 0.2s;   }
+.pollStar:hover, .pollStar.selected { color: #ffd700; }
+.pollResults { margin-top: 1rem; }
+.totalVotes, .noVotes { font-size: 0.9rem; color: #6a7185; }
+.overallRatingSummary { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #c8d3e6; }
+.overallRatingLabel { font-size: 1rem; font-weight: 500; color: #1e2150; }
+ 
+.photoUploadBox { border: 2px dashed #d1d9e6; border-radius: 12px; padding: 2rem; text-align: center; background-color: #f8f9fa; }
+.fileInput { display: none; }
+.uploadLabel { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #6a7185; font-weight: 500; cursor: pointer; }
+.uploadLabel svg { margin-bottom: 0.5rem; font-size: 2rem; }
+.choosePhotoButton:hover{background-color: #fff; color: #f05f40; border: 2px solid #f05f40;}
+.choosePhotoButton { padding: 0.8rem 1.5rem; background-color:  #f05f40; color: #fff; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.2s; margin-top: 1rem; }
+.choosePhotoButton:disabled { background-color: #a0aec0; cursor: not-allowed; }
+.uploadedPhotosContainer { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+.uploadedPhotoItem { position: relative; width: 100%; padding-top: 100%; border-radius: 8px; overflow: hidden; }
+.uploadedPhotoItem .thumbnail { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.uploadedPhotoItem .removePhotoButton { position: absolute; top: 5px; right: 5px; background-color: rgba(239, 68, 68, 0.8); color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; font-size: 0.8rem; display: flex; justify-content: center; align-items: center; cursor: pointer; }
+.feedbackContentGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: center; }
+.feedbackForm { margin-bottom: 1.5rem; }
+.feedbackInputContainer { position: relative; }
+.feedbackTextarea { width: 100%; padding: 0.8rem 2.5rem 0.8rem 0.8rem; border: 1px solid #c8d3e6; border-radius: 6px; font-size: 1rem; box-sizing: border-box; resize: vertical; min-height: 120px; }
+.emojiButton { position: absolute; right: 10px; top: 10px; font-size: 1.5rem; color: #6a7185; cursor: pointer; background: none; border: none; }
+.emojiPicker { position: absolute; right: 0; top: 45px; z-index: 10; }
+.feedbackActions { margin-top: 1rem; display: flex; gap: 1rem; }
+.submitButton { padding: 0.8rem 1.5rem; background-color: #fff; color: #f05f40; border: 2px solid #f05f40; border-radius: 6px; font-weight: 500; cursor: pointer; transition: background-color 0.2s; font-size: 1rem; }
+.submitButton:hover { background-color:  #f05f40;  color: #fff;}
+.viewFeedbackButton { padding: 0.8rem 1.5rem; background: #f05f40; color: #fff ;    border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;  font-size: 1rem;}
+.viewFeedbackButton:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.2); background-color: #fff ;  color: #f05f40; border: 2px solid   #f05f40;}
+
+.feedbackContentGrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
-
-.mealCard {
-    background-color: #eef2f8;
-    padding: 1rem;
-    border-radius: 8px;
-    border: 1px solid #dee5ed;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.mealCardHeader {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    border-bottom: 1px solid #c8d3e6;
-    padding-bottom: 0.5rem;
-}
-
-.mealIcon {
-    font-size: 1.5rem;
-    color: #3b5ace;
-}
-
-.mealCardHeader h3 {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #1e2150;
-    margin: 0;
-}
-
-.itemCount {
-    margin-left: auto;
-    font-size: 0.9rem;
-    color: #6a7185;
-}
-
-.menuList {
-    list-style: none;
-    padding: 0;
-}
-
-.menuItem {
-    background-color: #fff;
-    border-left: 4px solid #2d3748;
-    padding: 0.8rem 1rem;
-    margin-bottom: 0.8rem;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.menuItem:last-child {
-    margin-bottom: 0;
-}
-
-.nutrients {
-    font-size: 0.9rem;
-    color: #6a7185;
-}
-
-.removeMealButton {
-    background: none;
-    border: none;
-    color: #ef4444;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: color 0.2s;
-    margin-left: 10px;
-    padding: 5px;
-}
-
-.removeMealButton:hover {
-    color: #dc2626;
-}
-
-.rosterAndPollContainer {
-    display: flex;
-    gap: 2rem;
-    flex-wrap: wrap;
+    grid-template-columns: 2fr 1fr; /* Ab left column bada (feedback) aur right column chota (star team) */
+    gap: 20px;
     align-items: flex-start;
 }
-
-.rosterSectionContent,
-.ratingPollSectionContent {
-    flex: 1;
-    min-width: 300px;
+.resetButton{
+   padding: 0.8rem 1.5rem; background: #f05f40; color: #fff ;    border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;  font-size: 1rem;
 }
-
-.rosterDisplay h3 {
-    font-size: 1.2rem;
-    color: #1e2150;
-    margin-bottom: 1rem;
-    text-align: left;
+.resetButton:hover{
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+    background-color: #fff; 
+    color: #f05f40; 
+    border: 2px solid #f05f40;
 }
-
-.rosterDisplay .itemCount {
-    font-size: 1rem;
-    color: #6a7185;
-    margin-left: 0.5rem;
+.rateButton{
+    padding: 0.8rem 1.5rem; background: #f05f40; color: #fff ;    border: none; border-radius: 6px; font-weight: 500; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;  font-size: 1rem;
 }
-
-.teamList {
-    list-style: none;
-    padding: 0;
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #e0e6ed;
-    border-radius: 8px;
-    padding: 0.5rem;
+.rateButton:hover{
+  transform: translateY(-2px); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+    background-color: #fff; 
+    color: #f05f40; 
+    border: 2px solid #f05f40;
 }
-
-.teamMemberItem {
-    background-color: #fff;
-    padding: 0.8rem 1rem;
-    border-radius: 6px;
-    margin-bottom: 0.5rem;
-    color: #333;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 1rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.teamMemberItem:last-child {
-    margin-bottom: 0;
-}
-
-.addTeamMemberForm,
-.removeButton {
-    display: none;
-}
-
-.photoUploadBox {
-    border: 2px dashed #d1d9e6;
-    border-radius: 12px;
-    padding: 2rem;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s;
-    background-color: #eef2f8;
-}
-
-.photoUploadBox:hover {
-    border-color: #2d3748;
-}
-
-.fileInput {
-    display: none;
-}
-
-.uploadLabel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #6a7185;
-    font-weight: 500;
-    cursor: pointer;
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-}
-
-.uploadLabel svg {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-}
-
-.choosePhotoButton {
-    padding: 0.8rem 1.5rem;
-    background-color: #f05f40;
-    color: #fff;
-    border: solid #f05f40 2px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.2s;
+/* New button style */
+.viewTeamsButton { 
+    padding: 0.8rem 1.5rem; 
+    background: #f05f40; 
+    color: #fff; 
+    border: none; 
+    border-radius: 6px; 
+    font-weight: 500; 
+    cursor: pointer; 
+    transition: transform 0.2s, box-shadow 0.2s; 
     font-size: 1rem;
 }
 
-.choosePhotoButton:hover {
-    background-color: #fff;
-    transform: translateY(-2px);
-    color: #f05f40;
+.viewTeamsButton:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); 
+    background-color: #fff; 
+    color: #f05f40; 
+    border: 2px solid #f05f40;
 }
 
-.choosePhotoButton:disabled {
-    background-color: #a0aec0;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.ratingPollContainer {
-    background-color: #eef2f8;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border: 1px solid #dee5ed;
-    text-align: center;
-}
-
-.pollQuestion {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #334056;
-    margin-bottom: 1rem;
-}
-
-.starSelection {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.pollStar {
-    color: #c8d3e6;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: color 0.2s;
-}
-
-.pollStar:hover,
-.pollStar.selected {
-    color: #ffd700;
-}
-
-.pollResults {
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.starRow {
-    display: none;
-}
-
-.starLabel {
-    display: none;
-}
-
-.progressBarBackground {
-    display: none;
-}
-
-.progressBarFill {
-    display: none;
-}
-
-.percentage {
-    display: none;
-}
-
-.totalVotes,
-.noVotes {
-    font-size: 0.9rem;
-    color: #6a7185;
-    text-align: center;
-    margin-top: 1rem;
-}
-
-.overallRatingSummary {
-    margin-top: 1.5rem;
-    padding-top: 1rem;
-    border-top: 1px dashed #c8d3e6;
-    text-align: center;
-}
-
-.overallRatingLabel {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #1e2150;
-    white-space: nowrap;
-}
-
-.overallProgressBarBackground {
-    display: none;
-}
-
-.overallProgressBarFill {
-    display: none;
-}
-
-.uploadedPhotosContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.uploadedPhotoItem {
-    position: relative;
-    width: 100%;
-    padding-top: 100%;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.uploadedPhotoItem .thumbnail {
-    position: absolute;
+/* Modal styles (similar to FeedbackModal) */
+.modalOverlay {
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.uploadedPhotoItem .removePhotoButton {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgba(239, 68, 68, 0.8);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    font-size: 1rem;
+    background-color: rgba(0, 0, 0, 0.5); /* Black semi-transparent background */
+    backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modalCloseButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #a0aec0;
     cursor: pointer;
-    transition: background-color 0.2s;
 }
 
-.uploadedPhotoItem .removePhotoButton:hover {
-    background-color: rgba(220, 38, 38, 1);
+.modalCloseButton:hover {
+    color: #e53e3e;
 }
 
-/* --- Responsive Styles for Mobile and Tablets --- */
-@media (max-width: 768px) {
-    /* Main Content adjustments */
-    .contentWrapper {
-        padding: 1.5rem;
-        margin: 1rem auto;
-    }
-
-    .welcomeHeader h1 {
-        font-size: 2rem;
-    }
-
-    .welcomeHeader p {
-        font-size: 0.9rem;
-    }
-
-    .managementSection {
-        padding: 1.5rem;
-    }
-
-    .sectionHeader h2 {
-        font-size: 1.5rem;
-    }
-
-    .sectionHeader .sectionIcon {
-        font-size: 1.5rem;
-    }
-
-    .mealInputFormGrid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 1rem;
-    }
-
-    .formGroup label {
-        font-size: 0.9rem;
-    }
-
-    .selectInput,
-    .textInput,
-    .addMealButton,
-    .addTeamButton,
-    .choosePhotoButton,
-    .submitButton {
-        padding: 0.7rem;
-        font-size: 0.9rem;
-    }
-
-    .currentMenuGrid {
-        grid-template-columns: 1fr;
-    }
-
-    .mealCardHeader h3 {
-        font-size: 1.1rem;
-    }
-
-    .mealIcon {
-        font-size: 1.2rem;
-    }
-
-    .menuItem,
-    .teamMemberItem {
-        font-size: 0.9rem;
-        padding: 0.7rem 0.8rem;
-    }
-
-    .nutrients {
-        font-size: 0.8rem;
-    }
-
-    .addTeamMemberForm {
-        flex-direction: column;
-        padding: 1rem;
-    }
-
-    .rosterDisplay h3 {
-        font-size: 1.1rem;
-    }
-
-    .rosterDisplay .itemCount {
-        font-size: 0.9rem;
-    }
-
-    .teamList {
-        max-height: 150px;
-    }
-
-    .uploadLabel {
-        font-size: 0.9rem;
-    }
-
-    .uploadLabel svg {
-        font-size: 1.5rem;
-    }
-
-    .ratingSection p {
-        font-size: 0.9rem;
-    }
-
-    .stars .star {
-        font-size: 1.2rem;
-    }
-
-    .feedbackTextarea {
-        font-size: 0.9rem;
-        min-height: 100px;
-    }
-
-    .submitButton {
-        font-size: 0.9rem;
-    }
-
-    .errorMessage {
-        font-size: 0.9rem;
-    }
-
-    .rosterAndPollContainer {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-    
-    .rosterSectionContent,
-    .ratingPollSectionContent {
-        flex: none;
-        min-width: auto;
-        width: 100%;
-    }
-    
-    .uploadedPhotosContainer {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    }
+.modalHeader {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
-.feedbackComment {
+
+.modalHeader h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #2d3748;
     margin: 0;
-    font-size: 1rem;
-    color: #4a5568;
-    /* NAYA: Yeh line add karein */
-    overflow-wrap: break-word; 
+}
+
+.modalIcon {
+    color: #ffd700;
+    font-size: 2rem;
+}
+
+.modalBody {
+    margin-top: 1rem;
+}
+
+.modalList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modalListItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f7f9fc;
+    margin-bottom: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.modalListItem:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.modalRank {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #f05f40;
+    margin-right: 1rem;
+}
+
+.modalTeamName {
+    flex-grow: 1;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.modalTeamStars {
+    font-weight: 700;
+    color: #ffc107;
+}
+
+.emptyListMessage {
+    text-align: center;
+    color: #718096;
+    font-style: italic;
+    padding: 20px;
+}
+
+
+/* Baaki saari CSS classes jo pehle di gayi thi woh same rahengi */
+/* .starTeamInfo, .resetButton, .topTeamsListContainer, etc. */
+
+@media (max-width: 992px) {
+    .feedbackContentGrid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+    .contentWrapper { padding: 1.5rem; margin: 1rem auto; }
+    .welcomeHeader h1 { font-size: 2rem; }
+    .managementSection { padding: 1rem; }
+    .sectionHeader h2 { font-size: 1.25rem; }
 }
 
 
 
+.starTeamInfo {
+    background-color: #f7f9fc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
+.starTeamInfo h3 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1.2rem;
+}
 
+.starTeamName {
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #1e2150; /* Gold color for star team name */
+    margin-bottom: 15px;
+    word-wrap: break-word; /* Long names ko break karne ke liye */
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+/* Button ki styling yahan nahi di gayi hai jaisa ki aapne kaha */

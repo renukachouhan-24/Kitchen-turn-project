@@ -82,12 +82,9 @@ const StudentDashboard = () => {
             
             <main className={styles.overviewContainer}>
                 <div className={styles.overviewHeader}>
-                    <div className={styles.titleLogoIcon}>
-                        <div className={styles.titleLogoShape}></div>
-                    </div>
                     <h1>Kitchen Turn Overview</h1>
                 </div>
-                <p className={styles.overviewSubtitle}>Day 1 - Monday, August 20, 2025</p>
+                <p className={styles.overviewSubtitle}>A recipe hs no soul. You, as the cook, must bring soul to the recipe.</p>
                 
                 {error && <div className={styles.errorMessage}>{error}</div>}
 

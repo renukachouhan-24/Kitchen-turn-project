@@ -12,8 +12,6 @@ const SkipRequest = () => {
     const [formData, setFormData] = useState({
         studentName: '',
         reason: '',
-        startDate: '',
-        numberOfDays: 1,
     });
 
     const navigate = useNavigate();
@@ -83,20 +81,6 @@ const SkipRequest = () => {
                         <div className={styles.formGroup}>
                             <label htmlFor="reason">Reason for Skipping *</label>
                             <textarea id="reason" name="reason" value={formData.reason} onChange={handleChange} rows="4" placeholder="Please provide a detailed reason..." required></textarea>
-                        </div>
-                        <div className={styles.formRow}>
-                            <div className={styles.formGroup}>
-                                <label htmlFor="start-date">Start Date *</label>
-                                <input type="date" id="start-date" name="startDate" value={formData.startDate} onChange={handleChange} required />
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label htmlFor="days">Number of Days *</label>
-                                <select id="days" name="numberOfDays" value={formData.numberOfDays} onChange={handleChange} required>
-                                    <option value="1">1 day</option>
-                                    <option value="2">2 days</option>
-                                    <option value="3">3 days</option>
-                                </select>
-                            </div>
                         </div>
                         <button type="submit" className={styles.submitButton}>Submit Skip Request</button>
                     </form>

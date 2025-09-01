@@ -1,66 +1,75 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef } from 'react'; 
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar'; 
+import Footer from './Footer';
 import styles from './RoleSelection.module.css';
 import { FaCheckCircle, FaUsers, FaClock, FaShieldAlt, FaCalendarAlt, FaChartBar, FaCogs, FaBell, FaChevronLeft, FaChevronRight, FaFacebookF, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
-import navgurukulLogo from '../assets/ngLogo.png';
-// import chefHatIcon from '../assets/chef.png';
+import navgurukulLogo from '../assets/navgurukul.png';
+import ajmfLogo from "../assets/AJMF.png";
 
-// Apni images ko yahan import karein (10 images tak)
-import carousel_image1 from '../assets/cooking.jpeg'; 
-import carousel_image2 from '../assets/cooking1.jpeg'; 
-import carousel_image3 from '../assets/cooking2.jpeg'; 
-import carousel_image4 from '../assets/cooking3.jpeg'; 
- 
+
+import carousel_image1 from '../assets/cooking1.jpeg'; 
+import carousel_image2 from '../assets/cooking2.jpeg'; 
+import carousel_image3 from '../assets/cooking3.jpeg'; 
+import carousel_image4 from '../assets/cooking4.jpeg'; 
+import carousel_image5 from '../assets/cooking5.jpeg'; 
+import carousel_image6 from '../assets/cooking6.jpeg'; 
+import carousel_image7 from '../assets/cooking7.jpeg'; 
+ 
 const carouselImages = [
+    carousel_image5,
+    carousel_image6,
+    carousel_image7,
+    carousel_image4,
     carousel_image1,
     carousel_image2,
     carousel_image3,
-    carousel_image4,
 ];
 
 const RoleSelection = () => {
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const carouselRef = useRef(null);
 
-    const nextSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide + 1) % carouselImages.length);
-    };
+    
 
-    const prevSlide = () => {
-        setCurrentSlide((prevSlide) => (prevSlide - 1 + carouselImages.length) % carouselImages.length);
-    };
-
-    const getVisibleImages = () => {
-        const images = [];
-        for (let i = 0; i < 3; i++) {
-            images.push(carouselImages[(currentSlide + i) % carouselImages.length]);
+    const nextSlideManual = () => {
+        if (carouselRef.current) {
+            const scrollAmount = carouselRef.current.offsetWidth / 3;
+            carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
-        return images;
     };
 
+    const prevSlideManual = () => {
+        if (carouselRef.current) {
+            const scrollAmount = carouselRef.current.offsetWidth / 3;
+            carouselRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        }
+    };
+    
     return (
         <div className={styles.pageWrapper}>
             <Navbar showRegister={true} showSkipRequest={false} />
 
-            
-            
-            
             <main className={styles.mainContent}>
-                <div   className={styles.mainTitleContainer}>
+                <div className={styles.mainTitleContainer}>
                     <h1 className={styles.welcomeHeading}>Welcome to</h1>
                     <img src={navgurukulLogo} alt="Navgurukul Logo" className={styles.navgurukulLogo} />
+                     
+                        <img src={ajmfLogo} alt="AJMF-Logo" className={styles.ajmfLogo}/>
+                  
                 </div>
+
                 
                 <p className={styles.description}>
                     Kitchen Turn is a smart way to manage and organize daily kitchen duties in student hostels and communities. It helps track who is responsible, ensures fairness, and improves coordination.
                 </p>
                 
-                <div   id="imageCarouselWrapper"   className={styles.imageCarouselWrapper}>
-                    <button onClick={prevSlide} className={styles.carouselArrowLeft}>
+                <div id="imageCarouselWrapper" className={styles.imageCarouselWrapper}>
+                    <button onClick={prevSlideManual} className={styles.carouselArrowLeft}>
                         <FaChevronLeft />
                     </button>
-                    <div className={styles.imageCarousel}>
-                        {getVisibleImages().map((image, index) => (
+                    <div className={styles.imageCarousel} ref={carouselRef}>
+                        {carouselImages.map((image, index) => (
                             <img 
                                 key={index} 
                                 src={image} 
@@ -69,7 +78,7 @@ const RoleSelection = () => {
                             />
                         ))}
                     </div>
-                    <button onClick={nextSlide} className={styles.carouselArrowRight}>
+                    <button onClick={nextSlideManual} className={styles.carouselArrowRight}>
                         <FaChevronRight />
                     </button>
                 </div>
@@ -115,8 +124,7 @@ const RoleSelection = () => {
                 </Link>
             </main>
 
-     
- <section id="about-us-section" className={styles.aboutUsSection}>
+            <section id="about-us-section" className={styles.aboutUsSection}>
                 <div className={styles.aboutUsContent}>
                     <h2>About Us</h2>
                     <p>
@@ -130,9 +138,8 @@ const RoleSelection = () => {
                     </p>
                 </div>
             </section>
-
-
-            <section className={styles.featuresSection}>
+            
+            <section id="featuresSection" className={styles.featuresSection}>
                 <div className={styles.featuresHeader}>
                     <h2>Why Choose <span className={styles.brandName}>KitchenFlow</span>?</h2>
                     <p>Experience seamless kitchen management with our comprehensive suite of features designed for student communities.</p>
@@ -168,44 +175,13 @@ const RoleSelection = () => {
                     </div>
                 </div>
             </section>
-
             
-            
-            <footer className={styles.navgurukulFooter}>
-    <div className={styles.footerContainer}>
-        <div className={styles.footerLeft}>
-            <div className={styles.footerLogoSection}>
-                <img src={navgurukulLogo} alt="Navgurukul Logo" className={styles.navgurukulFooterLogo} />
-              
-            </div>
-            <div className={styles.footerContactInfo}>
-                <p>KitchenFlow is a project by Navgurukul students, designed to manage kitchen duties efficiently and fairly.</p>
-            
-            </div>
-            <div className={styles.footerSocialIcons}>
-                <a href="https://www.facebook.com/navgurukul" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
-                <a href="https://www.linkedin.com/company/navgurukul" target="_blank" rel="noopener noreferrer"><FaLinkedinIn /></a>
-                <a href="https://twitter.com/navgurukul" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
-            </div>
-        </div>
-
-        <div className={styles.footerRight}>
-            <div className={styles.footerColumn}>
-                
-                <ul>
-                    <li><a href="#about-us-section">About Us</a></li>
-                    <li><a href="#featuresSection">Features</a></li>
-                    <li><a href="#imageCarouselWrapper">User Experience</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div className={styles.footerBottom}>
-        <p>© 2025 KitchenFlow. All rights reserved.</p>
-    </div>
-</footer>
+            <Footer />
         </div>
     );
 };
 
 export default RoleSelection;
+
+
+

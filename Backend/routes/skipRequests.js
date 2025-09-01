@@ -83,8 +83,6 @@ router.route('/add').post((req, res) => {
   const newSkipRequest = new SkipRequest({
     studentName,
     reason,
-    startDate: Date.parse(startDate),
-    numberOfDays: Number(numberOfDays),
   });
 
   newSkipRequest.save()
