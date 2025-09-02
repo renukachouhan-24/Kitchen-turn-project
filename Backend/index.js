@@ -15,6 +15,8 @@ import authRouter from './routes/auth.js';
 import menuRouter from './routes/menu.js';
 import feedbackRoutes from './routes/feedback.js';
 import ratingRouter from './routes/ratings.js';
+import Menu from './models/menu.model.js';
+import Feedback from './models/feedback.model.js';
 
 const app = express();
 const port = 5000;
@@ -37,6 +39,32 @@ app.use('/menu', menuRouter);
 app.use('/api/feedback',feedbackRoutes);
 app.use('/api/ratings',ratingRouter);
 
+
+
+// --- Daily Data Reset Cron Job ---
+// Yeh cron job production mein har raat 12:00 AM par chalega ('0 0 * * *').
+// Testing ke liye, hum ise har 5 minute par set kar rahe hain ('*/5 * * * *').
+// Jab aap deploy karein, to '0 0 * * *' ka upyog karein.
+
+cron.schedule('*/3 * * * *', async () => {
+    console.log('🧹 Running daily data reset task...');
+    try {
+        // Today's menu ko clear karein.
+        await Menu.deleteMany({});
+        console.log('✅ Today\'s menu has been cleared.');
+
+        // Today's feedback ko clear karein.
+        await Feedback.deleteMany({});
+        console.log('✅ All feedback has been cleared.');
+
+        // NOTE: Ratings collection ko clear nahi kiya ja raha hai
+        // jisse "View Star Teams" functionality bani rahe.
+
+    } catch (error) {
+        console.error('🚫 Error during daily data reset:', error);
+    }
+});
+
 // KITCHEN TEAM ROTATION CRON JOB (CORRECTED LOGIC)
 // Testing ke liye har minute chalega ('*/1 * * * *')
 // KITCHEN TEAM ROTATION CRON JOB (FINAL & SIMPLER LOGIC)
@@ -44,7 +72,7 @@ app.use('/api/ratings',ratingRouter);
 
 // KITCHEN TEAM ROTATION CRON JOB (FINAL & SIMPLER LOGIC)
 // KITCHEN TEAM ROTATION CRON JOB (FINAL TEAM-BASED LOGIC)
-cron.schedule('*/1 * * * *', async () => {
+cron.schedule('*/3 * * * *', async () => {
   console.log('⏰ Running daily kitchen team rotation...');
   try {
       const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
