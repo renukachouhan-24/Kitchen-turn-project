@@ -143,5 +143,5 @@ cron.schedule('*/4 * * * *', async () => { // Testing ke liye har 2 minute par
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server started on http://localhost:${port}`);
+  console.log(`🚀 Server started on https://kitchen-turn-project.onrender.com/${port}`);
 });
