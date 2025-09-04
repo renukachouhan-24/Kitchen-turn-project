@@ -56,7 +56,7 @@ const StudentDashboard = () => {
         const refreshInterval = setInterval(() => {
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        }, 180000); // 24 hours = 86400000ms
+        }, 240000); // 24 hours = 86400000ms
 
         return () => clearInterval(refreshInterval);
     }, []);
@@ -84,7 +84,7 @@ const StudentDashboard = () => {
                 <div className={styles.overviewHeader}>
                     <h1>Kitchen Turn Overview</h1>
                 </div>
-                <p className={styles.overviewSubtitle}>A recipe hs no soul. You, as the cook, must bring soul to the recipe.</p>
+                <p className={styles.overviewSubtitle}>A recipe has no soul. You, as the cook, must bring soul to the recipe.</p>
                 
                 {error && <div className={styles.errorMessage}>{error}</div>}
 

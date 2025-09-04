@@ -1,5 +1,3 @@
-// backend/models/student.model.js
-
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
@@ -8,7 +6,7 @@ const studentSchema = new Schema({
     email: { 
         type: String,
         required: true,
-        unique: true, // email ko unique rehne dein
+        unique: true, 
         trim: true,
     },
     password: { 
@@ -22,8 +20,13 @@ const studentSchema = new Schema({
         required: true,
         default: 'active' 
     },
-    // turnOrder field se 'unique: true' hata diya gaya hai
     turnOrder: { type: Number, required: true }, 
+    // === NAYA FIELD ===
+    approvedRequestCount: {
+        type: Number,
+        default: 0
+    },
+    // ==================
 }, {
     timestamps: true,
 });

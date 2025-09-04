@@ -8,7 +8,28 @@
     padding: 2rem;
     background: linear-gradient(135deg, #f3f4ff 0%, #e1e2f6 100%);
     box-sizing: border-box;
+    position: relative; /* <-- Yeh line add karein */
 }
+
+/* Naye styles for back button */
+.backButton {
+    position: absolute; /* <-- Isse button ko corner me position kar sakte hain */
+    top: 20px;
+    left: 20px;
+    background-color: transparent;
+    color: #4a5568;
+    border: none;
+    cursor: pointer;
+    font-size: 2rem; /* Icon size badhayein */
+    transition: color 0.2s ease-in-out;
+    padding: 0;
+}
+
+.backButton:hover {
+    color: #f27559; /* Hover effect */
+}
+
+/* --- Baaki ke styles jaisa hai waise hi rahega --- */
 
 .formCard {
     background-color: #fff;
@@ -17,7 +38,6 @@
     box-shadow: 0 8px 30px rgba(0,0,0,0.1);
     width: 100%;
     max-width: 550px;
-    /* Removed fixed height to make it responsive */
 }
 
 .formHeader {
@@ -29,13 +49,13 @@
 
 .formHeader h2 {
     margin: 0;
-    font-size: 2rem; /* Adjusted font size for responsiveness */
+    font-size: 2rem;
 }
 
 .formHeader p {
     margin: 0.25rem 0 0 0;
     opacity: 0.9;
-    font-size: 1.2rem; /* Adjusted font size for responsiveness */
+    font-size: 1.2rem;
 }
 
 .formBody {
@@ -54,7 +74,7 @@
 .formGroup label {
     font-weight: 500;
     color: #4a5568;
-    font-size: 1.1rem; /* Adjusted font size for readability */
+    font-size: 1.1rem;
 }
 
 .formGroup input {
@@ -72,7 +92,7 @@
     border: none;
     padding: 1rem;
     border-radius: 8px;
-    font-size: 1.25rem; /* Adjusted font size for responsiveness */
+    font-size: 1.25rem;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
@@ -87,35 +107,35 @@
 /* --- Responsive Styles for Mobile and Tablets --- */
 @media (max-width: 576px) {
     .pageWrapper {
-        padding: 1rem; /* Reduced padding on small screens */
+        padding: 1rem;
     }
 
     .formCard {
-        max-width: 100%; /* Make the card take full width */
+        max-width: 100%;
     }
 
     .formHeader {
-        padding: 1rem; /* Reduced padding on header */
+        padding: 1rem;
     }
 
     .formHeader h2 {
-        font-size: 1.5rem; /* Smaller font for mobile */
+        font-size: 1.5rem;
     }
 
     .formHeader p {
-        font-size: 1rem; /* Smaller font for mobile */
+        font-size: 1rem;
     }
 
     .formBody {
         padding: 1rem;
-        gap: 1.25rem; /* Reduced gap between form groups */
+        gap: 1.25rem;
     }
 
     .formGroup label {
-        font-size: 1rem; /* Adjusted font size */
+        font-size: 1rem;
     }
 
     .submitButton {
-        font-size: 1.1rem; /* Adjusted font size */
+        font-size: 1.1rem;
     }
 }
