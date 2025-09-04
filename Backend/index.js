@@ -1,22 +1,27 @@
-// backend/index.js (Updated with Correct Rotation Logic)
+// backend/index.js
 
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import 'dotenv/config'; 
 import cron from 'node-cron'; 
+import multer from 'multer';
+import { v2 as cloudinary } from 'cloudinary';
 
+// Models imports
 import Student from './models/student.model.js'; 
+import Menu from './models/menu.model.js'; 
+import Feedback from './models/feedback.model.js';
+import Photo from './models/photo.model.js';
+import SkipRequest from './models/skipRequest.model.js';
 
-// Import statements ko sahi kiya gaya hai
+// Routes imports
 import studentsRouter from './routes/students.js';
 import skipRequestsRouter from './routes/skipRequests.js';
 import authRouter from './routes/auth.js'; 
 import menuRouter from './routes/menu.js';
 import feedbackRoutes from './routes/feedback.js';
 import ratingRouter from './routes/ratings.js';
-import Menu from './models/menu.model.js';
-import Feedback from './models/feedback.model.js';
 
 const app = express();
 const port = 5000;
@@ -24,8 +29,17 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
+// Cloudinary configuration
+cloudinary.config({ 
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
+  api_key: process.env.CLOUDINARY_API_KEY, 
+  api_secret: process.env.CLOUDINARY_API_SECRET 
+});
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 const uri = process.env.MONGO_URI;
-// Deprecated options hata diye gaye hain, naye Mongoose version ko inki zaroorat nahi
 mongoose.connect(uri); 
 const connection = mongoose.connection;
 connection.once('open', () => {
@@ -39,69 +53,52 @@ app.use('/menu', menuRouter);
 app.use('/api/feedback',feedbackRoutes);
 app.use('/api/ratings',ratingRouter);
 
-
-
-// --- Daily Data Reset Cron Job ---
-// Yeh cron job production mein har raat 12:00 AM par chalega ('0 0 * * *').
-// Testing ke liye, hum ise har 5 minute par set kar rahe hain ('*/5 * * * *').
-// Jab aap deploy karein, to '0 0 * * *' ka upyog karein.
-
-cron.schedule('*/3 * * * *', async () => {
-    console.log('🧹 Running daily data reset task...');
-    try {
-        // Today's menu ko clear karein.
-        await Menu.deleteMany({});
-        console.log('✅ Today\'s menu has been cleared.');
-
-        // Today's feedback ko clear karein.
-        await Feedback.deleteMany({});
-        console.log('✅ All feedback has been cleared.');
-
-        // NOTE: Ratings collection ko clear nahi kiya ja raha hai
-        // jisse "View Star Teams" functionality bani rahe.
-
-    } catch (error) {
-        console.error('🚫 Error during daily data reset:', error);
+// --- NEW API FOR IMAGE UPLOAD ---
+app.post('/api/upload-photo', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded.' });
     }
+    const result = await cloudinary.uploader.upload(`data:image/jpeg;base64,${req.file.buffer.toString('base64')}`);
+    const newPhoto = new Photo({ url: result.secure_url });
+    await newPhoto.save();
+    res.status(201).json({ url: newPhoto.url, _id: newPhoto._id });
+  } catch (error) {
+    console.error("Error uploading photo:", error);
+    res.status(500).json({ error: 'Failed to upload photo.' });
+  }
 });
 
-// KITCHEN TEAM ROTATION CRON JOB (CORRECTED LOGIC)
-// Testing ke liye har minute chalega ('*/1 * * * *')
-// KITCHEN TEAM ROTATION CRON JOB (FINAL & SIMPLER LOGIC)
+// --- NEW API TO GET PHOTOS ---
+app.get('/api/photos', async (req, res) => {
+  try {
+    const photos = await Photo.find({});
+    res.status(200).json(photos);
+  } catch (error) {
+    console.error("Error fetching photos:", error);
+    res.status(500).json({ error: 'Failed to fetch photos.' });
+  }
+});
 
-
-// KITCHEN TEAM ROTATION CRON JOB (FINAL & SIMPLER LOGIC)
-// KITCHEN TEAM ROTATION CRON JOB (FINAL TEAM-BASED LOGIC)
-cron.schedule('*/3 * * * *', async () => {
+// KITCHEN TEAM ROTATION CRON JOB
+cron.schedule('*/4 * * * *', async () => {
   console.log('⏰ Running daily kitchen team rotation...');
   try {
       const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
-      
       const teamSize = 5;
       if (activeStudents.length >= teamSize) {
-          
-          // Step 1: Purani team aur baaki students ko alag karein
           const onDutyTeam = activeStudents.slice(0, teamSize);
           const offDutyStudents = activeStudents.slice(teamSize);
-
-          // Step 2: Naya order banayein (purani team aakhir mein)
           const newOrder = [...offDutyStudents, ...onDutyTeam];
-          
-          // Step 3: Safe tareeke se naya order database mein update karein
-          // Pehle sabko temporary "safe" zone mein bhejenge
           const tempUpdatePromises = newOrder.map((student, index) => 
               Student.findByIdAndUpdate(student._id, { turnOrder: index + 1000 })
           );
           await Promise.all(tempUpdatePromises);
-
-          // Phir sabko unka final naya turnOrder denge (0, 1, 2...)
           const finalUpdatePromises = newOrder.map((student, index) => 
               Student.findByIdAndUpdate(student._id, { turnOrder: index })
           );
           await Promise.all(finalUpdatePromises);
-          
           console.log(`✅ Team Rotation Successful. ${teamSize} students moved to the end of the line.`);
-
       } else {
           console.log(`❌ Not enough active students for a team rotation of ${teamSize}.`);
       }
@@ -110,15 +107,41 @@ cron.schedule('*/3 * * * *', async () => {
   }
 });
 
+// DAILY DATA RESET CRON JOB
+cron.schedule('*/4 * * * *', async () => {
+    console.log('🧹 Running daily data reset task...');
+    try {
+        await Menu.deleteMany({});
+        console.log('✅ Today\'s menu has been cleared.');
+        await Feedback.deleteMany({});
+        console.log('✅ All feedback has been cleared.');
+        await Photo.deleteMany({});
+        console.log('✅ All uploaded photos have been cleared.');
+    } catch (error) {
+        console.error('🚫 Error during daily data reset:', error);
+    }
+});
+
+// --- CRON JOB TO DELETE OLD RESOLVED SKIP REQUESTS ---
+cron.schedule('*/4 * * * *', async () => { // Testing ke liye har 2 minute par
+    console.log('⏳ Running cron job to delete old resolved skip requests...');
+    // 48 hours in milliseconds = 48 * 60 * 60 * 1000
+    const timeLimitInMs = 4 * 60 * 1000; // Testing ke liye 2 minutes
+    // const timeLimitInMs = 48 * 60 * 60 * 1000; // Production ke liye 48 ghante
+    const timeThreshold = new Date(Date.now() - timeLimitInMs);
+    
+    try {
+        // Find aur delete karein woh requests jo Approved ya Rejected hain aur 48 ghante se purani hain
+        const result = await SkipRequest.deleteMany({
+            status: { $in: ['Approved', 'Rejected'] },
+            createdAt: { $lt: timeThreshold }
+        });
+        console.log(`✅ Deleted ${result.deletedCount} old resolved skip requests.`);
+    } catch (error) {
+        console.error('🚫 Error deleting old skip requests:', error);
+    }
+});
+
 app.listen(port, () => {
   console.log(`🚀 Server started on http://localhost:${port}`);
 });
-
-
-
-
-
-
-
-
-

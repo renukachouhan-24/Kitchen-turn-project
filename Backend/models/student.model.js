@@ -1,38 +1,3 @@
-// // backend/models/student.model.js
-
-// import mongoose from 'mongoose';
-// const { Schema } = mongoose;
-
-// const studentSchema = new Schema({
-//     name: { type: String, required: true, trim: true },
-//     email: { 
-//         type: String,
-//         required: true,
-//         unique: true, // email ko unique rehne dein
-//         trim: true,
-//     },
-//     password: { 
-//         type: String,
-//         required: true,
-//     },
-//     joiningDate: { type: Date, required: true },
-//     totalTurns: { type: Number, default: 0 },
-//     status: { 
-//         type: String,
-//         required: true,
-//         default: 'active' 
-//     },
-//     // turnOrder field se 'unique: true' hata diya gaya hai
-//     turnOrder: { type: Number, required: true }, 
-// }, {
-//     timestamps: true,
-// });
-
-// const Student = mongoose.model('Student', studentSchema);
-// export default Student;
-
-// backend/models/student.model.js
-
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
