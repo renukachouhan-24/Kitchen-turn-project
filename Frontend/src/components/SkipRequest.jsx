@@ -20,7 +20,7 @@ const SkipRequest = () => {
     useEffect(() => {
         const fetchTomorrowTeam = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/students/active');
+                const response = await axios.get('https://kitchen-turn-project.onrender.com/students/active');
                 // Assuming tomorrow's team is the next 5 students after today's team (first 5)
                 const team = response.data.slice(5, 10);
                 setTomorrowTeam(team);
@@ -39,7 +39,7 @@ const SkipRequest = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/skip-requests/add', formData);
+            await axios.post('https://kitchen-turn-project.onrender.com/skip-requests/add', formData);
             alert('Skip request submitted successfully!');
             setFormData({ studentName: '', reason: '', startDate: '', numberOfDays: 1 });
             

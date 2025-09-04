@@ -7,7 +7,7 @@ import Student from '../models/student.model.js';
 const router = Router();
 
 // Route: Naya student register karne ke liye
-// URL: POST http://localhost:5000/api/auth/register
+// URL: POST https://kitchen-turn-project.onrender.com/api/auth/register
 router.route('/register').post(async (req, res) => {
   const { name, email, password, joiningDate } = req.body;
 

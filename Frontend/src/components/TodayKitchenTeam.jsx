@@ -181,7 +181,7 @@ const TodayKitchenTeam = () => {
             const uploadPromises = files.map(async (file) => {
                 const formData = new FormData();
                 formData.append('file', file);
-                const response = await axios.post('http://localhost:5000/api/upload-photo', formData, {
+                const response = await axios.post('https://kitchen-turn-project.onrender.com/api/upload-photo', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 return response.data;
@@ -200,7 +200,7 @@ const TodayKitchenTeam = () => {
     // --- UPDATED IMAGE REMOVE FUNCTION ---
     const handleRemovePhoto = async (photoId) => {
         try {
-            await axios.delete(`http://localhost:5000/api/photos/${photoId}`);
+            await axios.delete(`https://kitchen-turn-project.onrender.com/api/photos/${photoId}`);
             await fetchData(); // Fetch again to update the photos list
             alert('Photo removed successfully!');
         } catch (error) {
