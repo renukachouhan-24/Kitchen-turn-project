@@ -1,49 +1,98 @@
-// backend/routes/auth.js
-
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import Student from '../models/student.model.js';
 
 const router = Router();
 
-// Route: Naya student register karne ke liye
-// URL: POST http://localhost:5000/api/auth/register
-router.route('/register').post(async (req, res) => {
-  const { name, email, password, joiningDate } = req.body;
+// Middleware
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  if (!token) return res.status(401).json({ message: "No token provided" });
 
   try {
-    // 1. Check karein ki user pehle se to nahi hai
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.user; // { id, name, role }
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+// REGISTER
+router.post('/register', async (req, res) => {
+  const { name, email, password, joiningDate } = req.body;
+  try {
     let student = await Student.findOne({ email });
     if (student) {
       return res.status(400).json({ msg: 'Student with this email already exists' });
     }
 
-    // 2. Database mein existing students ki ginti karein
     const count = await Student.countDocuments();
 
-    // 3. Naya student object banayein
     student = new Student({
       name,
       email,
       password,
       joiningDate,
-      status: 'active', // default status
-      turnOrder: count, // turnOrder ko count ke barabar set karein
+      status: 'active',
+      turnOrder: count,
+      role: "student"
     });
 
-    // 4. Password ko Hash (Encrypt) karein
     const salt = await bcrypt.genSalt(10);
     student.password = await bcrypt.hash(password, salt);
-
-    // 5. Student ko database mein save karein
     await student.save();
-    
-    res.status(201).json({ msg: 'Student registered successfully' });
 
+    res.status(201).json({ msg: 'Student registered successfully' });
   } catch (err) {
     console.error(err.message);
-    // Yahan hum behtar error message de rahe hain
     res.status(500).send('Server error: Could not register student.');
+  }
+});
+
+// LOGIN
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    let student = await Student.findOne({ email });
+    if (!student) return res.status(400).json({ message: 'Invalid credentials' });
+
+    const isMatch = await bcrypt.compare(password, student.password);
+    if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
+
+    const payload = { id: student._id, name: student.name, role: student.role };
+
+    jwt.sign(
+      { user: payload },
+      process.env.JWT_SECRET,
+      { expiresIn: '8h' },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token, user: payload });
+      }
+    );
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+// GET CURRENT USER (/auth/me)
+router.get('/me', authMiddleware, async (req, res) => {
+  try {
+    const student = await Student.findById(req.user.id).select("-password");
+    if (!student) return res.status(404).json({ message: "User not found" });
+    res.json({
+      id: student._id,
+      name: student.name,
+      email: student.email,
+      role: student.role,
+      status: student.status
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: "Server error" });
   }
 });
 

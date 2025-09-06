@@ -106,6 +106,16 @@
     font-weight: 500;
 }
 
+.coordinatorBadge {
+    background-color: #f8d408; /* yellow */
+    color: #000;
+    /* font-weight: bold; */
+    padding: 5px 10px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+
 
 /* --- Responsive Styles for Mobile and Tablets --- */
 @media (max-width: 768px) {
