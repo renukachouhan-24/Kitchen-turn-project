@@ -1,3 +1,5 @@
+/* RoleSelection.module.css */
+
 body{
   overflow: scroll !important;
 } 
@@ -25,50 +27,67 @@ body{
 }
 
 .mainTitleContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;   
+    justify-content: center;
+    gap: 1rem;
+    animation: fadeInDown 1s ease-out;
+}
+.mainTitleContainer {
    flex-wrap: wrap; 
 }
 
  
 
-.navgurukulLogo {
-    width: 200px;    /*best css */
-    height: auto;
-    margin-right: 20px;
-}
- 
-.mainTitleContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;   /* best css */
-    justify-content: center;
-    gap: 1rem;
-    animation: fadeInDown 1s ease-out;
+@font-face {
+  font-family: 'Samarkan';
+  src: url('../assets/fonts/Samarkan Normal.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
 
-.welcomeHeading {
-    font-size: 3.5rem;   /* best css*/ 
+.samarkanText {
+  font-family: 'Samarkan', cursive, sans-serif;
+}
+.redText{
+    color: #f05f40;
+     font-size: 3.7rem;  
     font-weight: 500;
-    margin-bottom: 0;
-    line-height: 1.1;
-    color: #2d3748;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+.blackText{
+    color: #000;
+    font-size: 3.7rem;    
+    font-weight: 500;
     text-align: center;
 }
 
+.welcomeHeading {
+    font-size: 3.7rem;    
+    font-weight: 500;
+    color: #000;
+    text-align: center;
+} 
+
 .ajmfLogo {
-    width: 150px; /*  best css  */
+    width: 150px; 
     height: auto;
     margin-left: 100px; 
 }
-
-.navgurukulLogo {
-    height: 150px;
-    width: auto;    /* best css */
-    filter: none;
-    animation: fadeInDown 1s ease-out 0.2s forwards;
-    opacity: 0;
+.h2{
     margin-top: 0;
+    text-align: center;
+    font-size: 3.5rem;
+    color: #000;
+    font-weight: 500;
+    font-family: Verdana, Geneva, Tahoma;
 }
+.h1{
+    color: #f05f40;
+
+}
+ 
 
 .description {
     font-size: 1.2rem;
@@ -555,14 +574,3 @@ body{
         display: none;  
     }
 }
-
-
-
-
-
-
-
-
-
-
-

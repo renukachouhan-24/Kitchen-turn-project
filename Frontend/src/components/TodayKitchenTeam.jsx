@@ -19,15 +19,37 @@ const TodayKitchenTeam = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRating, setSelectedRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
-    const [uploadedPhotos, setUploadedPhotos] = useState([]); // State for uploaded photos
-    const [isUploading, setIsUploading] = useState(false); // New state for upload status
+    const [uploadedPhotos, setUploadedPhotos] = useState([]);
+    const [isUploading, setIsUploading] = useState(false);
 
-    // NEW STATES
+    // STATES for voting and feedback status
     const [hasRatedToday, setHasRatedToday] = useState(false);
+    const [hasGivenFeedbackToday, setHasGivenFeedbackToday] = useState(false); // NEW STATE for feedback
     const [starTeam, setStarTeam] = useState(null);
     const [topTeams, setTopTeams] = useState([]);
     const [isStarTeamsModalOpen, setIsStarTeamsModalOpen] = useState(false);
     const [currentTeamVotes, setCurrentTeamVotes] = useState(0);
+
+    // STATE FOR USER ROLE
+    const [userRole, setUserRole] = useState('');
+
+    // Helper to check if the user is a coordinator
+    const isCoordinator = userRole === 'coordinator';
+
+    // Fetch user role from localStorage when component mounts
+    useEffect(() => {
+        try {
+            const userData = localStorage.getItem('user'); // Assuming user info is stored under the key 'user'
+            if (userData) {
+                const user = JSON.parse(userData);
+                if (user && user.role) {
+                    setUserRole(user.role);
+                }
+            }
+        } catch (error) {
+            console.error("Error parsing user data from localStorage:", error);
+        }
+    }, []); // Empty array ensures this runs only once on mount
 
     // Data fetching logic
     const fetchData = async () => {
@@ -37,13 +59,13 @@ const TodayKitchenTeam = () => {
                 axios.get('http://localhost:5000/students/active'),
                 axios.get('http://localhost:5000/api/feedback'),
                 axios.get('http://localhost:5000/api/ratings/top-teams'),
-                axios.get('http://localhost:5000/api/photos') // Photos ko fetch karein
+                axios.get('http://localhost:5000/api/photos')
             ]);
             
             setTodayMenu(menuRes.data);
             setFeedbackList(feedbackRes.data);
             setTopTeams(topTeamsRes.data);
-            setUploadedPhotos(photosRes.data); // Photos ko state mein update karein
+            setUploadedPhotos(photosRes.data);
 
             const activeStudents = studentsRes.data;
             let currentKitchenTeam = [];
@@ -59,22 +81,32 @@ const TodayKitchenTeam = () => {
                 setStarTeam(topTeamsRes.data[0]);
             }
 
-            const currentTeamNames = currentKitchenTeam.map(member => member.name);
+            const currentTeamNames = currentKitchenTeam.map(member => member.name).sort();
+            
+            // Check if user has already voted for the CURRENT team
+            const votedForTeam = JSON.parse(localStorage.getItem('votedForTeam') || '[]');
+            if (JSON.stringify(votedForTeam) === JSON.stringify(currentTeamNames)) {
+                setHasRatedToday(true);
+            } else {
+                setHasRatedToday(false);
+            }
+
+            // Check if user has already given feedback for the CURRENT team
+            const feedbackForTeam = JSON.parse(localStorage.getItem('feedbackForTeam') || '[]');
+            if (JSON.stringify(feedbackForTeam) === JSON.stringify(currentTeamNames)) {
+                setHasGivenFeedbackToday(true);
+            } else {
+                setHasGivenFeedbackToday(false);
+            }
+
             const teamRating = topTeamsRes.data.find(team =>
-                JSON.stringify(team.teamMembers.sort()) === JSON.stringify(currentTeamNames.sort())
+                JSON.stringify(team.teamMembers.sort()) === JSON.stringify(currentTeamNames)
             );
             
             if (teamRating) {
                 setCurrentTeamVotes(teamRating.voteCount);
-                const votedForTeam = localStorage.getItem('votedForTeam');
-                if (votedForTeam === JSON.stringify(currentTeamNames)) {
-                    setHasRatedToday(true);
-                } else {
-                    setHasRatedToday(false);
-                }
             } else {
                 setCurrentTeamVotes(0);
-                setHasRatedToday(false);
             }
 
         } catch (error) {
@@ -109,13 +141,20 @@ const TodayKitchenTeam = () => {
 
     const handleFeedbackSubmit = (e) => {
         e.preventDefault();
+        if (hasGivenFeedbackToday) {
+            alert("You have already submitted feedback for today's team.");
+            return;
+        }
         if (feedback.trim() === '') return;
         const newFeedback = { comment: feedback };
         axios.post('http://localhost:5000/api/feedback/add', newFeedback)
             .then(() => {
-                fetchData();
+                const teamMembers = todayTeam.map(member => member.name).sort();
+                localStorage.setItem('feedbackForTeam', JSON.stringify(teamMembers));
+                setHasGivenFeedbackToday(true);
                 setFeedback('');
                 alert('Feedback submitted successfully!');
+                fetchData();
             })
             .catch(() => alert('Could not submit feedback.'));
     };
@@ -138,7 +177,7 @@ const TodayKitchenTeam = () => {
                 alert('Rating submitted successfully!');
                 setSelectedRating(starValue);
                 setHasRatedToday(true);
-                localStorage.setItem('votedForTeam', JSON.stringify(teamMembers)); 
+                localStorage.setItem('votedForTeam', JSON.stringify(teamMembers.sort())); 
                 fetchData();
             })
             .catch(err => {
@@ -153,8 +192,10 @@ const TodayKitchenTeam = () => {
                 .then(() => {
                     alert('All ratings have been reset!');
                     setHasRatedToday(false);
+                    setHasGivenFeedbackToday(false); // Reset feedback status as well
                     setSelectedRating(0);
                     localStorage.removeItem('votedForTeam'); 
+                    localStorage.removeItem('feedbackForTeam'); // Remove feedback lock
                     fetchData();
                 })
                 .catch(err => {
@@ -166,7 +207,6 @@ const TodayKitchenTeam = () => {
     
     const onEmojiClick = (emojiObject) => { setFeedback(prev => prev + emojiObject.emoji); setShowEmojiPicker(false); };
 
-    // --- UPDATED IMAGE UPLOAD FUNCTION ---
     const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
         if (!files.length) return;
@@ -187,7 +227,7 @@ const TodayKitchenTeam = () => {
                 return response.data;
             });
             await Promise.all(uploadPromises);
-            await fetchData(); // Fetch all data again to update the photos list
+            await fetchData();
             alert('Photos uploaded successfully!');
         } catch (error) {
             console.error("Error uploading photos:", error);
@@ -197,11 +237,10 @@ const TodayKitchenTeam = () => {
         }
     };
     
-    // --- UPDATED IMAGE REMOVE FUNCTION ---
     const handleRemovePhoto = async (photoId) => {
         try {
             await axios.delete(`http://localhost:5000/api/photos/${photoId}`);
-            await fetchData(); // Fetch again to update the photos list
+            await fetchData();
             alert('Photo removed successfully!');
         } catch (error) {
             console.error("Error removing photo:", error);
@@ -222,9 +261,9 @@ const TodayKitchenTeam = () => {
                     <div className={styles.sectionHeader}><h2>Manage Today's Kitchen Team & Menu</h2></div>
                     <form onSubmit={handleAddMealItem} className={styles.mealInputFormGrid}>
                         <div className={styles.formGroup}><label htmlFor="mealType">Meal type</label><select id="mealType" name="mealType" className={styles.selectInput}>{mealTypes.map(type => <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>)}</select></div>
-                        <div className={styles.formGroup}><label htmlFor="foodName">Food Name</label><input type="text" id="foodName" name="foodName" placeholder="Enter Food" className={styles.textInput} autoComplete='off'/></div>
-                        <div className={styles.formGroup}><label htmlFor="nutrients">Nutrients</label><input type="text" id="nutrients" name="nutrients" placeholder="Enter Nutrients" className={styles.textInput} autoComplete='off'/></div>
-                        <button type="submit" className={styles.addMealButton}><FaPlusCircle /> Add New Item</button>
+                        <div className={styles.formGroup}><label htmlFor="foodName">Food Name</label><input type="text" id="foodName" name="foodName" placeholder="Enter Food" className={styles.textInput} autoComplete='off' disabled={!isCoordinator}/></div>
+                        <div className={styles.formGroup}><label htmlFor="nutrients">Nutrients</label><input type="text" id="nutrients" name="nutrients" placeholder="Enter Nutrients" className={styles.textInput} autoComplete='off' disabled={!isCoordinator}/></div>
+                        <button type="submit" className={styles.addMealButton} disabled={!isCoordinator}><FaPlusCircle /> Add New Item</button>
                     </form>
                     <div className={styles.currentMenuGrid}>
                         {mealTypes.map(type => (
@@ -232,7 +271,17 @@ const TodayKitchenTeam = () => {
                                 <div className={styles.mealCardHeader}><h3>{type.charAt(0).toUpperCase() + type.slice(1)}</h3><span className={styles.itemCount}>{todayMenu[type]?.length || 0} item(s)</span></div>
                                 <ul className={styles.menuList}>
                                     {todayMenu[type]?.length > 0 ? todayMenu[type].map(item => (
-                                        <li key={item._id} className={styles.menuItem}><strong>{item.foodName}</strong><span className={styles.nutrients}>({item.nutrients})</span><button onClick={() => handleRemoveMealItem(type, item._id)} className={styles.removeMealButton} title="Remove item"><FaTimesCircle /></button></li>
+                                        <li key={item._id} className={styles.menuItem}>
+                                            <strong>{item.foodName}</strong>
+                                            <span className={styles.nutrients}>({item.nutrients})</span>
+                                            <button 
+                                                onClick={() => handleRemoveMealItem(type, item._id)} 
+                                                className={styles.removeMealButton} 
+                                                title="Remove item" 
+                                                disabled={!isCoordinator}>
+                                                <FaTimesCircle />
+                                            </button>
+                                        </li>
                                     )) : <li className={styles.emptyMenuItem}>No {type} items added.</li>}
                                 </ul>
                             </div>
@@ -258,9 +307,9 @@ const TodayKitchenTeam = () => {
                                 {[1, 2, 3, 4, 5].map((starValue) => (
                                     <FaStar
                                         key={starValue}
-                                        className={`${styles.pollStar} ${(starValue <= selectedRating) || (starValue <= hoveredRating) ? styles.selected : ''}`}
-                                        onClick={() => setSelectedRating(starValue)}
-                                        onMouseEnter={() => setHoveredRating(starValue)}
+                                        className={`${styles.pollStar} ${hasRatedToday ? styles.disabledStar : ''} ${(starValue <= selectedRating) || (starValue <= hoveredRating) ? styles.selected : ''}`}
+                                        onClick={() => !hasRatedToday && setSelectedRating(starValue)}
+                                        onMouseEnter={() => !hasRatedToday && setHoveredRating(starValue)}
                                     />
                                 ))}
                             </div>
@@ -289,13 +338,22 @@ const TodayKitchenTeam = () => {
                                 <div className={styles.formGroup}>
                                     <label htmlFor="feedback">Share your thoughts:</label>
                                     <div className={styles.feedbackInputContainer}>
-                                        <textarea id="feedback" value={feedback} onChange={(e) => setFeedback(e.target.value)} rows="4" placeholder="Enter you feedback" className={styles.feedbackTextarea} autoComplete='off'/>
-                                        <FaRegSmile className={styles.emojiButton} onClick={() => setShowEmojiPicker(prev => !prev)} />
+                                        <textarea 
+                                            id="feedback" 
+                                            value={feedback} 
+                                            onChange={(e) => setFeedback(e.target.value)} 
+                                            rows="4" 
+                                            placeholder={hasGivenFeedbackToday ? "You have already submitted feedback for this team." : "Enter your feedback"} 
+                                            className={styles.feedbackTextarea} 
+                                            autoComplete='off'
+                                            disabled={hasGivenFeedbackToday}
+                                        />
+                                        <FaRegSmile className={styles.emojiButton} onClick={() => !hasGivenFeedbackToday && setShowEmojiPicker(prev => !prev)} />
                                         {showEmojiPicker && ( <div className={styles.emojiPicker}><Picker onEmojiClick={onEmojiClick} /></div> )}
                                     </div>
                                 </div>
                                 <div className={styles.feedbackActions}>
-                                    <button type="submit" className={styles.submitButton}>Submit Feedback</button>
+                                    <button type="submit" className={styles.submitButton} disabled={hasGivenFeedbackToday}>Submit Feedback</button>
                                     <button type="button" className={styles.viewFeedbackButton} onClick={() => setIsModalOpen(true)}>View All Feedback</button>
                                     <button type="button" className={styles.viewTeamsButton} onClick={() => setIsStarTeamsModalOpen(true)}>View Star Teams</button>
                                 </div>
@@ -306,7 +364,7 @@ const TodayKitchenTeam = () => {
                             <div className={styles.starTeamInfo}>
                                 <h3>⭐️ Star Kitchen Team:</h3>
                                 <p className={styles.starTeamName}>{starTeam.teamMembers.join(', ')}</p>
-                                <button className={styles.resetButton} onClick={handleResetStars}>
+                                <button className={styles.resetButton} onClick={handleResetStars} disabled={!isCoordinator}>
                                     Reset Star Count
                                 </button>
                             </div>

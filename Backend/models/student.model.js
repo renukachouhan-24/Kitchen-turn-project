@@ -21,12 +21,17 @@ const studentSchema = new Schema({
         default: 'active' 
     },
     turnOrder: { type: Number, required: true }, 
-    // === NAYA FIELD ===
     approvedRequestCount: {
         type: Number,
         default: 0
     },
-    // ==================
+    // ================== YEH NAYA FIELD ADD KAREIN ==================
+    role: {
+        type: String,
+        enum: ['student', 'coordinator'],
+        default: 'student'
+    }
+    // =============================================================
 }, {
     timestamps: true,
 });

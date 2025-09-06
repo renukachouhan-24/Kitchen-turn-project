@@ -1,4 +1,5 @@
 /* src/components/Navbar.module.css */
+@import url('https://fonts.googleapis.com/css2?family=Bungee&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 .header {
     display: flex;
@@ -9,12 +10,17 @@
     color: #000000;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-
+.logo{
+    color: #f05f40;
+}
 .logoContainer {
     display: flex;
+    font-family: "Bungee", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     align-items: center;
     gap: 0.75rem;
-    font-weight: 600;
+    /* font-weight: 600; */
     font-size: 1.5rem;
     color: #000000;
     transition: color 0.2s;
@@ -98,8 +104,9 @@
 }
 
 .registerBtn:hover {
-    background-color: #f05f40;
+    background: #f05f40;
     color: #fff !important;
+    border: none;
 }
 
 .skipRequestBtn {

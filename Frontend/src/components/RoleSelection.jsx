@@ -1,3 +1,5 @@
+//  RoleSelection.jsx file
+
 import React, { useRef } from 'react'; 
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar'; 
@@ -50,12 +52,15 @@ const RoleSelection = () => {
             <main className={styles.mainContent}>
                 <div className={styles.mainTitleContainer}>
                     <h1 className={styles.welcomeHeading}>Welcome to</h1>
-                    <img src={navgurukulLogo} alt="Navgurukul Logo" className={styles.navgurukulLogo} />
-                     
+
+                    <span className={styles.samarkanText}>
+                      <span className={styles.redText}>nav</span>
+                      <span className={styles.blackText}>gurukul</span>
+                    </span>
                         <img src={ajmfLogo} alt="AJMF-Logo" className={styles.ajmfLogo}/>
-                  
                 </div>
 
+                     
                 
                 <p className={styles.description}>
                     Kitchen Turn is a smart way to manage and organize daily kitchen duties in student hostels and communities. It helps track who is responsible, ensures fairness, and improves coordination.
@@ -179,4 +184,3 @@ const RoleSelection = () => {
 };
 
 export default RoleSelection;
-

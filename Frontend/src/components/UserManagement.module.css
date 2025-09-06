@@ -1,0 +1,65 @@
+.container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.container h1 {
+    border-bottom: 2px solid #f05f40;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.userTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+}
+
+.userTable th, .userTable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.userTable th {
+    background-color: #f7fafc;
+    font-weight: 600;
+}
+
+.userTable tbody tr:hover {
+    background-color: #f7fafc;
+}
+
+.roleBadge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.roleBadge.student {
+    background-color: #e0e7ff;
+    color: #4338ca;
+}
+
+.roleBadge.coordinator {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.roleDropdown {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e0;
+}
+
+.accessDenied, .loading {
+    text-align: center;
+    margin-top: 5rem;
+    color: #4a5568;
+}
