@@ -1,4 +1,3 @@
-// backend/models/menu.model.js
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
@@ -14,7 +13,7 @@ const menuSchema = new Schema({
         unique: true, 
         default: () => {
             const d = new Date();
-            d.setUTCHours(0, 0, 0, 0); // <-- BADLAV: Use UTC hours for consistency
+            d.setUTCHours(0, 0, 0, 0); 
             return d;
         }
     },

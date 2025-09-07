@@ -3,24 +3,20 @@ import Student from '../models/student.model.js';
 
 const router = Router();
 
-// Route 1: Saare students ki list bhejta hai (UI grid ke liye)
 router.route('/all').get((req, res) => {
     Student.find().sort({ turnOrder: 1 })
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route 2: Sirf active students ki list bhejta hai (teams ke liye)
-// Route 2: Sirf active students ki list bhejta hai (teams ke liye)
 router.route('/active').get((req, res) => {
-    Student.find({ status: 'active', role: { $ne: 'coordinator' } }) // 👈 exclude coordinator
+    Student.find({ status: 'active', role: { $ne: 'coordinator' } }) 
         .sort({ turnOrder: 1 })
         .then(students => res.json(students))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
 
-// Route 3: Student ka status update karega
 router.route('/update-status/:id').patch(async (req, res) => {
     try {
         const { status } = req.body;
@@ -31,7 +27,6 @@ router.route('/update-status/:id').patch(async (req, res) => {
     }
 });
 
-// Route 4: Sabhi students ka status reset karega
 router.route('/reset').post(async (req, res) => {
     try {
         await Student.updateMany({}, { status: 'active' });
@@ -45,7 +40,6 @@ router.route('/reset').post(async (req, res) => {
     }
 });
 
-// Route 5: Naya student add karega
 router.route('/add').post(async (req, res) => {
     try {
         const { name, email, password, joiningDate } = req.body;
@@ -67,7 +61,6 @@ router.route('/add').post(async (req, res) => {
     }
 });
 
-// ✅ Route 6: Role update karega (only one coordinator allowed at a time)
 router.route('/update-role/:id').patch(async (req, res) => {
     try {
         const { role } = req.body;
@@ -89,12 +82,11 @@ router.route('/update-role/:id').patch(async (req, res) => {
             { new: true }
         );
 
-        // ✅ Agar role student ho gaya to forceLogout flag bhej do
         res.json({
             message: 'Student role updated successfully!',
             student: updatedStudent,
             forceLogout: role === "student",
-            userId: req.params.id   // 👈 ye flag frontend ko milega
+            userId: req.params.id   
         });
     } catch (err) {
         res.status(500).json('Error: ' + err);

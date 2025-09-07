@@ -18,7 +18,7 @@ router.post('/add', async (req, res) => {
         }
 
         teamRating.totalStars += starValue;
-        teamRating.voteCount += 1; // हर बार रेटिंग सबमिट होने पर वोट काउंट बढ़ाएं
+        teamRating.voteCount += 1;
         await teamRating.save();
 
         res.json('Rating added successfully!');

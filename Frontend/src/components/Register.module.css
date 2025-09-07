@@ -1,5 +1,3 @@
-/* frontend/src/components/Register.module.css */
-
 .pageWrapper {
     display: flex;
     justify-content: center;
@@ -8,29 +6,27 @@
     padding: 2rem;
     background: linear-gradient(135deg, #f3f4ff 0%, #e1e2f6 100%);
     box-sizing: border-box;
-    position: relative; /* <-- Yeh line add karein */
+    position: relative;  
 }
 
-/* Naye styles for back button */
-.backButton {
-    position: absolute; /* <-- Isse button ko corner me position kar sakte hain */
+ .backButton {
+    position: absolute;  
     top: 20px;
     left: 20px;
     background-color: transparent;
     color: #4a5568;
     border: none;
     cursor: pointer;
-    font-size: 2rem; /* Icon size badhayein */
+    font-size: 2rem;  
     transition: color 0.2s ease-in-out;
     padding: 0;
 }
 
 .backButton:hover {
-    color: #f27559; /* Hover effect */
+    color: #f27559; 
 }
 
-/* --- Baaki ke styles jaisa hai waise hi rahega --- */
-
+ 
 .formCard {
     background-color: #fff;
     border-radius: 12px;
@@ -104,8 +100,7 @@
     border: solid #f27559 2px;
 }
 
-/* --- Responsive Styles for Mobile and Tablets --- */
-@media (max-width: 576px) {
+ @media (max-width: 576px) {
     .pageWrapper {
         padding: 1rem;
     }

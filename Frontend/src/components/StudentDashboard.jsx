@@ -13,17 +13,14 @@ const StudentDashboard = () => {
     const [loggedInUser, setLoggedInUser] = useState(null);
 
     useEffect(() => {
-        // Component load hote hi, localStorage se user ki info nikaalo
         const userString = localStorage.getItem('user');
         if (userString) {
             setLoggedInUser(JSON.parse(userString));
         }
     }, []);
 
-    // Check karo ki user coordinator hai ya nahi
     const isCoordinator = loggedInUser && loggedInUser.role === 'coordinator';
 
-    // Aapka purana logic jaisa tha waisa hi hai
     const fetchAllStudents = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/all');
@@ -40,15 +37,13 @@ const StudentDashboard = () => {
         }
     };
 
-    // Aapka purana logic jaisa tha waisa hi hai
     const fetchActiveStudentsForTeams = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/active');
             let activeStudents = response.data;
-    
-            // ✅ Coordinator ko filter kar do
+
             activeStudents = activeStudents.filter(student => student.role !== 'coordinator');
-    
+
             if (activeStudents.length >= 5) {
                 setTodayTeam(activeStudents.slice(0, 5));
                 setTomorrowTeam(activeStudents.slice(5, 10));
@@ -62,28 +57,25 @@ const StudentDashboard = () => {
             console.error("Error fetching active students:", err);
         }
     };
-    
 
-    // Aapka purana logic jaisa tha waisa hi hai
+
     useEffect(() => {
         fetchAllStudents();
         fetchActiveStudentsForTeams();
-        
+
         const refreshInterval = setInterval(() => {
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        }, 240000);
+        }, 86400000);
 
         return () => clearInterval(refreshInterval);
     }, []);
 
     const handleStatusChange = async (studentId, newStatus) => {
-        // ================== CHANGE #1: SECURITY CHECK ADDED ==================
         if (!isCoordinator) {
             alert("You do not have permission to change the status.");
-            return; // Action ko yahin rok do
+            return;
         }
-        // ===================================================================
         try {
             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
             fetchAllStudents();
@@ -97,14 +89,14 @@ const StudentDashboard = () => {
 
     return (
         <div className={styles.pageWrapper}>
-            <Navbar showRegister={false} showSkipRequest={true}/>
-            
+            <Navbar showRegister={false} showSkipRequest={true} />
+
             <main className={styles.overviewContainer}>
                 <div className={styles.overviewHeader}>
                     <h1>Kitchen Turn Overview</h1>
                 </div>
                 <p className={styles.overviewSubtitle}>A recipe has no soul. You, as the cook, must bring soul to the recipe.</p>
-                
+
                 {error && <div className={styles.errorMessage}>{error}</div>}
 
                 <div className={styles.teamsDisplayContainer}>
@@ -125,34 +117,34 @@ const StudentDashboard = () => {
                         </ul>
                     </div>
                 </div>
-                
+
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
                     <div className={styles.allStudentsGrid}>
-                    {allStudents.map(({ _id, name, status, role, joiningDate }) => (
-  <div className={styles.overviewStudentCard} key={_id}>
-    <div className={styles.studentInfo}>
-      <p className={styles.studentName}>{name}</p>
-      <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
-    </div>
-    
-    {role === 'coordinator' ? (
-      <p className={styles.coordinatorBadge}>COORDINATOR</p> // ✅ Yellow badge text
-    ) : (
-      <select
-        className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
-        value={status}
-        onChange={(e) => handleStatusChange(_id, e.target.value)}
-        disabled={!isCoordinator} // Coordinator nahi toh disabled
-        title={!isCoordinator ? "Only coordinators can change status." : ""}
-      >
-        <option value="active">ACTIVE</option>
-        <option value="inactive">INACTIVE</option>
-        <option value="on_leave">ON LEAVE</option>
-      </select>
-    )}
-  </div>
-))}
+                        {allStudents.map(({ _id, name, status, role, joiningDate }) => (
+                            <div className={styles.overviewStudentCard} key={_id}>
+                                <div className={styles.studentInfo}>
+                                    <p className={styles.studentName}>{name}</p>
+                                    <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
+                                </div>
+
+                                {role === 'coordinator' ? (
+                                    <p className={styles.coordinatorBadge}>COORDINATOR</p>
+                                ) : (
+                                    <select
+                                        className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
+                                        value={status}
+                                        onChange={(e) => handleStatusChange(_id, e.target.value)}
+                                        disabled={!isCoordinator}
+                                        title={!isCoordinator ? "Only coordinators can change status." : ""}
+                                    >
+                                        <option value="active">ACTIVE</option>
+                                        <option value="inactive">INACTIVE</option>
+                                        <option value="on_leave">ON LEAVE</option>
+                                    </select>
+                                )}
+                            </div>
+                        ))}
 
                     </div>
                 </div>

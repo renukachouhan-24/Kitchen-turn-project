@@ -39,7 +39,6 @@ const UserManagement = () => {
         }
     }, [isCoordinator]);
 
-    // role update karte time
     const handleRoleChange = async (id, newRole) => {
         try {
           const res = await axios.patch(
@@ -51,13 +50,11 @@ const UserManagement = () => {
           const currentUser = JSON.parse(localStorage.getItem("user"));
       
           if (res.data.forceLogout && res.data.userId === currentUser._id) {
-            // 👇 fresh user fetch karo
             const token = localStorage.getItem("token");
             const me = await axios.get("http://localhost:5000/api/auth/me", {
               headers: { Authorization: `Bearer ${token}` },
             });
       
-            // localStorage update karo
             localStorage.setItem("user", JSON.stringify(me.data));
       
             if (me.data.role === "student") {
@@ -80,7 +77,6 @@ const UserManagement = () => {
   
     
     
-    // ✅ Student can't see this page
     if (!isCoordinator) {
         return (
             <div>
