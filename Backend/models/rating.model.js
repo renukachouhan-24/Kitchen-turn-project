@@ -11,7 +11,7 @@ const ratingSchema = new Schema({
         type: Number,
         default: 0
     },
-    voteCount: { // नया फ़ील्ड: वोटों की संख्या
+    voteCount: { 
         type: Number,
         default: 0
     }

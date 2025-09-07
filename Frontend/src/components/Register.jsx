@@ -1,4 +1,3 @@
-// frontend/src/components/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -31,15 +30,13 @@ const Register = () => {
     }
   };
 
-  // Naya function jo back button par click karne par navigate karega
-  const handleGoBack = () => {
+   const handleGoBack = () => {
     navigate('/');
   };
 
   return (
     <div className={styles.pageWrapper}>
-      {/* Naya Back Button Component */}
-      <button onClick={handleGoBack} className={styles.backButton} title="Go back to main page">
+       <button onClick={handleGoBack} className={styles.backButton} title="Go back to main page">
         <FaArrowLeft />
       </button>
       

@@ -1,6 +1,3 @@
-// Footer.jsx
-
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaLinkedinIn, FaTwitter ,   FaPhone, FaGithub} from 'react-icons/fa'; 
@@ -72,8 +69,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Member 2: Renuka */}
-                <div className={styles.memberCard}>
+                 <div className={styles.memberCard}>
                     <h4 className={styles.memberName}>Renuka</h4>
                     <div className={styles.socialIcons}>
                         <a href="https://www.linkedin.com/in/renuka-chouhan-05320432a/" className={`${styles.iconLink} ${styles.linkedin}`}><FaLinkedinIn /></a>
@@ -83,8 +79,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Member 3: Nikita */}
-                <div className={styles.memberCard}>
+                 <div className={styles.memberCard}>
                     <h4 className={styles.memberName}>Nikita</h4>
                     <div className={styles.socialIcons}>
                         <a href="https://www.linkedin.com/in/nikitapanwar24/" className={`${styles.iconLink} ${styles.linkedin}`}><FaLinkedinIn /></a>
@@ -99,12 +94,7 @@ const Footer = () => {
 
             <div className={styles.copyrightSection}>
                 <p>&copy; {new Date().getFullYear()} Navgurukul. All rights reserved.</p>
-                {/* <p>Crafted with ❤️ by Renuka | Nikita | Prachi</p> */}
-            </div>
-        
-
-
-   
+             </div>
         </footer>
     );
 };

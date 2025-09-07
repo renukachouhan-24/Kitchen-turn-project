@@ -3,14 +3,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaRegPaperPlane, FaBars, FaTimes, FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
 import styles from './Navbar.module.css';
-import ladyChefIcon from '../assets/chef.png';
+ 
 
 const Navbar = ({ showRegister, showSkipRequest }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const navigate = useNavigate();
 
-    // ✅ User ko backend se verify karo
     useEffect(() => {
         const checkUser = async () => {
             const token = localStorage.getItem("token");
@@ -21,8 +20,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                // agar role ab coordinator nahi hai → logout karao
-                if (res.data.role !== "coordinator" && window.location.pathname === "/user-management") {
+                 if (res.data.role !== "coordinator" && window.location.pathname === "/user-management") {
                     localStorage.removeItem("user");
                     localStorage.removeItem("token");
                     setLoggedInUser(null);

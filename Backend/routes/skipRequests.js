@@ -4,16 +4,14 @@ import Student from '../models/student.model.js';
 
 const router = Router();
 
-// ✅ Coordinator verification middleware
 const verifyCoordinator = (req, res, next) => {
-    const userRole = req.headers.userrole; // frontend se headers me bhejna
+    const userRole = req.headers.userrole;
     if (!userRole || userRole !== 'coordinator') {
         return res.status(403).json({ message: 'Access denied. Only coordinators can perform this action.' });
     }
     next();
 };
 
-// Route 1: Nayi skip request submit karne ke liye
 router.route('/add').post((req, res) => {
     const { studentName, reason } = req.body;
     const newSkipRequest = new SkipRequest({ studentName, reason });
@@ -22,14 +20,12 @@ router.route('/add').post((req, res) => {
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route 2: Saari skip requests (Coordinator view)
 router.route('/').get((req, res) => {
     SkipRequest.find()
         .then(requests => res.json(requests))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
-// Route 3: Approve request (Coordinator only)
 router.route('/approve/:id').patch(verifyCoordinator, async (req, res) => {
     try {
         const { id } = req.params;
@@ -47,7 +43,6 @@ router.route('/approve/:id').patch(verifyCoordinator, async (req, res) => {
     }
 });
 
-// Route 4: Reject request (Coordinator only)
 router.route('/reject/:id').patch(verifyCoordinator, async (req, res) => {
     try {
         const { id } = req.params;
@@ -58,7 +53,6 @@ router.route('/reject/:id').patch(verifyCoordinator, async (req, res) => {
     }
 });
 
-// Route 5: Stats
 router.route('/stats').get(async (req, res) => {
     try {
         const students = await Student.find({}, 'name approvedRequestCount');

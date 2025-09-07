@@ -1,12 +1,9 @@
-//  RoleSelection.jsx file
-
-import React, { useRef } from 'react'; 
+ import React, { useRef } from 'react'; 
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar'; 
 import Footer from './Footer';
 import styles from './RoleSelection.module.css';
 import { FaCheckCircle, FaUsers, FaClock, FaShieldAlt, FaCalendarAlt, FaChartBar, FaCogs, FaBell, FaChevronLeft, FaChevronRight, FaFacebookF, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
-import navgurukulLogo from '../assets/navgurukul.png';
 import ajmfLogo from "../assets/AJMF.png";
 
 
@@ -19,11 +16,13 @@ import carousel_image6 from '../assets/cooking6.jpeg';
 import carousel_image7 from '../assets/cooking7.jpeg'; 
 
 const carouselImages = [
-    carousel_image5,
     carousel_image6,
+    carousel_image5,
+    
     carousel_image7,
-    carousel_image4,
     carousel_image1,
+    carousel_image4,
+     
     carousel_image2,
     carousel_image3,
 ];

@@ -63,3 +63,55 @@
     margin-top: 5rem;
     color: #4a5568;
 }
+
+@media (max-width: 768px) {
+    .userTable {
+        border: none;
+        width: 100%;
+    }
+
+    .userTable thead {
+        display: none;
+         text-align: left;
+    }
+
+    .userTable tr {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        
+    }
+
+    .userTable td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: none;
+        text-align: left;
+    }
+
+    .userTable td:last-child {
+        border-bottom: none;
+    }
+
+    .userTable td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #4a5568;
+        padding-right: 1rem;
+        white-space: nowrap;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+
+    .roleDropdown {
+        flex-grow: 1;
+        width: auto;
+    }
+}

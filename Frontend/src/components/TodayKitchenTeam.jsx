@@ -10,8 +10,7 @@ import StarTeamsModal from './StarTeamsModal';
 const mealTypes = ['breakfast', 'lunch', 'snacks', 'dinner'];
 
 const TodayKitchenTeam = () => {
-    // States for various features
-    const [todayMenu, setTodayMenu] = useState({ breakfast: [], lunch: [], snacks: [], dinner: [] });
+     const [todayMenu, setTodayMenu] = useState({ breakfast: [], lunch: [], snacks: [], dinner: [] });
     const [feedbackList, setFeedbackList] = useState([]);
     const [todayTeam, setTodayTeam] = useState([]);
     const [feedback, setFeedback] = useState('');
@@ -22,24 +21,20 @@ const TodayKitchenTeam = () => {
     const [uploadedPhotos, setUploadedPhotos] = useState([]);
     const [isUploading, setIsUploading] = useState(false);
 
-    // STATES for voting and feedback status
-    const [hasRatedToday, setHasRatedToday] = useState(false);
+     const [hasRatedToday, setHasRatedToday] = useState(false);
     const [hasGivenFeedbackToday, setHasGivenFeedbackToday] = useState(false); // NEW STATE for feedback
     const [starTeam, setStarTeam] = useState(null);
     const [topTeams, setTopTeams] = useState([]);
     const [isStarTeamsModalOpen, setIsStarTeamsModalOpen] = useState(false);
     const [currentTeamVotes, setCurrentTeamVotes] = useState(0);
 
-    // STATE FOR USER ROLE
-    const [userRole, setUserRole] = useState('');
+     const [userRole, setUserRole] = useState('');
 
-    // Helper to check if the user is a coordinator
     const isCoordinator = userRole === 'coordinator';
 
-    // Fetch user role from localStorage when component mounts
-    useEffect(() => {
+     useEffect(() => {
         try {
-            const userData = localStorage.getItem('user'); // Assuming user info is stored under the key 'user'
+            const userData = localStorage.getItem('user');  
             if (userData) {
                 const user = JSON.parse(userData);
                 if (user && user.role) {
@@ -49,10 +44,9 @@ const TodayKitchenTeam = () => {
         } catch (error) {
             console.error("Error parsing user data from localStorage:", error);
         }
-    }, []); // Empty array ensures this runs only once on mount
+    }, []);  
 
-    // Data fetching logic
-    const fetchData = async () => {
+     const fetchData = async () => {
         try {
             const [menuRes, studentsRes, feedbackRes, topTeamsRes, photosRes] = await axios.all([
                 axios.get('http://localhost:5000/menu/today'),
@@ -83,16 +77,14 @@ const TodayKitchenTeam = () => {
 
             const currentTeamNames = currentKitchenTeam.map(member => member.name).sort();
             
-            // Check if user has already voted for the CURRENT team
-            const votedForTeam = JSON.parse(localStorage.getItem('votedForTeam') || '[]');
+             const votedForTeam = JSON.parse(localStorage.getItem('votedForTeam') || '[]');
             if (JSON.stringify(votedForTeam) === JSON.stringify(currentTeamNames)) {
                 setHasRatedToday(true);
             } else {
                 setHasRatedToday(false);
             }
 
-            // Check if user has already given feedback for the CURRENT team
-            const feedbackForTeam = JSON.parse(localStorage.getItem('feedbackForTeam') || '[]');
+             const feedbackForTeam = JSON.parse(localStorage.getItem('feedbackForTeam') || '[]');
             if (JSON.stringify(feedbackForTeam) === JSON.stringify(currentTeamNames)) {
                 setHasGivenFeedbackToday(true);
             } else {
@@ -120,8 +112,7 @@ const TodayKitchenTeam = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Handler Functions
-    const handleAddMealItem = (e) => {
+     const handleAddMealItem = (e) => {
         e.preventDefault();
         const mealType = e.target.elements.mealType.value;
         const foodName = e.target.elements.foodName.value;
@@ -192,10 +183,10 @@ const TodayKitchenTeam = () => {
                 .then(() => {
                     alert('All ratings have been reset!');
                     setHasRatedToday(false);
-                    setHasGivenFeedbackToday(false); // Reset feedback status as well
+                    setHasGivenFeedbackToday(false);  
                     setSelectedRating(0);
                     localStorage.removeItem('votedForTeam'); 
-                    localStorage.removeItem('feedbackForTeam'); // Remove feedback lock
+                    localStorage.removeItem('feedbackForTeam');  
                     fetchData();
                 })
                 .catch(err => {

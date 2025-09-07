@@ -16,8 +16,7 @@ const LoginPage = () => {
 
             localStorage.setItem('token', response.data.token);
 
-            // ✅ Immediately fetch latest user from backend
-            const me = await axios.get('http://localhost:5000/api/auth/me', {
+             const me = await axios.get('http://localhost:5000/api/auth/me', {
                 headers: { Authorization: `Bearer ${response.data.token}` }
             });
 

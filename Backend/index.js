@@ -1,5 +1,3 @@
-// backend/index.js
-
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
@@ -8,14 +6,12 @@ import cron from 'node-cron';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
 
-// Models imports
 import Student from './models/student.model.js'; 
 import Menu from './models/menu.model.js'; 
 import Feedback from './models/feedback.model.js';
 import Photo from './models/photo.model.js';
 import SkipRequest from './models/skipRequest.model.js';
 
-// Routes imports
 import studentsRouter from './routes/students.js';
 import skipRequestsRouter from './routes/skipRequests.js';
 import authRouter from './routes/auth.js'; 
@@ -30,7 +26,6 @@ const port = 5000;
 app.use(cors());
 app.use(express.json());
 
-// Cloudinary configuration
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME, 
   api_key: process.env.CLOUDINARY_API_KEY, 
@@ -54,7 +49,6 @@ app.use('/menu', menuRouter);
 app.use('/api/feedback',feedbackRoutes);
 app.use('/api/ratings',ratingRouter);
 
-// --- NEW API FOR IMAGE UPLOAD ---
 app.post('/api/upload-photo', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
@@ -70,7 +64,6 @@ app.post('/api/upload-photo', upload.single('file'), async (req, res) => {
   }
 });
 
-// --- NEW API TO GET PHOTOS ---
 app.get('/api/photos', async (req, res) => {
   try {
     const photos = await Photo.find({});
@@ -81,8 +74,7 @@ app.get('/api/photos', async (req, res) => {
   }
 });
 
-// KITCHEN TEAM ROTATION CRON JOB
-cron.schedule('*/4 * * * *', async () => {
+cron.schedule('0 6 * * *', async () => {
   console.log('⏰ Running daily kitchen team rotation...');
   try {
       const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
@@ -108,8 +100,7 @@ cron.schedule('*/4 * * * *', async () => {
   }
 });
 
-// DAILY DATA RESET CRON JOB
-cron.schedule('*/4 * * * *', async () => {
+cron.schedule('0 6 * * *', async () => {
     console.log('🧹 Running daily data reset task...');
     try {
         await Menu.deleteMany({});
@@ -123,16 +114,12 @@ cron.schedule('*/4 * * * *', async () => {
     }
 });
 
-// --- CRON JOB TO DELETE OLD RESOLVED SKIP REQUESTS ---
-cron.schedule('*/4 * * * *', async () => { // Testing ke liye har 2 minute par
+cron.schedule('0 6 * * *', async () => { 
     console.log('⏳ Running cron job to delete old resolved skip requests...');
-    // 48 hours in milliseconds = 48 * 60 * 60 * 1000
-    const timeLimitInMs = 4 * 60 * 1000; // Testing ke liye 2 minutes
-    // const timeLimitInMs = 48 * 60 * 60 * 1000; // Production ke liye 48 ghante
+    const timeLimitInMs = 24 * 60 * 60 * 1000; 
     const timeThreshold = new Date(Date.now() - timeLimitInMs);
     
     try {
-        // Find aur delete karein woh requests jo Approved ya Rejected hain aur 48 ghante se purani hain
         const result = await SkipRequest.deleteMany({
             status: { $in: ['Approved', 'Rejected'] },
             createdAt: { $lt: timeThreshold }

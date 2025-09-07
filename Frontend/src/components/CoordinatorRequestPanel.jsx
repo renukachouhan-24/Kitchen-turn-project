@@ -10,24 +10,21 @@ const CoordinatorRequestPanel = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [loading, setLoading] = useState(true);
     
-    // State to hold the current user's role
-    const [userRole, setUserRole] = useState('');
+     const [userRole, setUserRole] = useState('');
 
-    // A helper boolean to easily check if the user is a coordinator
-    const isCoordinator = userRole === 'coordinator';
+     const isCoordinator = userRole === 'coordinator';
 
-    // Effect to get user role from local storage when the component loads
-    useEffect(() => {
+     useEffect(() => {
         try {
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
                 const user = JSON.parse(storedUser);
-                setUserRole(user.role || ''); // Set role from the user object
+                setUserRole(user.role || '');  
             }
         } catch (error) {
             console.error("Failed to parse user data from local storage", error);
         }
-    }, []); // Empty dependency array ensures this runs only once
+    }, []);  
 
     const fetchData = async () => {
         setLoading(true);
@@ -60,9 +57,8 @@ const CoordinatorRequestPanel = () => {
         return () => clearInterval(intervalId);
     }, []);
 
-    // ✅ Approve request (Coordinator only)
-    const handleApprove = async (id, studentName) => {
-        if (!isCoordinator) { // Using the state variable for the check
+     const handleApprove = async (id, studentName) => {
+        if (!isCoordinator) {  
             alert("Access denied. Only coordinators can approve requests.");
             return;
         }
@@ -81,9 +77,8 @@ const CoordinatorRequestPanel = () => {
         }
     };
 
-    // ✅ Reject request (Coordinator only)
-    const handleReject = async (id) => {
-        if (!isCoordinator) { // Using the state variable for the check
+     const handleReject = async (id) => {
+        if (!isCoordinator) {  
             alert("Access denied. Only coordinators can reject requests.");
             return;
         }
@@ -122,8 +117,7 @@ const CoordinatorRequestPanel = () => {
 
             <main className={styles.dashboardContainer}>
                 
-                {/* Section 1: All Requests */}
-                <div className={styles.requestsContainer}>
+                 <div className={styles.requestsContainer}>
                     <h2>All Requests</h2>
                     <div className={styles.requestsGrid}>
                         {requests.length === 0 ? (
@@ -173,8 +167,7 @@ const CoordinatorRequestPanel = () => {
                     </div>
                 </div>
 
-                {/* Section 2: Sidebar */}
-                <aside className={styles.statsSidebar}>
+                 <aside className={styles.statsSidebar}>
                     <h3>Student Skip History</h3>
                     <div className={styles.searchBox}>
                         <FaSearch className={styles.searchIcon} />

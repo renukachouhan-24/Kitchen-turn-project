@@ -1,5 +1,3 @@
-// backend/models/skipRequest.model.js
-
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
@@ -9,7 +7,7 @@ const skipRequestSchema = new Schema({
   status: {
     type: String,
     required: true,
-    default: 'Pending' // Jab bhi nayi request aayegi, by default 'Pending' hogi
+    default: 'Pending' 
   }
 }, {
   timestamps: true,

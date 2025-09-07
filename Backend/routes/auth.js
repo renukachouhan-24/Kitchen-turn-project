@@ -5,21 +5,19 @@ import Student from '../models/student.model.js';
 
 const router = Router();
 
-// Middleware
 const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) return res.status(401).json({ message: "No token provided" });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.user; // { id, name, role }
+    req.user = decoded.user; 
     next();
   } catch (err) {
     return res.status(401).json({ message: "Invalid token" });
   }
 };
 
-// REGISTER
 router.post('/register', async (req, res) => {
   const { name, email, password, joiningDate } = req.body;
   try {
@@ -51,7 +49,6 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// LOGIN
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -78,7 +75,6 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// GET CURRENT USER (/auth/me)
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const student = await Student.findById(req.user.id).select("-password");

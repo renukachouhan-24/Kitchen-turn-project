@@ -25,13 +25,11 @@ const studentSchema = new Schema({
         type: Number,
         default: 0
     },
-    // ================== YEH NAYA FIELD ADD KAREIN ==================
     role: {
         type: String,
         enum: ['student', 'coordinator'],
         default: 'student'
     }
-    // =============================================================
 }, {
     timestamps: true,
 });
