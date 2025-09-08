@@ -1,4 +1,3 @@
-// frontend/src/components/FeedbackModal.jsx
 import React from 'react';
 import styles from './FeedbackModal.module.css';
 import { FaTimes } from 'react-icons/fa';

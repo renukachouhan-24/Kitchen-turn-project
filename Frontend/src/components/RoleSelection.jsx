@@ -1,11 +1,9 @@
-
-import React, { useState, useRef } from 'react'; 
+ import React, { useRef } from 'react'; 
 import { Link } from 'react-router-dom';
 import Navbar from './Navbar'; 
 import Footer from './Footer';
 import styles from './RoleSelection.module.css';
 import { FaCheckCircle, FaUsers, FaClock, FaShieldAlt, FaCalendarAlt, FaChartBar, FaCogs, FaBell, FaChevronLeft, FaChevronRight, FaFacebookF, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
-import navgurukulLogo from '../assets/navgurukul.png';
 import ajmfLogo from "../assets/AJMF.png";
 
 
@@ -16,21 +14,21 @@ import carousel_image4 from '../assets/cooking4.jpeg';
 import carousel_image5 from '../assets/cooking5.jpeg'; 
 import carousel_image6 from '../assets/cooking6.jpeg'; 
 import carousel_image7 from '../assets/cooking7.jpeg'; 
- 
+
 const carouselImages = [
-    carousel_image5,
     carousel_image6,
+    carousel_image5,
+    
     carousel_image7,
-    carousel_image4,
     carousel_image1,
+    carousel_image4,
+     
     carousel_image2,
     carousel_image3,
 ];
 
 const RoleSelection = () => {
     const carouselRef = useRef(null);
-
-    
 
     const nextSlideManual = () => {
         if (carouselRef.current) {
@@ -53,12 +51,15 @@ const RoleSelection = () => {
             <main className={styles.mainContent}>
                 <div className={styles.mainTitleContainer}>
                     <h1 className={styles.welcomeHeading}>Welcome to</h1>
-                    <img src={navgurukulLogo} alt="Navgurukul Logo" className={styles.navgurukulLogo} />
-                     
+
+                    <span className={styles.samarkanText}>
+                      <span className={styles.redText}>nav</span>
+                      <span className={styles.blackText}>gurukul</span>
+                    </span>
                         <img src={ajmfLogo} alt="AJMF-Logo" className={styles.ajmfLogo}/>
-                  
                 </div>
 
+                     
                 
                 <p className={styles.description}>
                     Kitchen Turn is a smart way to manage and organize daily kitchen duties in student hostels and communities. It helps track who is responsible, ensures fairness, and improves coordination.
@@ -182,6 +183,3 @@ const RoleSelection = () => {
 };
 
 export default RoleSelection;
-
-
-

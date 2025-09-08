@@ -10,39 +10,56 @@ import StarTeamsModal from './StarTeamsModal';
 const mealTypes = ['breakfast', 'lunch', 'snacks', 'dinner'];
 
 const TodayKitchenTeam = () => {
-    // States for various features
-    const [todayMenu, setTodayMenu] = useState({ breakfast: [], lunch: [], snacks: [], dinner: [] });
-    // Ratings state ko ab backend se fetch kiya jayega, localstorage se nahi
+     const [todayMenu, setTodayMenu] = useState({ breakfast: [], lunch: [], snacks: [], dinner: [] });
     const [feedbackList, setFeedbackList] = useState([]);
     const [todayTeam, setTodayTeam] = useState([]);
-    const [tomorrowTeam, setTomorrowTeam] = useState([]);
     const [feedback, setFeedback] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRating, setSelectedRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
     const [uploadedPhotos, setUploadedPhotos] = useState([]);
+    const [isUploading, setIsUploading] = useState(false);
 
-    // NEW STATES
-    const [hasRatedToday, setHasRatedToday] = useState(false);
+     const [hasRatedToday, setHasRatedToday] = useState(false);
+    const [hasGivenFeedbackToday, setHasGivenFeedbackToday] = useState(false); // NEW STATE for feedback
     const [starTeam, setStarTeam] = useState(null);
     const [topTeams, setTopTeams] = useState([]);
     const [isStarTeamsModalOpen, setIsStarTeamsModalOpen] = useState(false);
-    const [currentTeamVotes, setCurrentTeamVotes] = useState(0); // नया स्टेट: आज की टीम के वोट्स
+    const [currentTeamVotes, setCurrentTeamVotes] = useState(0);
 
-    // Data fetching logic
-    const fetchData = async () => {
+     const [userRole, setUserRole] = useState('');
+
+    const isCoordinator = userRole === 'coordinator';
+
+     useEffect(() => {
         try {
-            const [menuRes, studentsRes, feedbackRes, topTeamsRes] = await axios.all([
+            const userData = localStorage.getItem('user');  
+            if (userData) {
+                const user = JSON.parse(userData);
+                if (user && user.role) {
+                    setUserRole(user.role);
+                }
+            }
+        } catch (error) {
+            console.error("Error parsing user data from localStorage:", error);
+        }
+    }, []);  
+
+     const fetchData = async () => {
+        try {
+            const [menuRes, studentsRes, feedbackRes, topTeamsRes, photosRes] = await axios.all([
                 axios.get('http://localhost:5000/menu/today'),
                 axios.get('http://localhost:5000/students/active'),
                 axios.get('http://localhost:5000/api/feedback'),
-                axios.get('http://localhost:5000/api/ratings/top-teams')
+                axios.get('http://localhost:5000/api/ratings/top-teams'),
+                axios.get('http://localhost:5000/api/photos')
             ]);
             
             setTodayMenu(menuRes.data);
             setFeedbackList(feedbackRes.data);
             setTopTeams(topTeamsRes.data);
+            setUploadedPhotos(photosRes.data);
 
             const activeStudents = studentsRes.data;
             let currentKitchenTeam = [];
@@ -54,33 +71,34 @@ const TodayKitchenTeam = () => {
             }
             setTodayTeam(currentKitchenTeam);
 
-            const todayTeamIds = currentKitchenTeam.map(member => member._id);
-            const tomorrowCandidates = activeStudents.filter(s => !todayTeamIds.includes(s._id));
-            setTomorrowTeam(tomorrowCandidates.slice(0, 5));
-
             if (topTeamsRes.data && topTeamsRes.data.length > 0) {
                 setStarTeam(topTeamsRes.data[0]);
             }
 
-            // आज की टीम के लिए वोट्स और रेटिंग स्टेटस चेक करें
-            const currentTeamNames = currentKitchenTeam.map(member => member.name);
+            const currentTeamNames = currentKitchenTeam.map(member => member.name).sort();
+            
+             const votedForTeam = JSON.parse(localStorage.getItem('votedForTeam') || '[]');
+            if (JSON.stringify(votedForTeam) === JSON.stringify(currentTeamNames)) {
+                setHasRatedToday(true);
+            } else {
+                setHasRatedToday(false);
+            }
+
+             const feedbackForTeam = JSON.parse(localStorage.getItem('feedbackForTeam') || '[]');
+            if (JSON.stringify(feedbackForTeam) === JSON.stringify(currentTeamNames)) {
+                setHasGivenFeedbackToday(true);
+            } else {
+                setHasGivenFeedbackToday(false);
+            }
+
             const teamRating = topTeamsRes.data.find(team =>
-                JSON.stringify(team.teamMembers.sort()) === JSON.stringify(currentTeamNames.sort())
+                JSON.stringify(team.teamMembers.sort()) === JSON.stringify(currentTeamNames)
             );
             
             if (teamRating) {
                 setCurrentTeamVotes(teamRating.voteCount);
-                // मान लें कि एक सेशन में एक ही बार रेटिंग दे सकते हैं
-                // यह लॉजिक ऑथेंटिकेशन के बिना एक सरल समाधान है।
-                const votedForTeam = localStorage.getItem('votedForTeam');
-                if (votedForTeam === JSON.stringify(currentTeamNames)) {
-                    setHasRatedToday(true);
-                } else {
-                    setHasRatedToday(false);
-                }
             } else {
                 setCurrentTeamVotes(0);
-                setHasRatedToday(false);
             }
 
         } catch (error) {
@@ -90,44 +108,48 @@ const TodayKitchenTeam = () => {
 
     useEffect(() => {
         fetchData();
-        // हर 1 मिनट में डेटा को फिर से फ़ेच करें, ताकि टीम अपडेट होने पर दिखे
         const interval = setInterval(fetchData, 60000); 
         return () => clearInterval(interval);
     }, []);
 
-    // Handler Functions
-    const handleAddMealItem = (e) => {
+     const handleAddMealItem = (e) => {
         e.preventDefault();
         const mealType = e.target.elements.mealType.value;
         const foodName = e.target.elements.foodName.value;
         const nutrients = e.target.elements.nutrients.value;
         if (!foodName || !nutrients) return;
         axios.patch(`http://localhost:5000/menu/update-meal/${mealType}`, { foodName, nutrients })
-            .then(res => fetchData())
+            .then(() => fetchData())
             .catch(err => console.error("Error adding meal:", err));
         e.target.reset();
     };
 
     const handleRemoveMealItem = (mealType, itemId) => {
         axios.patch(`http://localhost:5000/menu/remove-meal/${mealType}/${itemId}`)
-            .then(res => fetchData())
+            .then(() => fetchData())
             .catch(err => console.error("Error removing meal:", err));
     };
 
     const handleFeedbackSubmit = (e) => {
         e.preventDefault();
+        if (hasGivenFeedbackToday) {
+            alert("You have already submitted feedback for today's team.");
+            return;
+        }
         if (feedback.trim() === '') return;
         const newFeedback = { comment: feedback };
         axios.post('http://localhost:5000/api/feedback/add', newFeedback)
-            .then(res => {
-                fetchData();
+            .then(() => {
+                const teamMembers = todayTeam.map(member => member.name).sort();
+                localStorage.setItem('feedbackForTeam', JSON.stringify(teamMembers));
+                setHasGivenFeedbackToday(true);
                 setFeedback('');
                 alert('Feedback submitted successfully!');
+                fetchData();
             })
-            .catch(err => alert('Could not submit feedback.'));
+            .catch(() => alert('Could not submit feedback.'));
     };
     
-    // NEW RATING FUNCTIONS
     const handleRateFood = (starValue) => {
         if (hasRatedToday) {
             alert("You have already rated today's meal.");
@@ -142,11 +164,11 @@ const TodayKitchenTeam = () => {
         }
 
         axios.post('http://localhost:5000/api/ratings/add', { teamMembers, starValue })
-            .then(res => {
+            .then(() => {
                 alert('Rating submitted successfully!');
                 setSelectedRating(starValue);
                 setHasRatedToday(true);
-                localStorage.setItem('votedForTeam', JSON.stringify(teamMembers)); // लोकल स्टोरेज में सेव करें
+                localStorage.setItem('votedForTeam', JSON.stringify(teamMembers.sort())); 
                 fetchData();
             })
             .catch(err => {
@@ -158,11 +180,13 @@ const TodayKitchenTeam = () => {
     const handleResetStars = () => {
         if (window.confirm("Are you sure you want to reset all team ratings to zero? This action cannot be undone.")) {
             axios.post('http://localhost:5000/api/ratings/reset')
-                .then(res => {
+                .then(() => {
                     alert('All ratings have been reset!');
                     setHasRatedToday(false);
+                    setHasGivenFeedbackToday(false);  
                     setSelectedRating(0);
-                    localStorage.removeItem('votedForTeam'); // लोकल स्टोरेज से हटा दें
+                    localStorage.removeItem('votedForTeam'); 
+                    localStorage.removeItem('feedbackForTeam');  
                     fetchData();
                 })
                 .catch(err => {
@@ -173,17 +197,46 @@ const TodayKitchenTeam = () => {
     };
     
     const onEmojiClick = (emojiObject) => { setFeedback(prev => prev + emojiObject.emoji); setShowEmojiPicker(false); };
-    const handleFileChange = (e) => {
+
+    const handleFileChange = async (e) => {
         const files = Array.from(e.target.files);
+        if (!files.length) return;
+
         if (uploadedPhotos.length + files.length > 5) {
             alert(`You can only upload a maximum of 5 photos.`);
             return;
-        }    
-        const newPhotos = files.map(file => ({ name: file.name, url: URL.createObjectURL(file) }));
-        setUploadedPhotos(prevPhotos => [...prevPhotos, ...newPhotos]);
+        }
+
+        setIsUploading(true);
+        try {
+            const uploadPromises = files.map(async (file) => {
+                const formData = new FormData();
+                formData.append('file', file);
+                const response = await axios.post('http://localhost:5000/api/upload-photo', formData, {
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                });
+                return response.data;
+            });
+            await Promise.all(uploadPromises);
+            await fetchData();
+            alert('Photos uploaded successfully!');
+        } catch (error) {
+            console.error("Error uploading photos:", error);
+            alert('Could not upload photos. Please try again.');
+        } finally {
+            setIsUploading(false);
+        }
     };
-    const handleRemovePhoto = (photoUrl) => {
-        setUploadedPhotos(prevPhotos => prevPhotos.filter(photo => photo.url !== photoUrl));
+    
+    const handleRemovePhoto = async (photoId) => {
+        try {
+            await axios.delete(`http://localhost:5000/api/photos/${photoId}`);
+            await fetchData();
+            alert('Photo removed successfully!');
+        } catch (error) {
+            console.error("Error removing photo:", error);
+            alert('Could not remove photo. Please try again.');
+        }
     };
     
     return (
@@ -199,9 +252,9 @@ const TodayKitchenTeam = () => {
                     <div className={styles.sectionHeader}><h2>Manage Today's Kitchen Team & Menu</h2></div>
                     <form onSubmit={handleAddMealItem} className={styles.mealInputFormGrid}>
                         <div className={styles.formGroup}><label htmlFor="mealType">Meal type</label><select id="mealType" name="mealType" className={styles.selectInput}>{mealTypes.map(type => <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>)}</select></div>
-                        <div className={styles.formGroup}><label htmlFor="foodName">Food Name</label><input type="text" id="foodName" name="foodName" placeholder="Enter Food" className={styles.textInput} autoComplete='off'/></div>
-                        <div className={styles.formGroup}><label htmlFor="nutrients">Nutrients</label><input type="text" id="nutrients" name="nutrients" placeholder="Enter Nutrients" className={styles.textInput} autoComplete='off'/></div>
-                        <button type="submit" className={styles.addMealButton}><FaPlusCircle /> Add New Item</button>
+                        <div className={styles.formGroup}><label htmlFor="foodName">Food Name</label><input type="text" id="foodName" name="foodName" placeholder="Enter Food" className={styles.textInput} autoComplete='off' disabled={!isCoordinator}/></div>
+                        <div className={styles.formGroup}><label htmlFor="nutrients">Nutrients</label><input type="text" id="nutrients" name="nutrients" placeholder="Enter Nutrients" className={styles.textInput} autoComplete='off' disabled={!isCoordinator}/></div>
+                        <button type="submit" className={styles.addMealButton} disabled={!isCoordinator}><FaPlusCircle /> Add New Item</button>
                     </form>
                     <div className={styles.currentMenuGrid}>
                         {mealTypes.map(type => (
@@ -209,7 +262,17 @@ const TodayKitchenTeam = () => {
                                 <div className={styles.mealCardHeader}><h3>{type.charAt(0).toUpperCase() + type.slice(1)}</h3><span className={styles.itemCount}>{todayMenu[type]?.length || 0} item(s)</span></div>
                                 <ul className={styles.menuList}>
                                     {todayMenu[type]?.length > 0 ? todayMenu[type].map(item => (
-                                        <li key={item._id} className={styles.menuItem}><strong>{item.foodName}</strong><span className={styles.nutrients}>({item.nutrients})</span><button onClick={() => handleRemoveMealItem(type, item._id)} className={styles.removeMealButton} title="Remove item"><FaTimesCircle /></button></li>
+                                        <li key={item._id} className={styles.menuItem}>
+                                            <strong>{item.foodName}</strong>
+                                            <span className={styles.nutrients}>({item.nutrients})</span>
+                                            <button 
+                                                onClick={() => handleRemoveMealItem(type, item._id)} 
+                                                className={styles.removeMealButton} 
+                                                title="Remove item" 
+                                                disabled={!isCoordinator}>
+                                                <FaTimesCircle />
+                                            </button>
+                                        </li>
                                     )) : <li className={styles.emptyMenuItem}>No {type} items added.</li>}
                                 </ul>
                             </div>
@@ -235,9 +298,9 @@ const TodayKitchenTeam = () => {
                                 {[1, 2, 3, 4, 5].map((starValue) => (
                                     <FaStar
                                         key={starValue}
-                                        className={`${styles.pollStar} ${(starValue <= selectedRating) || (starValue <= hoveredRating) ? styles.selected : ''}`}
-                                        onClick={() => setSelectedRating(starValue)}
-                                        onMouseEnter={() => setHoveredRating(starValue)}
+                                        className={`${styles.pollStar} ${hasRatedToday ? styles.disabledStar : ''} ${(starValue <= selectedRating) || (starValue <= hoveredRating) ? styles.selected : ''}`}
+                                        onClick={() => !hasRatedToday && setSelectedRating(starValue)}
+                                        onMouseEnter={() => !hasRatedToday && setHoveredRating(starValue)}
                                     />
                                 ))}
                             </div>
@@ -261,31 +324,38 @@ const TodayKitchenTeam = () => {
                         <h2>Meal Feedback & Comments</h2>
                     </div>
                     <div className={styles.feedbackContentGrid}>
-                        {/* LEFT COLUMN: FEEDBACK FORM */}
                         <div className={styles.feedbackFormContainer}>
                             <form onSubmit={handleFeedbackSubmit} className={styles.feedbackForm}>
                                 <div className={styles.formGroup}>
                                     <label htmlFor="feedback">Share your thoughts:</label>
                                     <div className={styles.feedbackInputContainer}>
-                                        <textarea id="feedback" value={feedback} onChange={(e) => setFeedback(e.target.value)} rows="4" placeholder="Enter you feedback" className={styles.feedbackTextarea} autoComplete='off'/>
-                                        <FaRegSmile className={styles.emojiButton} onClick={() => setShowEmojiPicker(prev => !prev)} />
+                                        <textarea 
+                                            id="feedback" 
+                                            value={feedback} 
+                                            onChange={(e) => setFeedback(e.target.value)} 
+                                            rows="4" 
+                                            placeholder={hasGivenFeedbackToday ? "You have already submitted feedback for this team." : "Enter your feedback"} 
+                                            className={styles.feedbackTextarea} 
+                                            autoComplete='off'
+                                            disabled={hasGivenFeedbackToday}
+                                        />
+                                        <FaRegSmile className={styles.emojiButton} onClick={() => !hasGivenFeedbackToday && setShowEmojiPicker(prev => !prev)} />
                                         {showEmojiPicker && ( <div className={styles.emojiPicker}><Picker onEmojiClick={onEmojiClick} /></div> )}
                                     </div>
                                 </div>
                                 <div className={styles.feedbackActions}>
-                                    <button type="submit" className={styles.submitButton}>Submit Feedback</button>
+                                    <button type="submit" className={styles.submitButton} disabled={hasGivenFeedbackToday}>Submit Feedback</button>
                                     <button type="button" className={styles.viewFeedbackButton} onClick={() => setIsModalOpen(true)}>View All Feedback</button>
                                     <button type="button" className={styles.viewTeamsButton} onClick={() => setIsStarTeamsModalOpen(true)}>View Star Teams</button>
                                 </div>
                             </form>
                         </div>
 
-                        {/* RIGHT COLUMN: STAR TEAM */}
                         {starTeam && (
                             <div className={styles.starTeamInfo}>
                                 <h3>⭐️ Star Kitchen Team:</h3>
                                 <p className={styles.starTeamName}>{starTeam.teamMembers.join(', ')}</p>
-                                <button className={styles.resetButton} onClick={handleResetStars}>
+                                <button className={styles.resetButton} onClick={handleResetStars} disabled={!isCoordinator}>
                                     Reset Star Count
                                 </button>
                             </div>
@@ -296,14 +366,14 @@ const TodayKitchenTeam = () => {
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}><h2>Upload Today's Meal Photo</h2></div>
                     <div className={styles.photoUploadBox}>
-                        <input type="file" id="meal-photo-upload" className={styles.fileInput} multiple onChange={handleFileChange} disabled={uploadedPhotos.length >= 5}/>
-                        <label htmlFor="meal-photo-upload" className={styles.uploadLabel}><FaUpload /> Click to upload or drag and drop</label>
-                        <button className={styles.choosePhotoButton} onClick={() => document.getElementById('meal-photo-upload').click()} disabled={uploadedPhotos.length >= 5}>
+                        <input type="file" id="meal-photo-upload" className={styles.fileInput} multiple onChange={handleFileChange} disabled={uploadedPhotos.length >= 5 || isUploading}/>
+                        <label htmlFor="meal-photo-upload" className={styles.uploadLabel}><FaUpload /> {isUploading ? 'Uploading...' : 'Click to upload or drag and drop'}</label>
+                        <button className={styles.choosePhotoButton} onClick={() => document.getElementById('meal-photo-upload').click()} disabled={uploadedPhotos.length >= 5 || isUploading}>
                             Choose Photos ({uploadedPhotos.length}/5)
                         </button>
                         {uploadedPhotos.length > 0 && (
                             <div className={styles.uploadedPhotosContainer}>
-                                {uploadedPhotos.map((photo, index) => (<div key={index} className={styles.uploadedPhotoItem}><img src={photo.url} alt={photo.name} className={styles.thumbnail} /><button onClick={() => handleRemovePhoto(photo.url)} className={styles.removePhotoButton}><FaTimesCircle /></button></div>))}
+                                {uploadedPhotos.map((photo) => (<div key={photo._id} className={styles.uploadedPhotoItem}><img src={photo.url} alt="Uploaded meal" className={styles.thumbnail} /><button onClick={() => handleRemovePhoto(photo._id)} className={styles.removePhotoButton}><FaTimesCircle /></button></div>))}
                             </div>
                         )}
                     </div>

@@ -1,6 +1,4 @@
-/* src/components/SkipRequest.module.css */
-
-.pageWrapper { 
+ .pageWrapper { 
     background-color: #f8f9fa; 
     min-height: 100vh; 
 }
@@ -40,7 +38,7 @@
     background-color: #f05f40; 
     color: #fff; 
     padding: 1.5rem 2rem; 
-    font-size: 1.25rem; /* Converted to rem */
+    font-size: 1.25rem;  
     text-align: center;
 }
 
@@ -51,7 +49,7 @@
 .formHeader p { 
     margin: 0; 
     opacity: 0.9; 
-    font-size: 1.1rem; /* Converted to rem */
+    font-size: 1.1rem; 
 }
 
 .formBody { 
@@ -70,7 +68,7 @@
 .formGroup label { 
     font-weight: 500; 
     color: #4a5568; 
-    font-size: 1.1rem; /* Converted to rem */
+    font-size: 1.1rem;  
 }
 
 .formGroup input, .formGroup select, .formGroup textarea { 
@@ -89,7 +87,7 @@
     border: none; 
     padding: 1rem; 
     border-radius: 8px; 
-    font-size: 1.25rem; /* Converted to rem */
+    font-size: 1.25rem;  
     font-weight: 500; 
     cursor: pointer; 
     transition: background-color 0.2s; 
@@ -136,8 +134,7 @@
     margin-bottom: 0; 
 }
 
-/* Header and Navbar from the shared code block */
-.header { 
+ .header { 
     display: flex; 
     justify-content: space-between; 
     align-items: center; 
@@ -206,10 +203,8 @@
     font-weight: 500; 
 }
 
-/* --- Responsive Styles for Mobile and Tablets --- */
-@media (max-width: 768px) {
-    /* Header and Navbar adjustments */
-    .header {
+ @media (max-width: 768px) {
+     .header {
         flex-direction: column;
         align-items: flex-start;
         padding: 1rem;
@@ -226,8 +221,7 @@
         box-sizing: border-box;
     }
     
-    /* Main Content adjustments */
-    .mainContent {
+     .mainContent {
         margin: 1.5rem auto;
         padding: 0 0.5rem;
     }
@@ -244,8 +238,7 @@
         font-size: 1rem;
     }
 
-    /* Form Card adjustments */
-    .formHeader {
+     .formHeader {
         padding: 1rem;
         font-size: 1rem;
     }

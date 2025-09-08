@@ -1,7 +1,7 @@
-// frontend/src/components/Register.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Redirect karne ke liye
+import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa'; // Icon import karein
 import styles from './Register.module.css';
 
 const Register = () => {
@@ -11,7 +11,7 @@ const Register = () => {
     password: '',
     joiningDate: '',
   });
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const { name, email, password, joiningDate } = formData;
 
@@ -23,15 +23,23 @@ const Register = () => {
       const res = await axios.post('http://localhost:5000/api/auth/register', formData);
       console.log(res.data);
       alert('Registration successful! Please log in.');
-      navigate('/'); 
+      navigate('/');
     } catch (err) {
       console.error(err.response.data);
       alert('Error: ' + err.response.data.msg);
     }
   };
 
+   const handleGoBack = () => {
+    navigate('/');
+  };
+
   return (
     <div className={styles.pageWrapper}>
+       <button onClick={handleGoBack} className={styles.backButton} title="Go back to main page">
+        <FaArrowLeft />
+      </button>
+      
       <div className={styles.formCard}>
         <div className={styles.formHeader}>
           <h2>Create Your Account</h2>

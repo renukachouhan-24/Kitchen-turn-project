@@ -1,8 +1,5 @@
-/* src/components/TodayKitchenTeam.module.css */
-
- 
 .pageContainer {
-    background-color: #fff;
+    background-color: #fcf2f3;
     color: #2d3748;
     min-height: 100vh;
 }
@@ -137,7 +134,7 @@
 
 .feedbackContentGrid {
     display: grid;
-    grid-template-columns: 2fr 1fr; /* Ab left column bada (feedback) aur right column chota (star team) */
+    grid-template-columns: 2fr 1fr; 
     gap: 20px;
     align-items: flex-start;
 }
@@ -161,7 +158,6 @@
     color: #f05f40; 
     border: 2px solid #f05f40;
 }
-/* New button style */
 .viewTeamsButton { 
     padding: 0.8rem 1.5rem; 
     background: #f05f40; 
@@ -182,14 +178,13 @@
     border: 2px solid #f05f40;
 }
 
-/* Modal styles (similar to FeedbackModal) */
 .modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Black semi-transparent background */
+    background-color: rgba(0, 0, 0, 0.5); 
     backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
@@ -297,8 +292,7 @@
 }
 
 
-/* Baaki saari CSS classes jo pehle di gayi thi woh same rahengi */
-/* .starTeamInfo, .resetButton, .topTeamsListContainer, etc. */
+ 
 
 @media (max-width: 992px) {
     .feedbackContentGrid { grid-template-columns: 1fr; }
@@ -308,6 +302,25 @@
     .welcomeHeader h1 { font-size: 2rem; }
     .managementSection { padding: 1rem; }
     .sectionHeader h2 { font-size: 1.25rem; }
+    .pageContainer{
+        width: 400px;
+    }
+    .teamMemberItem{
+        width: 200px;
+    }
+    .teamList{
+        width: 300px;
+    }
+    .ratingPollContainer{
+        width: 270px;
+    }
+    .feedbackForm{
+        width: 320px;
+    }
+    .feedbackActions{
+        flex-direction: column;
+        max-width: auto;
+    }
 }
 
 
@@ -329,9 +342,9 @@
 .starTeamName {
     font-size: 1.3rem;
     font-weight: 300;
-    color: #1e2150; /* Gold color for star team name */
+    color: #1e2150;  
     margin-bottom: 15px;
-    word-wrap: break-word; /* Long names ko break karne ke liye */
+    word-wrap: break-word;  
 }
 
-/* Button ki styling yahan nahi di gayi hai jaisa ki aapne kaha */
+ 

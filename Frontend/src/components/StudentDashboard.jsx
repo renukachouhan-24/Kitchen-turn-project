@@ -1,5 +1,3 @@
-// src/components/StudentDashboard.jsx
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
@@ -11,6 +9,17 @@ const StudentDashboard = () => {
     const [todayTeam, setTodayTeam] = useState([]);
     const [tomorrowTeam, setTomorrowTeam] = useState([]);
     const [error, setError] = useState(null);
+
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    useEffect(() => {
+        const userString = localStorage.getItem('user');
+        if (userString) {
+            setLoggedInUser(JSON.parse(userString));
+        }
+    }, []);
+
+    const isCoordinator = loggedInUser && loggedInUser.role === 'coordinator';
 
     const fetchAllStudents = async () => {
         try {
@@ -31,13 +40,13 @@ const StudentDashboard = () => {
     const fetchActiveStudentsForTeams = async () => {
         try {
             const response = await axios.get('http://localhost:5000/students/active');
-            const activeStudents = response.data;
-            
+            let activeStudents = response.data;
+
+            activeStudents = activeStudents.filter(student => student.role !== 'coordinator');
+
             if (activeStudents.length >= 5) {
-                const initialTodayTeam = activeStudents.slice(0, 5);
-                const initialTomorrowTeam = activeStudents.slice(5, 10);
-                setTodayTeam(initialTodayTeam);
-                setTomorrowTeam(initialTomorrowTeam);
+                setTodayTeam(activeStudents.slice(0, 5));
+                setTomorrowTeam(activeStudents.slice(5, 10));
             } else {
                 setTodayTeam(activeStudents);
                 setTomorrowTeam([]);
@@ -49,19 +58,24 @@ const StudentDashboard = () => {
         }
     };
 
+
     useEffect(() => {
         fetchAllStudents();
         fetchActiveStudentsForTeams();
-        
+
         const refreshInterval = setInterval(() => {
             fetchAllStudents();
             fetchActiveStudentsForTeams();
-        }, 60000); // 24 hours = 86400000ms
+        }, 180000);
 
         return () => clearInterval(refreshInterval);
     }, []);
 
     const handleStatusChange = async (studentId, newStatus) => {
+        if (!isCoordinator) {
+            alert("You do not have permission to change the status.");
+            return;
+        }
         try {
             await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
             fetchAllStudents();
@@ -73,19 +87,16 @@ const StudentDashboard = () => {
         }
     };
 
-    // Unused functions ko yahan hata diya gaya hai
-    // handleAdvanceToNextDay aur handleResetData ko ab is code mein zaroorat nahi hai.
-
     return (
         <div className={styles.pageWrapper}>
-            <Navbar showRegister={false} showSkipRequest={true}/>
-            
+            <Navbar showRegister={false} showSkipRequest={true} />
+
             <main className={styles.overviewContainer}>
                 <div className={styles.overviewHeader}>
                     <h1>Kitchen Turn Overview</h1>
                 </div>
-                <p className={styles.overviewSubtitle}>A recipe hs no soul. You, as the cook, must bring soul to the recipe.</p>
-                
+                <p className={styles.overviewSubtitle}>A recipe has no soul. You, as the cook, must bring soul to the recipe.</p>
+
                 {error && <div className={styles.errorMessage}>{error}</div>}
 
                 <div className={styles.teamsDisplayContainer}>
@@ -106,27 +117,35 @@ const StudentDashboard = () => {
                         </ul>
                     </div>
                 </div>
-                
+
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
                     <div className={styles.allStudentsGrid}>
-                        {allStudents.map(({ _id, name, status, joiningDate }) => (
+                        {allStudents.map(({ _id, name, status, role, joiningDate }) => (
                             <div className={styles.overviewStudentCard} key={_id}>
                                 <div className={styles.studentInfo}>
                                     <p className={styles.studentName}>{name}</p>
                                     <p className={styles.studentPosition}>{`Joined: ${new Date(joiningDate).toLocaleDateString()}`}</p>
                                 </div>
-                                <select
-                                    className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
-                                    value={status}
-                                    onChange={(e) => handleStatusChange(_id, e.target.value)}
-                                >
-                                    <option value="active">ACTIVE</option>
-                                    <option value="inactive">INACTIVE</option>
-                                    <option value="on_leave">ON LEAVE</option>
-                                </select>
+
+                                {role === 'coordinator' ? (
+                                    <p className={styles.coordinatorBadge}>COORDINATOR</p>
+                                ) : (
+                                    <select
+                                        className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave' ? styles.statusInactive : styles.statusActive}`}
+                                        value={status}
+                                        onChange={(e) => handleStatusChange(_id, e.target.value)}
+                                        disabled={!isCoordinator}
+                                        title={!isCoordinator ? "Only coordinators can change status." : ""}
+                                    >
+                                        <option value="active">ACTIVE</option>
+                                        <option value="inactive">INACTIVE</option>
+                                        <option value="on_leave">ON LEAVE</option>
+                                    </select>
+                                )}
                             </div>
                         ))}
+
                     </div>
                 </div>
             </main>
@@ -135,12 +154,3 @@ const StudentDashboard = () => {
 };
 
 export default StudentDashboard;
-
-
-
-
-
-
-
-
-
