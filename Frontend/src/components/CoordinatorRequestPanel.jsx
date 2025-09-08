@@ -111,7 +111,7 @@ const CoordinatorRequestPanel = () => {
             
             <div className={styles.titleSection}>
                 <FaUserShield className={styles.titleIcon} />
-                <h1>Coordinator Dashboard</h1>
+                <h1>Admin Dashboard</h1>
                 <p>View and manage all incoming kitchen turn skip requests.</p>
             </div>
 

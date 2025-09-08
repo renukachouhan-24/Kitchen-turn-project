@@ -66,7 +66,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
                 <nav className={styles.mainNav}>
                     <Link to="/dashboard">Student</Link>
                     <Link to="/today-team">Today's Kitchen Team</Link>
-                    <Link to="/coordinator">Coordinator</Link>
+                    <Link to="/coordinator">Admin</Link>
                     {isCoordinator && (
                         <Link to="/user-management">Manage Users</Link>
                     )}
