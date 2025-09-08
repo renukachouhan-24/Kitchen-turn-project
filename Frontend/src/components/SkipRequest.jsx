@@ -19,7 +19,7 @@ const SkipRequest = () => {
         const fetchTomorrowTeam = async () => {
             try {
 
-                const response = await axios.get('https://kitchen-flow.onrender.com/students/active');
+                const response = await axios.get('https://kitchen-turn-project-1-yl2f.onrender.com/students/active');
 
                 const team = response.data.slice(5, 10);
                 setTomorrowTeam(team);
@@ -39,7 +39,7 @@ const SkipRequest = () => {
         e.preventDefault();
         try {
 
-            await axios.post('https://kitchen-flow.onrender.com/skip-requests/add', formData);
+            await axios.post('https://kitchen-turn-project-1-yl2f.onrender.com/skip-requests/add', formData);
 
             alert('Skip request submitted successfully!');
             setFormData({ studentName: '', reason: '', startDate: '', numberOfDays: 1 });

@@ -12,11 +12,12 @@ const LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://kitchen-flow.onrender.com/api/auth/login', { email, password });
+
+            const response = await axios.post('https://kitchen-turn-project-1-yl2f.onrender.com/api/auth/login', { email, password });
 
             localStorage.setItem('token', response.data.token);
 
-             const me = await axios.get('https://kitchen-flow.onrender.com/api/auth/me', {
+             const me = await axios.get('https://kitchen-turn-project-1-yl2f.onrender.com/api/auth/me', {
 
                 headers: { Authorization: `Bearer ${response.data.token}` }
             });

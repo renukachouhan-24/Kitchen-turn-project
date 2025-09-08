@@ -17,7 +17,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
 
             try {
 
-                const res = await axios.get("https://kitchen-flow.onrender.com/api/auth/me", {
+                const res = await axios.get("https://kitchen-turn-project-1-yl2f.onrender.com/api/auth/me", {
 
                     headers: { Authorization: `Bearer ${token}` }
                 });
