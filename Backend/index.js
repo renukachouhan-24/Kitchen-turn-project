@@ -116,7 +116,7 @@ cron.schedule('*/3 * * * *', async () => {
 
 cron.schedule('*/3 * * * *', async () => { 
     console.log('⏳ Running cron job to delete old resolved skip requests...');
-    const timeLimitInMs = 24 * 60 * 60 * 1000; 
+    const timeLimitInMs =  3 * 60 * 1000; 
     const timeThreshold = new Date(Date.now() - timeLimitInMs);
     
     try {
