@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa'; // Icon import karein
+import { FaArrowLeft } from 'react-icons/fa'; 
 import styles from './Register.module.css';
 
 const Register = () => {
@@ -20,7 +20,9 @@ const Register = () => {
   const onSubmit = async e => {
     e.preventDefault();
     try {
+
       const res = await axios.post('https://kitchen-flow.onrender.com/api/auth/register', formData);
+
       console.log(res.data);
       alert('Registration successful! Please log in.');
       navigate('/');
@@ -68,5 +70,8 @@ const Register = () => {
     </div>
   );
 };
+
+
+// this is my register page
 
 export default Register;

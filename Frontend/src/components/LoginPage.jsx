@@ -17,6 +17,7 @@ const LoginPage = () => {
             localStorage.setItem('token', response.data.token);
 
              const me = await axios.get('https://kitchen-flow.onrender.com/api/auth/me', {
+
                 headers: { Authorization: `Bearer ${response.data.token}` }
             });
 

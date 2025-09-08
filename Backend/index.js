@@ -74,7 +74,8 @@ app.get('/api/photos', async (req, res) => {
   }
 });
 
-cron.schedule('*/3 * * * *', async () => {
+
+cron.schedule('0 */9 * * *', async () => {
 
   console.log('⏰ Running daily kitchen team rotation...');
   try {
@@ -102,7 +103,7 @@ cron.schedule('*/3 * * * *', async () => {
 });
 
 
-cron.schedule('*/3 * * * *', async () => {
+cron.schedule('0 */9 * * *', async () => {
 
     console.log('🧹 Running daily data reset task...');
     try {
@@ -118,9 +119,9 @@ cron.schedule('*/3 * * * *', async () => {
 });
 
 
-cron.schedule('*/3 * * * *', async () => { 
+cron.schedule('0 */9 * * *', async () => { 
     console.log('⏳ Running cron job to delete old resolved skip requests...');
-    const timeLimitInMs =  3 * 60 * 1000; 
+    const timeLimitInMs =  9 * 60 * 60 * 1000; 
 
     const timeThreshold = new Date(Date.now() - timeLimitInMs);
     
@@ -136,7 +137,10 @@ cron.schedule('*/3 * * * *', async () => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server started on https://kitchen-flow.onrender.com:${port}`);
+  console.log(`🚀 Server started on 5000:${port}`);
 });
+
+
+
 
 
