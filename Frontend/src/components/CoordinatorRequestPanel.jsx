@@ -69,7 +69,7 @@ const CoordinatorRequestPanel = () => {
                 { studentName },
                 { headers: { userrole: userRole } }
             );
-            alert(`${studentName} ki request approved hai.`);
+            alert(`${studentName} request approved.`);
             fetchData();
         } catch (error) {
             console.error("Error approving request:", error);
@@ -200,3 +200,6 @@ const CoordinatorRequestPanel = () => {
 };
 
 export default CoordinatorRequestPanel;
+
+
+// coordinator
