@@ -7,9 +7,9 @@ import { BrowserRouter } from 'react-router-dom'; // Isko import karein
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>  {/* Yahan add karein */}
+    <BrowserRouter>  
       <App />
-    </BrowserRouter> {/* Yahan close karein */}
+    </BrowserRouter> 
   </React.StrictMode>,
 )
 
