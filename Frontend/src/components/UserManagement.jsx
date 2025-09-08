@@ -22,7 +22,7 @@ const UserManagement = () => {
     const fetchStudents = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get('http://localhost:5000/students/all', {
+            const response = await axios.get('https://kitchen-flow.onrender.com/students/all', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setStudents(response.data);
@@ -42,7 +42,7 @@ const UserManagement = () => {
     const handleRoleChange = async (id, newRole) => {
         try {
           const res = await axios.patch(
-            `http://localhost:5000/students/update-role/${id}`,
+            `https://kitchen-flow.onrender.com/students/update-role/${id}`,
             { role: newRole },
             { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
           );
@@ -51,7 +51,7 @@ const UserManagement = () => {
       
           if (res.data.forceLogout && res.data.userId === currentUser._id) {
             const token = localStorage.getItem("token");
-            const me = await axios.get("http://localhost:5000/api/auth/me", {
+            const me = await axios.get("https://kitchen-flow.onrender.com/api/auth/me", {
               headers: { Authorization: `Bearer ${token}` },
             });
       
