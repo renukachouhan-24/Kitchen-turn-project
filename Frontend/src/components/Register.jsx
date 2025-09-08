@@ -69,4 +69,7 @@ const Register = () => {
   );
 };
 
+
+// this is my register page
+
 export default Register;
