@@ -136,7 +136,7 @@ cron.schedule('*/3 * * * *', async () => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server started on https://kitchen-turn-project-1.onrender.com:${port}`);
+  console.log(`🚀 Server started on https://kitchen-flow.onrender.com:${port}`);
 });
 
 
