@@ -24,6 +24,7 @@ const LoginPage = () => {
 
             navigate('/dashboard');
             window.location.reload();
+        // eslint-disable-next-line no-unused-vars
         } catch (err) {
             setError('Login failed. Please check credentials.');
         }

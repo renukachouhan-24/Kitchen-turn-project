@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
 import styles from './UserManagement.module.css';
-import { useNavigate } from 'react-router-dom';
 
 const UserManagement = () => {
     const [students, setStudents] = useState([]);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const userString = localStorage.getItem('user');
