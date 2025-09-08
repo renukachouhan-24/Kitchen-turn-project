@@ -16,7 +16,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
             if (!token) return;
 
             try {
-                const res = await axios.get("http://localhost:5000/api/auth/me", {
+                const res = await axios.get("https://kitchen-turn-project.onrender.com/api/auth/me", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -28,7 +28,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
                     window.location.reload();
                 } else {
                     setLoggedInUser(res.data);
-                    localStorage.setItem("user", JSON.stringify(res.data)); // update local user
+                    localStorage.setItem("user", JSON.stringify(res.data)); 
                 }
             } catch (err) {
                 console.error("Session check failed:", err);

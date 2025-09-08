@@ -74,7 +74,9 @@ app.get('/api/photos', async (req, res) => {
   }
 });
 
+
 cron.schedule('*/3 * * * *', async () => {
+
   console.log('⏰ Running daily kitchen team rotation...');
   try {
       const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
@@ -133,5 +135,4 @@ cron.schedule('*/3 * * * *', async () => {
 app.listen(port, () => {
   console.log(`🚀 Server started on http://localhost:5000:${port}`);
 });
-
 
