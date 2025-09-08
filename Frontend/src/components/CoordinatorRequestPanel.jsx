@@ -29,8 +29,10 @@ const CoordinatorRequestPanel = () => {
     const fetchData = async () => {
         setLoading(true);
 
-        const requestsPromise = axios.get('https://kitchen-turn-project.onrender.com/skip-requests/');
-        const statsPromise = axios.get('https://kitchen-turn-project.onrender.com/skip-requests/stats');
+
+        const requestsPromise = axios.get('https://kitchen-flow.onrender.com/skip-requests/');
+        const statsPromise = axios.get('https://kitchen-flow.onrender.com/skip-requests/stats');
+
 
         const [requestsResult, statsResult] = await Promise.allSettled([requestsPromise, statsPromise]);
 
@@ -65,11 +67,12 @@ const CoordinatorRequestPanel = () => {
 
         try {
             await axios.patch(
-                `https://kitchen-turn-project.onrender.com/skip-requests/approve/${id}`,
+                `https://kitchen-flow.onrender.com/skip-requests/approve/${id}`,
+
                 { studentName },
                 { headers: { userrole: userRole } }
             );
-            alert(`${studentName} ki request approved hai.`);
+            alert(`${studentName} request approved.`);
             fetchData();
         } catch (error) {
             console.error("Error approving request:", error);
@@ -85,7 +88,9 @@ const CoordinatorRequestPanel = () => {
 
         try {
             await axios.patch(
-                `https://kitchen-turn-project.onrender.com/skip-requests/reject/${id}`,
+
+                `https://kitchen-flow.onrender.com/skip-requests/reject/${id}`,
+
                 {},
                 { headers: { userrole: userRole } }
             );
@@ -200,3 +205,6 @@ const CoordinatorRequestPanel = () => {
 };
 
 export default CoordinatorRequestPanel;
+
+
+// coordinator

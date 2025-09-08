@@ -23,7 +23,9 @@ const StudentDashboard = () => {
 
     const fetchAllStudents = async () => {
         try {
-            const response = await axios.get('https://kitchen-turn-project.onrender.com/students/all');
+
+            const response = await axios.get('https://kitchen-flow.onrender.com/students/all');
+
             const sortedStudents = response.data.sort((a, b) => {
                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -39,7 +41,9 @@ const StudentDashboard = () => {
 
     const fetchActiveStudentsForTeams = async () => {
         try {
-            const response = await axios.get('https://kitchen-turn-project.onrender.com/students/active');
+
+            const response = await axios.get('https://kitchen-flow.onrender.com/students/active');
+
             let activeStudents = response.data;
 
             activeStudents = activeStudents.filter(student => student.role !== 'coordinator');
@@ -79,7 +83,9 @@ const StudentDashboard = () => {
             return;
         }
         try {
-            await axios.patch(`https://kitchen-turn-project.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+
+            await axios.patch(`https://kitchen-flow.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);
