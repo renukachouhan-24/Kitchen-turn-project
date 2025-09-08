@@ -16,7 +16,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
             if (!token) return;
 
             try {
-                const res = await axios.get("http://localhost:5000/api/auth/me", {
+                const res = await axios.get("https://kitchen-turn-project-1-yl2f.onrender.com/api/auth/me", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -66,7 +66,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
                 <nav className={styles.mainNav}>
                     <Link to="/dashboard">Student</Link>
                     <Link to="/today-team">Today's Kitchen Team</Link>
-                    <Link to="/coordinator">Coordinator</Link>
+                    <Link to="/coordinator">Admin</Link>
                     {isCoordinator && (
                         <Link to="/user-management">Manage Users</Link>
                     )}
