@@ -74,6 +74,7 @@ app.get('/api/photos', async (req, res) => {
   }
 });
 
+
 cron.schedule('*/3 * * * *', async () => {
 
   console.log('⏰ Running daily kitchen team rotation...');
@@ -138,5 +139,4 @@ cron.schedule('*/3 * * * *', async () => {
 app.listen(port, () => {
   console.log(`🚀 Server started on 5000:${port}`);
 });
-
 

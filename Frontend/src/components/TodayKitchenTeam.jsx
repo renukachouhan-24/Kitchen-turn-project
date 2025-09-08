@@ -54,6 +54,7 @@ const TodayKitchenTeam = () => {
                 axios.get('https://kitchen-flow.onrender.com/api/feedback'),
                 axios.get('https://kitchen-flow.onrender.com/api/ratings/top-teams'),
                 axios.get('https://kitchen-flow.onrender.com/api/photos')
+
             ]);
             
             setTodayMenu(menuRes.data);
@@ -118,14 +119,18 @@ const TodayKitchenTeam = () => {
         const foodName = e.target.elements.foodName.value;
         const nutrients = e.target.elements.nutrients.value;
         if (!foodName || !nutrients) return;
+
         axios.patch(`https://kitchen-flow.onrender.com/menu/update-meal/${mealType}`, { foodName, nutrients })
+
             .then(() => fetchData())
             .catch(err => console.error("Error adding meal:", err));
         e.target.reset();
     };
 
     const handleRemoveMealItem = (mealType, itemId) => {
+
         axios.patch(`https://kitchen-flow.onrender.com/menu/remove-meal/${mealType}/${itemId}`)
+
             .then(() => fetchData())
             .catch(err => console.error("Error removing meal:", err));
     };
@@ -138,7 +143,9 @@ const TodayKitchenTeam = () => {
         }
         if (feedback.trim() === '') return;
         const newFeedback = { comment: feedback };
+
         axios.post('https://kitchen-flow.onrender.com/api/feedback/add', newFeedback)
+
             .then(() => {
                 const teamMembers = todayTeam.map(member => member.name).sort();
                 localStorage.setItem('feedbackForTeam', JSON.stringify(teamMembers));
@@ -163,7 +170,9 @@ const TodayKitchenTeam = () => {
             return;
         }
 
+
         axios.post('https://kitchen-flow.onrender.com/api/ratings/add', { teamMembers, starValue })
+
             .then(() => {
                 alert('Rating submitted successfully!');
                 setSelectedRating(starValue);
@@ -179,7 +188,9 @@ const TodayKitchenTeam = () => {
 
     const handleResetStars = () => {
         if (window.confirm("Are you sure you want to reset all team ratings to zero? This action cannot be undone.")) {
+
             axios.post('https://kitchen-flow.onrender.com/api/ratings/reset')
+
                 .then(() => {
                     alert('All ratings have been reset!');
                     setHasRatedToday(false);
@@ -212,7 +223,9 @@ const TodayKitchenTeam = () => {
             const uploadPromises = files.map(async (file) => {
                 const formData = new FormData();
                 formData.append('file', file);
+
                 const response = await axios.post('https://kitchen-flow.onrender.com/api/upload-photo', formData, {
+
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 return response.data;
@@ -230,7 +243,9 @@ const TodayKitchenTeam = () => {
     
     const handleRemovePhoto = async (photoId) => {
         try {
+
             await axios.delete(`https://kitchen-flow.onrender.com/api/photos/${photoId}`);
+
             await fetchData();
             alert('Photo removed successfully!');
         } catch (error) {
