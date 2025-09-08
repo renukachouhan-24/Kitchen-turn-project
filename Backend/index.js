@@ -74,7 +74,7 @@ app.get('/api/photos', async (req, res) => {
   }
 });
 
-cron.schedule('0 6 * * *', async () => {
+cron.schedule('*/1 * * * *', async () => {
   console.log('⏰ Running daily kitchen team rotation...');
   try {
       const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
@@ -131,7 +131,7 @@ cron.schedule('0 6 * * *', async () => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server started on http://localhost:5000:${port}`);
+  console.log(`🚀 Server started on https://kitchen-turn-project.onrender.com/${port}`);
 });
 
 
