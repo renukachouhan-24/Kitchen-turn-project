@@ -74,7 +74,9 @@ app.get('/api/photos', async (req, res) => {
   }
 });
 
-cron.schedule('*/1 * * * *', async () => {
+
+cron.schedule('*/3 * * * *', async () => {
+
   console.log('⏰ Running daily kitchen team rotation...');
   try {
       const activeStudents = await Student.find({ status: 'active' }).sort({ turnOrder: 1 });
@@ -100,7 +102,7 @@ cron.schedule('*/1 * * * *', async () => {
   }
 });
 
-cron.schedule('0 6 * * *', async () => {
+cron.schedule('*/3 * * * *', async () => {
     console.log('🧹 Running daily data reset task...');
     try {
         await Menu.deleteMany({});
@@ -114,9 +116,9 @@ cron.schedule('0 6 * * *', async () => {
     }
 });
 
-cron.schedule('0 6 * * *', async () => { 
+cron.schedule('*/3 * * * *', async () => { 
     console.log('⏳ Running cron job to delete old resolved skip requests...');
-    const timeLimitInMs = 24 * 60 * 60 * 1000; 
+    const timeLimitInMs =  3 * 60 * 1000; 
     const timeThreshold = new Date(Date.now() - timeLimitInMs);
     
     try {
