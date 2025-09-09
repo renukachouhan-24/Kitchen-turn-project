@@ -29,8 +29,10 @@ const CoordinatorRequestPanel = () => {
     const fetchData = async () => {
         setLoading(true);
 
+
         const requestsPromise = axios.get('http://localhost:5000/skip-requests/');
         const statsPromise = axios.get('http://localhost:5000/skip-requests/stats');
+
 
         const [requestsResult, statsResult] = await Promise.allSettled([requestsPromise, statsPromise]);
 
@@ -65,11 +67,13 @@ const CoordinatorRequestPanel = () => {
 
         try {
             await axios.patch(
+
                 `http://localhost:5000/skip-requests/approve/${id}`,
+
                 { studentName },
                 { headers: { userrole: userRole } }
             );
-            alert(`${studentName} ki request approved hai.`);
+            alert(`${studentName} request approved.`);
             fetchData();
         } catch (error) {
             console.error("Error approving request:", error);
@@ -85,7 +89,9 @@ const CoordinatorRequestPanel = () => {
 
         try {
             await axios.patch(
+
                 `http://localhost:5000/skip-requests/reject/${id}`,
+
                 {},
                 { headers: { userrole: userRole } }
             );
@@ -200,3 +206,6 @@ const CoordinatorRequestPanel = () => {
 };
 
 export default CoordinatorRequestPanel;
+
+
+// coordinator

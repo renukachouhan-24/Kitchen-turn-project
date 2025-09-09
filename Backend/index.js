@@ -75,7 +75,9 @@ app.get('/api/photos', async (req, res) => {
 });
 
 
+
 cron.schedule('0 0 * * *', async () => {
+
 
   console.log('⏰ Running daily kitchen team rotation...');
   try {
@@ -103,6 +105,9 @@ cron.schedule('0 0 * * *', async () => {
 });
 
 cron.schedule('0 0 * * *', async () => {
+
+
+
     console.log('🧹 Running daily data reset task...');
     try {
         await Menu.deleteMany({});
@@ -116,9 +121,13 @@ cron.schedule('0 0 * * *', async () => {
     }
 });
 
+
 cron.schedule('0 0 * * *', async () => { 
     console.log('⏳ Running cron job to delete old resolved skip requests...');
     const timeLimitInMs =  24 * 60 * 60 * 1000;
+
+
+
     const timeThreshold = new Date(Date.now() - timeLimitInMs);
     
     try {
@@ -133,6 +142,8 @@ cron.schedule('0 0 * * *', async () => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 Server started on http://localhost:5000:${port}`);
+
+  console.log(`🚀 Server started on https://kitchen-turn-project-1-yl2f.onrender.com:${port}`);
+
 });
 
