@@ -1,6 +1,4 @@
 
-
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
@@ -27,9 +25,7 @@ const StudentDashboard = () => {
     // 🔹 Fetch all students
     const fetchAllStudents = async () => {
         try {
-
-            const response = await axios.get('http://localhost:5000/students/all');
-
+            const response = await axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/students/all');
             const sortedStudents = response.data.sort((a, b) => {
                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -46,10 +42,8 @@ const StudentDashboard = () => {
     // 🔹 Fetch active students (excluding coordinators) for today/tomorrow teams
     const fetchActiveStudentsForTeams = async () => {
         try {
-
-            const response = await axios.get('http://localhost:5000/students/active');
+            const response = await axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/students/active');
             let activeStudents = response.data.filter(student => student.role !== 'coordinator');
-
 
             if (activeStudents.length >= 5) {
                 setTodayTeam(activeStudents.slice(0, 5));
@@ -78,9 +72,7 @@ const StudentDashboard = () => {
             return;
         }
         try {
-
-            await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
-
+            await axios.patch(`https://kitchen-turn-project-1-j2n3.onrender.com/students/update-status/${studentId}`, { status: newStatus });
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);

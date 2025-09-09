@@ -1,21 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaUpload, FaStar, FaPlusCircle, FaTimesCircle, FaUsers, FaRegSmile } from 'react-icons/fa';
+import { FaUpload, FaStar, FaPlusCircle, FaTimesCircle, FaUtensils, FaUsers, FaCommentDots, FaRegSmile } from 'react-icons/fa';
 import Navbar from './Navbar';
 import styles from './TodayKitchenTeam.module.css';
 import Picker from 'emoji-picker-react';
-import FeedbackModal from './FeedbackModal';
-import StarTeamsModal from './StarTeamsModal';
 
 const mealTypes = ['breakfast', 'lunch', 'snacks', 'dinner'];
 
 const TodayKitchenTeam = () => {
-     const [todayMenu, setTodayMenu] = useState({ breakfast: [], lunch: [], snacks: [], dinner: [] });
-    const [feedbackList, setFeedbackList] = useState([]);
+    // 1. Menu state ab localStorage se load hota hai
+    const [todayMenu, setTodayMenu] = useState(() => {
+        const savedMenu = localStorage.getItem('todayMenu');
+        return savedMenu ? JSON.parse(savedMenu) : {
+            breakfast: [],
+            lunch: [],
+            snacks: [],
+            dinner: [],
+        };
+    });
+
+    // 2. Ratings state ab localStorage se load hota hai
+    const [ratings, setRatings] = useState(() => {
+        const savedRatings = localStorage.getItem('ratings');
+        return savedRatings ? JSON.parse(savedRatings) : { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    });
+
+    const totalRatings = Object.values(ratings).reduce((sum, count) => sum + count, 0);
+
+    // 3. Feedback list state ab localStorage se load hota hai
+    const [feedbackList, setFeedbackList] = useState(() => {
+        const savedFeedback = localStorage.getItem('feedbackList');
+        return savedFeedback ? JSON.parse(savedFeedback) : [];
+    });
+    
+    // ... (baaki ke states)
     const [todayTeam, setTodayTeam] = useState([]);
     const [feedback, setFeedback] = useState('');
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedRating, setSelectedRating] = useState(0);
     const [hoveredRating, setHoveredRating] = useState(0);
     const [uploadedPhotos, setUploadedPhotos] = useState([]);
@@ -49,13 +70,11 @@ const TodayKitchenTeam = () => {
      const fetchData = async () => {
         try {
             const [menuRes, studentsRes, feedbackRes, topTeamsRes, photosRes] = await axios.all([
-
-                axios.get('http://localhost:5000/menu/today'),
-                axios.get('http://localhost:5000/students/active'),
-                axios.get('http://localhost:5000/api/feedback'),
-                axios.get('http://localhost:5000/api/ratings/top-teams'),
-                axios.get('http://localhost:5000/api/photos')
-
+                axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/menu/today'),
+                axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/students/active'),
+                axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/api/feedback'),
+                axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/api/ratings/top-teams'),
+                axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/api/photos')
             ]);
             
             setTodayMenu(menuRes.data);
@@ -109,29 +128,25 @@ const TodayKitchenTeam = () => {
     };
 
     useEffect(() => {
-        fetchData();
-        const interval = setInterval(fetchData, 60000); 
-        return () => clearInterval(interval);
-    }, []);
+        localStorage.setItem('uploadedPhotos', JSON.stringify(uploadedPhotos));
+    }, [uploadedPhotos]);
 
-     const handleAddMealItem = (e) => {
+    // ... (existing functions)
+
+    const handleAddMealItem = (e) => {
         e.preventDefault();
         const mealType = e.target.elements.mealType.value;
         const foodName = e.target.elements.foodName.value;
         const nutrients = e.target.elements.nutrients.value;
         if (!foodName || !nutrients) return;
-
-        axios.patch(`http://localhost:5000/menu/update-meal/${mealType}`, { foodName, nutrients })
-
+        axios.patch(`https://kitchen-turn-project-1-j2n3.onrender.com/menu/update-meal/${mealType}`, { foodName, nutrients })
             .then(() => fetchData())
             .catch(err => console.error("Error adding meal:", err));
         e.target.reset();
     };
 
     const handleRemoveMealItem = (mealType, itemId) => {
-
-        axios.patch(`http://localhost:5000/menu/remove-meal/${mealType}/${itemId}`)
-
+        axios.patch(`https://kitchen-turn-project-1-j2n3.onrender.com/menu/remove-meal/${mealType}/${itemId}`)
             .then(() => fetchData())
             .catch(err => console.error("Error removing meal:", err));
     };
@@ -144,9 +159,7 @@ const TodayKitchenTeam = () => {
         }
         if (feedback.trim() === '') return;
         const newFeedback = { comment: feedback };
-
-        axios.post('http://localhost:5000/api/feedback/add', newFeedback)
-
+        axios.post('https://kitchen-turn-project-1-j2n3.onrender.com/api/feedback/add', newFeedback)
             .then(() => {
                 const teamMembers = todayTeam.map(member => member.name).sort();
                 localStorage.setItem('feedbackForTeam', JSON.stringify(teamMembers));
@@ -171,9 +184,7 @@ const TodayKitchenTeam = () => {
             return;
         }
 
-
-        axios.post('http://localhost:5000/api/ratings/add', { teamMembers, starValue })
-
+        axios.post('https://kitchen-turn-project-1-j2n3.onrender.com/api/ratings/add', { teamMembers, starValue })
             .then(() => {
                 alert('Rating submitted successfully!');
                 setSelectedRating(starValue);
@@ -189,9 +200,7 @@ const TodayKitchenTeam = () => {
 
     const handleResetStars = () => {
         if (window.confirm("Are you sure you want to reset all team ratings to zero? This action cannot be undone.")) {
-
-            axios.post('http://localhost:5000/api/ratings/reset')
-
+            axios.post('https://kitchen-turn-project-1-j2n3.onrender.com/api/ratings/reset')
                 .then(() => {
                     alert('All ratings have been reset!');
                     setHasRatedToday(false);
@@ -223,10 +232,8 @@ const TodayKitchenTeam = () => {
         try {
             const uploadPromises = files.map(async (file) => {
                 const formData = new FormData();
-
                 formData.append('file', file);
-                const response = await axios.post('http://localhost:5000/api/upload-photo', formData, {
-
+                const response = await axios.post('https://kitchen-turn-project-1-j2n3.onrender.com/api/upload-photo', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
                 return response.data;
@@ -244,9 +251,7 @@ const TodayKitchenTeam = () => {
     
     const handleRemovePhoto = async (photoId) => {
         try {
-
-            await axios.delete(`http://localhost:5000/api/photos/${photoId}`);
-
+            await axios.delete(`https://kitchen-turn-project-1-j2n3.onrender.com/api/photos/${photoId}`);
             await fetchData();
             alert('Photo removed successfully!');
         } catch (error) {
@@ -257,7 +262,8 @@ const TodayKitchenTeam = () => {
     
     return (
         <div className={styles.pageContainer}>
-            <Navbar />
+             <Navbar showRegister={false} />
+
             <div className={styles.contentWrapper}>
                 <div className={styles.welcomeHeader}>
                     <h1>Welcome to Kitchen Management System</h1>
@@ -265,27 +271,69 @@ const TodayKitchenTeam = () => {
                 </div>
 
                 <section className={styles.managementSection}>
-                    <div className={styles.sectionHeader}><h2>Manage Today's Kitchen Team & Menu</h2></div>
+                    <div className={styles.sectionHeader}>
+                        {/* <FaPlusCircle className={styles.sectionIcon} /> */}
+                        <h2>Manage Today's Kitchen Team & Menu</h2>
+                    </div>
+                    
                     <form onSubmit={handleAddMealItem} className={styles.mealInputFormGrid}>
-                        <div className={styles.formGroup}><label htmlFor="mealType">Meal type</label><select id="mealType" name="mealType" className={styles.selectInput}>{mealTypes.map(type => <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>)}</select></div>
-                        <div className={styles.formGroup}><label htmlFor="foodName">Food Name</label><input type="text" id="foodName" name="foodName" placeholder="Enter Food" className={styles.textInput} autoComplete='off' disabled={!isCoordinator}/></div>
-                        <div className={styles.formGroup}><label htmlFor="nutrients">Nutrients</label><input type="text" id="nutrients" name="nutrients" placeholder="Enter Nutrients" className={styles.textInput} autoComplete='off' disabled={!isCoordinator}/></div>
-                        <button type="submit" className={styles.addMealButton} disabled={!isCoordinator}><FaPlusCircle /> Add New Item</button>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="mealType">Meal type</label>
+                            <select 
+                                id="mealType" 
+                                name="mealType"
+                                className={styles.selectInput}
+                            >
+                                {mealTypes.map(type => (
+                                    <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="foodName">Food Name</label>
+                            <input 
+                                type="text" 
+                                id="foodName" 
+                                name="foodName"
+                                placeholder="Enter food"
+                                className={styles.textInput}
+                                autoComplete='off'
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="nutrients">Nutrients</label>
+                            <input 
+                                type="text" 
+                                id="nutrients" 
+                                name="nutrients"
+                                placeholder="Enter Nutrients"
+                                className={styles.textInput}
+                                autoComplete='off'
+                            />
+                        </div>
+                        <button type="submit" className={styles.addMealButton}>
+                            <FaPlusCircle /> Add New Item
+                        </button>
                     </form>
+
                     <div className={styles.currentMenuGrid}>
                         {mealTypes.map(type => (
                             <div key={type} className={styles.mealCard}>
-                                <div className={styles.mealCardHeader}><h3>{type.charAt(0).toUpperCase() + type.slice(1)}</h3><span className={styles.itemCount}>{todayMenu[type]?.length || 0} item(s)</span></div>
+                                <div className={styles.mealCardHeader}>
+                                    {/* <FaUtensils className={styles.mealIcon} /> */}
+                                    <h3>{type.charAt(0).toUpperCase() + type.slice(1)}</h3>
+                                    <span className={styles.itemCount}>{todayMenu[type] ? todayMenu[type].length : 0} item(s)</span>
+                                </div>
                                 <ul className={styles.menuList}>
-                                    {todayMenu[type]?.length > 0 ? todayMenu[type].map(item => (
-                                        <li key={item._id} className={styles.menuItem}>
+                                    {todayMenu[type] && todayMenu[type].length > 0 ? todayMenu[type].map((item, idx) => (
+                                        <li key={item._id || idx} className={styles.menuItem}>
                                             <strong>{item.foodName}</strong>
                                             <span className={styles.nutrients}>({item.nutrients})</span>
                                             <button 
                                                 onClick={() => handleRemoveMealItem(type, item._id)} 
-                                                className={styles.removeMealButton} 
-                                                title="Remove item" 
-                                                disabled={!isCoordinator}>
+                                                className={styles.removeMealButton}
+                                                title="Remove item"
+                                            >
                                                 <FaTimesCircle />
                                             </button>
                                         </li>
@@ -298,106 +346,152 @@ const TodayKitchenTeam = () => {
                 
                 <div className={`${styles.managementSection} ${styles.rosterAndPollContainer}`}>
                     <div className={styles.rosterSectionContent}>
-                        <div className={styles.sectionHeader}><FaUsers /> <h2>Kitchen Roster</h2></div>
+                        <div className={styles.sectionHeader}>
+                            <FaUsers className={styles.sectionIcon} />
+                            <h2>Kitchen Roster</h2>
+                        </div>
                         <div className={styles.rosterDisplay}>
-                            <h3>Current Team:</h3>
+                            <h3>Current Team: <span className={styles.itemCount}>{todayTeam.length} members</span></h3>
                             <ul className={styles.teamList}>
-                                {todayTeam.length > 0 ? todayTeam.map(member => (<li key={member._id} className={styles.teamMemberItem}>{member.name}</li>)) : <li>No team members assigned.</li>}
+                                {todayTeam.length > 0 ? todayTeam.map((member) => (
+                                    <li key={member._id} className={styles.teamMemberItem}>
+                                        {member.name}
+                                    </li>
+                                )) : <li className={styles.emptyTeamItem}>No team members assigned for today.</li>}
                             </ul>
                         </div>
                     </div>
+                    
                     <div className={styles.ratingPollSectionContent}>
-                        <div className={styles.sectionHeader}><FaStar /> <h2>Food Feedback Poll</h2></div>
+                        <div className={styles.sectionHeader}>
+                            <FaStar className={styles.sectionIcon} />
+                            <h2>Food Feedback Poll</h2>
+                        </div>
                         <div className={styles.ratingPollContainer}>
                             <p className={styles.pollQuestion}>How would you rate today's meal?</p>
                             <div className={styles.starSelection} onMouseLeave={() => setHoveredRating(0)}>
                                 {[1, 2, 3, 4, 5].map((starValue) => (
-                                    <FaStar
-                                        key={starValue}
-                                        className={`${styles.pollStar} ${hasRatedToday ? styles.disabledStar : ''} ${(starValue <= selectedRating) || (starValue <= hoveredRating) ? styles.selected : ''}`}
-                                        onClick={() => !hasRatedToday && setSelectedRating(starValue)}
-                                        onMouseEnter={() => !hasRatedToday && setHoveredRating(starValue)}
+                                    <FaStar 
+                                        key={starValue} 
+                                        className={`${styles.pollStar} ${
+                                            (starValue <= selectedRating) || (starValue <= hoveredRating) ? styles.selected : ''
+                                        }`} 
+                                        onClick={() => handleRatingSubmit(starValue)}
+                                        onMouseEnter={() => setHoveredRating(starValue)}
                                     />
                                 ))}
                             </div>
-                            {selectedRating > 0 && !hasRatedToday && (
-                                <button className={styles.rateButton} onClick={() => handleRateFood(selectedRating)}>
-                                    Rate Today's Food
-                                </button>
-                            )}
-                            {hasRatedToday && (
-                                <p className={styles.ratedMessage}>Thanks! You've already rated today.</p>
-                            )}
-                            {todayTeam.length > 0 && (
-                                <p className={styles.totalVotes}>Total Votes for this team: {currentTeamVotes}</p>
-                            )}
+                            <div className={styles.pollResults}>
+                                {totalRatings > 0 ? (
+                                    <>
+                                        <div className={styles.overallRatingSummary}>
+                                            <span className={styles.overallRatingLabel}>
+                                                Overall Rating: {averageRating.toFixed(1)} / 5 ({(averageRating / 5 * 100).toFixed(0)}%)
+                                            </span>
+                                        </div>
+                                        <p className={styles.totalVotes}>Total Votes: {totalRatings}</p>
+                                    </>
+                                ) : (
+                                    <p className={styles.noVotes}>No ratings yet. Be the first to rate!</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <section className={styles.managementSection}>
                     <div className={styles.sectionHeader}>
+                        {/* <FaCommentDots className={styles.sectionIcon} /> */}
                         <h2>Meal Feedback & Comments</h2>
                     </div>
-                    <div className={styles.feedbackContentGrid}>
-                        <div className={styles.feedbackFormContainer}>
-                            <form onSubmit={handleFeedbackSubmit} className={styles.feedbackForm}>
-                                <div className={styles.formGroup}>
-                                    <label htmlFor="feedback">Share your thoughts:</label>
-                                    <div className={styles.feedbackInputContainer}>
-                                        <textarea 
-                                            id="feedback" 
-                                            value={feedback} 
-                                            onChange={(e) => setFeedback(e.target.value)} 
-                                            rows="4" 
-                                            placeholder={hasGivenFeedbackToday ? "You have already submitted feedback for this team." : "Enter your feedback"} 
-                                            className={styles.feedbackTextarea} 
-                                            autoComplete='off'
-                                            disabled={hasGivenFeedbackToday}
-                                        />
-                                        <FaRegSmile className={styles.emojiButton} onClick={() => !hasGivenFeedbackToday && setShowEmojiPicker(prev => !prev)} />
-                                        {showEmojiPicker && ( <div className={styles.emojiPicker}><Picker onEmojiClick={onEmojiClick} /></div> )}
+                    <form onSubmit={handleFeedbackSubmit} className={styles.feedbackForm}>
+                        <div className={styles.formGroup}>
+                            <label htmlFor="feedback">Share your thoughts on today's meal:</label>
+                            <div className={styles.feedbackInputContainer}>
+                                <textarea
+                                    id="feedback"
+                                    name="feedback"
+                                    value={feedback}
+                                    onChange={(e) => setFeedback(e.target.value)}
+                                    rows="4"
+                                    placeholder="e.g., The poha was great! But the lunch could have had more spice."
+                                    className={styles.feedbackTextarea}
+                                />
+                                <FaRegSmile 
+                                    className={styles.emojiButton} 
+                                    onClick={() => setShowEmojiPicker(prev => !prev)} 
+                                />
+                                {showEmojiPicker && (
+                                    <div className={styles.emojiPicker}>
+                                        <Picker onEmojiClick={onEmojiClick} />
                                     </div>
-                                </div>
-                                <div className={styles.feedbackActions}>
-                                    <button type="submit" className={styles.submitButton} disabled={hasGivenFeedbackToday}>Submit Feedback</button>
-                                    <button type="button" className={styles.viewFeedbackButton} onClick={() => setIsModalOpen(true)}>View All Feedback</button>
-                                    <button type="button" className={styles.viewTeamsButton} onClick={() => setIsStarTeamsModalOpen(true)}>View Star Teams</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        {starTeam && (
-                            <div className={styles.starTeamInfo}>
-                                <h3>⭐️ Star Kitchen Team:</h3>
-                                <p className={styles.starTeamName}>{starTeam.teamMembers.join(', ')}</p>
-                                <button className={styles.resetButton} onClick={handleResetStars} disabled={!isCoordinator}>
-                                    Reset Star Count
-                                </button>
+                                )}
                             </div>
+                        </div>
+                        <button type="submit" className={styles.submitButton}>
+                            Submit Feedback
+                        </button>
+                    </form>
+                    <div className={styles.feedbackListContainer}>
+                        {feedbackList.length > 0 ? (
+                            <ul className={styles.feedbackList}>
+                                {feedbackList.map((comment, index) => (
+                                    <li key={index} className={styles.feedbackItem}>
+                                        <p className={styles.feedbackComment}>{comment}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p className={styles.noFeedback}>No feedback submitted yet. Be the first!</p>
                         )}
                     </div>
                 </section>
-                
+
                 <section className={styles.managementSection}>
-                    <div className={styles.sectionHeader}><h2>Upload Today's Meal Photo</h2></div>
+                    <div className={styles.sectionHeader}>
+                        {/* <FaUpload className={styles.sectionIcon} /> */}
+                        <h2>Upload Today's Meal Photo</h2>
+                    </div>
                     <div className={styles.photoUploadBox}>
-                        <input type="file" id="meal-photo-upload" className={styles.fileInput} multiple onChange={handleFileChange} disabled={uploadedPhotos.length >= 5 || isUploading}/>
-                        <label htmlFor="meal-photo-upload" className={styles.uploadLabel}><FaUpload /> {isUploading ? 'Uploading...' : 'Click to upload or drag and drop'}</label>
-                        <button className={styles.choosePhotoButton} onClick={() => document.getElementById('meal-photo-upload').click()} disabled={uploadedPhotos.length >= 5 || isUploading}>
+                        <input 
+                            type="file" 
+                            id="meal-photo-upload" 
+                            className={styles.fileInput} 
+                            multiple
+                            onChange={handleFileChange}
+                            disabled={uploadedPhotos.length >= 5}
+                        />
+                        <label htmlFor="meal-photo-upload" className={styles.uploadLabel}>
+                            <FaUpload /> Click to upload photos or drag and drop your meal photos here
+                        </label>
+                        <button 
+                            className={styles.choosePhotoButton}
+                            onClick={() => document.getElementById('meal-photo-upload').click()}
+                            disabled={uploadedPhotos.length >= 5}
+                        >
                             Choose Photos ({uploadedPhotos.length}/5)
                         </button>
+                        
                         {uploadedPhotos.length > 0 && (
                             <div className={styles.uploadedPhotosContainer}>
-                                {uploadedPhotos.map((photo) => (<div key={photo._id} className={styles.uploadedPhotoItem}><img src={photo.url} alt="Uploaded meal" className={styles.thumbnail} /><button onClick={() => handleRemovePhoto(photo._id)} className={styles.removePhotoButton}><FaTimesCircle /></button></div>))}
+                                {uploadedPhotos.map((photo, index) => (
+                                    <div key={index} className={styles.uploadedPhotoItem}>
+                                        <img src={photo.url} alt={photo.name} className={styles.thumbnail} />
+                                        <button 
+                                            onClick={() => handleRemovePhoto(photo.url)} 
+                                            className={styles.removePhotoButton}
+                                        >
+                                            <FaTimesCircle />
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         )}
                     </div>
                 </section>
             </div>
-            {isModalOpen && <FeedbackModal feedbackList={feedbackList} onClose={() => setIsModalOpen(false)} />}
-            {isStarTeamsModalOpen && <StarTeamsModal topTeams={topTeams} onClose={() => setIsStarTeamsModalOpen(false)} />}
         </div>
     );
 };
+
 export default TodayKitchenTeam;

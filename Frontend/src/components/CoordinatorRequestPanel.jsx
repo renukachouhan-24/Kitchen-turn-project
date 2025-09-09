@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUserShield, FaExclamationCircle, FaSearch } from 'react-icons/fa';
 import styles from './CoordinatorRequestPanel.module.css';
-import Navbar from './Navbar'; 
+import Navbar from './Navbar';
 
 const CoordinatorRequestPanel = () => {
     const [requests, setRequests] = useState([]);
@@ -29,10 +29,8 @@ const CoordinatorRequestPanel = () => {
     const fetchData = async () => {
         setLoading(true);
 
-
-        const requestsPromise = axios.get('http://localhost:5000/skip-requests/');
-        const statsPromise = axios.get('http://localhost:5000/skip-requests/stats');
-
+        const requestsPromise = axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/skip-requests/');
+        const statsPromise = axios.get('https://kitchen-turn-project-1-j2n3.onrender.com/skip-requests/stats');
 
         const [requestsResult, statsResult] = await Promise.allSettled([requestsPromise, statsPromise]);
 
@@ -67,13 +65,11 @@ const CoordinatorRequestPanel = () => {
 
         try {
             await axios.patch(
-
-                `http://localhost:5000/skip-requests/approve/${id}`,
-
+                `https://kitchen-turn-project-1-j2n3.onrender.com/skip-requests/approve/${id}`,
                 { studentName },
                 { headers: { userrole: userRole } }
             );
-            alert(`${studentName} request approved.`);
+            alert(`${studentName} ki request approved hai.`);
             fetchData();
         } catch (error) {
             console.error("Error approving request:", error);
@@ -89,9 +85,7 @@ const CoordinatorRequestPanel = () => {
 
         try {
             await axios.patch(
-
-                `http://localhost:5000/skip-requests/reject/${id}`,
-
+                `https://kitchen-turn-project-1-j2n3.onrender.com/skip-requests/reject/${id}`,
                 {},
                 { headers: { userrole: userRole } }
             );
@@ -114,7 +108,7 @@ const CoordinatorRequestPanel = () => {
     return (
         <div className={styles.pageWrapper}>
             <Navbar />
-            
+
             <div className={styles.titleSection}>
                 <FaUserShield className={styles.titleIcon} />
                 <h1>Requests Dashboard</h1>
@@ -177,9 +171,9 @@ const CoordinatorRequestPanel = () => {
                     <h3>Student Skip History</h3>
                     <div className={styles.searchBox}>
                         <FaSearch className={styles.searchIcon} />
-                        <input 
-                            type="text" 
-                            placeholder="Search student..." 
+                        <input
+                            type="text"
+                            placeholder="Search student..."
                             className={styles.searchInput}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
