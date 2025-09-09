@@ -11,7 +11,6 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const navigate = useNavigate();
 
-    // The handleLogout function is memoized to prevent re-creation on every render
     // and is included as a dependency for the useEffect hook.
     const handleLogout = useCallback(() => {
         localStorage.removeItem('user');
@@ -26,7 +25,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
             if (!token) return;
 
             try {
-                const res = await axios.get("https://kitchen-turn-project-1-j2n3.onrender.com/api/auth/me", {
+                const res = await axios.get("http://localhost:5000/api/auth/me", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
