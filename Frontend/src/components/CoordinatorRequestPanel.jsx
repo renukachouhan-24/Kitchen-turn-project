@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUserShield, FaExclamationCircle, FaSearch } from 'react-icons/fa';
 import styles from './CoordinatorRequestPanel.module.css';
-import Navbar from './Navbar'; 
+import Navbar from './Navbar';
 
 const CoordinatorRequestPanel = () => {
     const [requests, setRequests] = useState([]);
@@ -108,7 +108,7 @@ const CoordinatorRequestPanel = () => {
     return (
         <div className={styles.pageWrapper}>
             <Navbar />
-            
+
             <div className={styles.titleSection}>
                 <FaUserShield className={styles.titleIcon} />
                 <h1>Requests Dashboard</h1>
@@ -171,9 +171,9 @@ const CoordinatorRequestPanel = () => {
                     <h3>Student Skip History</h3>
                     <div className={styles.searchBox}>
                         <FaSearch className={styles.searchIcon} />
-                        <input 
-                            type="text" 
-                            placeholder="Search student..." 
+                        <input
+                            type="text"
+                            placeholder="Search student..."
                             className={styles.searchInput}
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
@@ -200,3 +200,6 @@ const CoordinatorRequestPanel = () => {
 };
 
 export default CoordinatorRequestPanel;
+
+
+// coordinator
