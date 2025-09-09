@@ -71,7 +71,7 @@ const StudentDashboard = () => {
             fetchAllStudents();
             fetchActiveStudentsForTeams();
 
-        }, 32400000);
+        }, 240000);
 
 
         return () => clearInterval(refreshInterval);
