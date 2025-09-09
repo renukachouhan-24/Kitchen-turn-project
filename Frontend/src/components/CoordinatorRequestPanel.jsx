@@ -30,8 +30,8 @@ const CoordinatorRequestPanel = () => {
         setLoading(true);
 
 
-        const requestsPromise = axios.get('https://kitchen-turn-project-1-yl2f.onrender.com/skip-requests/');
-        const statsPromise = axios.get('https://kitchen-turn-project-1-yl2f.onrender.com/skip-requests/stats');
+        const requestsPromise = axios.get('http://localhost:5000/skip-requests/');
+        const statsPromise = axios.get('http://localhost:5000/skip-requests/stats');
 
 
         const [requestsResult, statsResult] = await Promise.allSettled([requestsPromise, statsPromise]);
@@ -68,7 +68,7 @@ const CoordinatorRequestPanel = () => {
         try {
             await axios.patch(
 
-                `https://kitchen-turn-project-1-yl2f.onrender.com/skip-requests/approve/${id}`,
+                `http://localhost:5000/skip-requests/approve/${id}`,
 
                 { studentName },
                 { headers: { userrole: userRole } }
@@ -90,7 +90,7 @@ const CoordinatorRequestPanel = () => {
         try {
             await axios.patch(
 
-                `https://kitchen-turn-project-1-yl2f.onrender.com/skip-requests/reject/${id}`,
+                `http://localhost:5000/skip-requests/reject/${id}`,
 
                 {},
                 { headers: { userrole: userRole } }
@@ -117,7 +117,7 @@ const CoordinatorRequestPanel = () => {
             
             <div className={styles.titleSection}>
                 <FaUserShield className={styles.titleIcon} />
-                <h1>Admin Dashboard</h1>
+                <h1>Requests Dashboard</h1>
                 <p>View and manage all incoming kitchen turn skip requests.</p>
             </div>
 

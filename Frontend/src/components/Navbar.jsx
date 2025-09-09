@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+
+
+
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaRegPaperPlane, FaBars, FaTimes, FaUserCircle } from 'react-icons/fa';
 import axios from 'axios';
@@ -10,6 +13,15 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const navigate = useNavigate();
 
+    // The handleLogout function is memoized to prevent re-creation on every render
+    // and is included as a dependency for the useEffect hook.
+    const handleLogout = useCallback(() => {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        setLoggedInUser(null);
+        navigate('/login');
+    }, [navigate]);
+
     useEffect(() => {
         const checkUser = async () => {
             const token = localStorage.getItem("token");
@@ -17,7 +29,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
 
             try {
 
-                const res = await axios.get("https://kitchen-turn-project-1-yl2f.onrender.com/api/auth/me", {
+                const res = await axios.get("http://localhost:5000/api/auth/me", {
 
                     headers: { Authorization: `Bearer ${token}` }
                 });
@@ -39,16 +51,9 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
         };
 
         checkUser();
-    }, [navigate]);
+    }, [navigate, handleLogout]); // `handleLogout` is now a dependency
 
     const isCoordinator = loggedInUser?.role === "coordinator";
-
-    const handleLogout = () => {
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        setLoggedInUser(null);
-        navigate('/login');
-    };
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);

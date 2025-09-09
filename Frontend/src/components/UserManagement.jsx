@@ -1,3 +1,6 @@
+
+
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
@@ -8,6 +11,7 @@ const UserManagement = () => {
     const [students, setStudents] = useState([]);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [message, setMessage] = useState(null); // State for custom message box
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -23,7 +27,7 @@ const UserManagement = () => {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await axios.get('https://kitchen-turn-project-1-yl2f.onrender.com/students/all', {
+            const response = await axios.get('http://localhost:5000/students/all', {
 
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -43,46 +47,56 @@ const UserManagement = () => {
 
     const handleRoleChange = async (id, newRole) => {
         try {
-          const res = await axios.patch(
 
-            `https://kitchen-turn-project-1-yl2f.onrender.com/students/update-role/${id}`,
+            const res = await axios.patch(
+                `http://localhost:5000/students/update-role/${id}`,
+                { role: newRole },
+                { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
+            );
+            
+            const currentUser = JSON.parse(localStorage.getItem("user"));
+            
+            if (res.data.forceLogout && res.data.userId === currentUser._id) {
+                const token = localStorage.getItem("token");
+                const me = await axios.get("http://localhost:5000/api/auth/me", { // Corrected URL
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+                
+                localStorage.setItem("user", JSON.stringify(me.data));
+                
+                if (me.data.role === "student") {
+                    setMessage("Your role has been changed to Student. Logging you out..."); // Use custom message
+                    setTimeout(() => {
+                        localStorage.removeItem("user");
+                        localStorage.removeItem("token");
+                        navigate("/login"); // Used useNavigate
+                    }, 2000);
+                    return;
+                }
 
-            { role: newRole },
-            { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
-          );
-      
-          const currentUser = JSON.parse(localStorage.getItem("user"));
-      
-          if (res.data.forceLogout && res.data.userId === currentUser._id) {
-            const token = localStorage.getItem("token");
-
-            const me = await axios.get("https://kitchen-turn-project-1-yl2f.onrender.com/api/auth/me", {
-
-              headers: { Authorization: `Bearer ${token}` },
-            });
-      
-            localStorage.setItem("user", JSON.stringify(me.data));
-      
-            if (me.data.role === "student") {
-              alert("Your role has been changed to Student. Logging you out...");
-              localStorage.removeItem("user");
-              localStorage.removeItem("token");
-              window.location.href = "/login";
-              return;
             }
-          }
-      
-          alert(res.data.message);
-          fetchStudents();
+            
+            setMessage(res.data.message); // Use custom message
+            fetchStudents();
         } catch (err) {
-          console.error("Error updating role:", err);
-          alert("Failed to update role.");
+            console.error("Error updating role:", err);
+            setMessage("Failed to update role."); // Use custom message
         }
-      };
-      
-  
+    };
     
-    
+    // Custom Message Box component
+    const MessageModal = ({ message, onClose }) => {
+        if (!message) return null;
+        return (
+            <div className={styles.modalOverlay}>
+                <div className={styles.modalContent}>
+                    <p>{message}</p>
+                    <button onClick={onClose}>Close</button>
+                </div>
+            </div>
+        );
+    };
+
     if (!isCoordinator) {
         return (
             <div>
@@ -139,6 +153,7 @@ const UserManagement = () => {
                     </tbody>
                 </table>
             </div>
+            <MessageModal message={message} onClose={() => setMessage(null)} />
         </div>
     );
 };
