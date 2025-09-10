@@ -223,7 +223,7 @@ const TodayKitchenTeam = () => {
         try {
             const uploadPromises = files.map(async (file) => {
                 const formData = new FormData();
-                formData.append('photo', file);
+                formData.append('file', file);
 
                 const response = await axios.post('https://kitchen-turn-project-2-6t8e.onrender.com/api/upload-photo', formData, {
 
