@@ -187,7 +187,7 @@ const StudentDashboard = () => {
     // 🔹 Fetch all students
     const fetchAllStudents = async () => {
         try {
-            const response = await axios.get('https://kitchen-turn-project-2-6t8e.onrender.com/students/all');
+            const response = await axios.get('http://localhost:5000/students/all');
             const sortedStudents = response.data.sort((a, b) => {
                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -204,7 +204,7 @@ const StudentDashboard = () => {
     // 🔹 Fetch active students (excluding coordinators) for today/tomorrow teams
     const fetchActiveStudentsForTeams = async () => {
         try {
-            const response = await axios.get('https://kitchen-turn-project-2-6t8e.onrender.com/students/active');
+            const response = await axios.get('http://localhost:5000/students/active');
             let activeStudents = response.data.filter(student => student.role !== 'coordinator');
 
             if (activeStudents.length >= 5) {
@@ -230,7 +230,7 @@ const StudentDashboard = () => {
         const confirmSkip = window.confirm("Are you sure you want to skip today's student rotation? The Campus Team will be on duty.");
         if (confirmSkip) {
             try {
-                const response = await axios.post('https://kitchen-turn-project-2-6t8e.onrender.com/api/skip-rotation');
+                const response = await axios.post('http://localhost:5000/api/skip-rotation');
                 alert(response.data.message);
             } catch (err) {
                 console.error("Error skipping rotation:", err);
@@ -252,7 +252,7 @@ const StudentDashboard = () => {
             return;
         }
         try {
-            await axios.patch(`https://kitchen-turn-project-2-6t8e.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+            await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);
@@ -271,7 +271,7 @@ const StudentDashboard = () => {
                     <h1>Kitchen Turn Overview</h1>
                     {isCoordinator && (
                         <button onClick={handleSkipRotation} className={styles.skipBtn}>
-                            <FaCalendarAlt /> Skip Today's Rotation
+                            <FaCalendarAlt /> Holiday
                         </button>
                     )}
                 </div>
