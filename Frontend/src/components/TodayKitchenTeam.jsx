@@ -50,11 +50,11 @@ const TodayKitchenTeam = () => {
         try {
             const [menuRes, studentsRes, feedbackRes, topTeamsRes, photosRes] = await axios.all([
 
-                axios.get('https://kitchen-turn-project-3.onrender.com/menu/today'),
-                axios.get('https://kitchen-turn-project-3.onrender.com/students/active'),
-                axios.get('https://kitchen-turn-project-3.onrender.com/api/feedback'),
-                axios.get('https://kitchen-turn-project-3.onrender.com/api/ratings/top-teams'),
-                axios.get('https://kitchen-turn-project-3.onrender.com/api/photos')
+                axios.get('http://localhost:5000/menu/today'),
+                axios.get('http://localhost:5000/students/active'),
+                axios.get('http://localhost:5000/api/feedback'),
+                axios.get('http://localhost:5000/api/ratings/top-teams'),
+                axios.get('http://localhost:5000/api/photos')
 
             ]);
             
@@ -121,7 +121,7 @@ const TodayKitchenTeam = () => {
         const nutrients = e.target.elements.nutrients.value;
         if (!foodName || !nutrients) return;
 
-        axios.patch(`https://kitchen-turn-project-3.onrender.com/menu/update-meal/${mealType}`, { foodName, nutrients })
+        axios.patch(`http://localhost:5000/menu/update-meal/${mealType}`, { foodName, nutrients })
 
             .then(() => fetchData())
             .catch(err => console.error("Error adding meal:", err));
@@ -130,7 +130,7 @@ const TodayKitchenTeam = () => {
 
     const handleRemoveMealItem = (mealType, itemId) => {
 
-        axios.patch(`https://kitchen-turn-project-3.onrender.com/menu/remove-meal/${mealType}/${itemId}`)
+        axios.patch(`http://localhost:5000/menu/remove-meal/${mealType}/${itemId}`)
 
             .then(() => fetchData())
             .catch(err => console.error("Error removing meal:", err));
@@ -145,7 +145,7 @@ const TodayKitchenTeam = () => {
         if (feedback.trim() === '') return;
         const newFeedback = { comment: feedback };
 
-        axios.post('https://kitchen-turn-project-3.onrender.com/api/feedback/add', newFeedback)
+        axios.post('http://localhost:5000/api/feedback/add', newFeedback)
 
             .then(() => {
                 const teamMembers = todayTeam.map(member => member.name).sort();
@@ -172,7 +172,7 @@ const TodayKitchenTeam = () => {
         }
 
 
-        axios.post('https://kitchen-turn-project-3.onrender.com/api/ratings/add', { teamMembers, starValue })
+        axios.post('http://localhost:5000/api/ratings/add', { teamMembers, starValue })
 
             .then(() => {
                 alert('Rating submitted successfully!');
@@ -190,7 +190,7 @@ const TodayKitchenTeam = () => {
     const handleResetStars = () => {
         if (window.confirm("Are you sure you want to reset all team ratings to zero? This action cannot be undone.")) {
 
-            axios.post('https://kitchen-turn-project-3.onrender.com/api/ratings/reset')
+            axios.post('http://localhost:5000/api/ratings/reset')
 
                 .then(() => {
                     alert('All ratings have been reset!');
@@ -225,7 +225,7 @@ const TodayKitchenTeam = () => {
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const response = await axios.post('https://kitchen-turn-project-3.onrender.com/api/upload-photo', formData, {
+                const response = await axios.post('http://localhost:5000/api/upload-photo', formData, {
 
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
@@ -245,7 +245,7 @@ const TodayKitchenTeam = () => {
     const handleRemovePhoto = async (photoId) => {
         try {
 
-            await axios.delete(`https://kitchen-turn-project-3.onrender.com/api/photos/${photoId}`);
+            await axios.delete(`http://localhost:5000/api/photos/${photoId}`);
 
             await fetchData();
             alert('Photo removed successfully!');
