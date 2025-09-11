@@ -73,6 +73,9 @@ app.get('/api/photos', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch photos.' });
   }
 });
+app.get('/ping', (req, res) => {
+    res.status(200).send('Pong!');
+});
 
 
 cron.schedule('*/10 * * * *', async () => {
