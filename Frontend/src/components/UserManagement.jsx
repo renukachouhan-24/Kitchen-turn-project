@@ -24,7 +24,7 @@ const UserManagement = () => {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await axios.get('https://kitchen-turn-project-2-6t8e.onrender.com/students/all', {
+            const response = await axios.get('http://localhost:5000/students/all', {
 
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -46,7 +46,7 @@ const UserManagement = () => {
         try {
 
             const res = await axios.patch(
-                `https://kitchen-turn-project-2-6t8e.onrender.com/students/update-role/${id}`,
+                `http://localhost:5000/students/update-role/${id}`,
                 { role: newRole },
                 { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             );
@@ -55,7 +55,7 @@ const UserManagement = () => {
             
             if (res.data.forceLogout && res.data.userId === currentUser._id) {
                 const token = localStorage.getItem("token");
-                const me = await axios.get("https://kitchen-turn-project-2-6t8e.onrender.com/api/auth/me", { // Corrected URL
+                const me = await axios.get("http://localhost:5000/api/auth/me", { // Corrected URL
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 
