@@ -230,7 +230,7 @@ app.post('/api/skip-rotation', (req, res) => {
 });
 
 
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('*/10 * * * *', async () => {
   // Check if the skip flag is set
   if (skipRotationToday) {
     console.log('🗓️ Rotation skipped via manual command.');
@@ -263,7 +263,7 @@ cron.schedule('0 0 * * *', async () => {
   }
 });
 
-cron.schedule('0 0 * * *', async () => {
+cron.schedule('*/10 * * * *', async () => {
     console.log('🧹 Running daily data reset task...');
     try {
         await Menu.deleteMany({});
@@ -277,9 +277,9 @@ cron.schedule('0 0 * * *', async () => {
     }
 });
 
-cron.schedule('0 0 * * *', async () => { 
+cron.schedule('*/10 * * * *', async () => {
     console.log('⏳ Running cron job to delete old resolved skip requests...');
-    const timeLimitInMs =  24 * 60 * 60 * 1000;
+    const timeLimitInMs =  10 * 60 * 1000;
     const timeThreshold = new Date(Date.now() - timeLimitInMs);
     
     try {
@@ -294,5 +294,5 @@ cron.schedule('0 0 * * *', async () => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 https://kitchen-turn-project-3.onrender.com${port}`);
+  console.log(`🚀 https://kitchen-turn-project-3.onrender.com`);
 });
