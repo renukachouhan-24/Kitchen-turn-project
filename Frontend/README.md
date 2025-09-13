@@ -1,12 +1,74 @@
-# React + Vite
+# KitchenFlow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+KitchenFlow is a web application built by Navgurukul students to manage kitchen duties efficiently and fairly. It streamlines daily kitchen operations, team rotations, menu management, feedback, and more for student communities.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Role Selection:** Students and coordinators have different dashboards and permissions.
+- **Kitchen Team Rotation:** Automatic daily rotation of kitchen teams.
+- **Menu Management:** Add, update, and view daily meal menus.
+- **Photo Upload:** Upload and view meal photos.
+- **Feedback & Ratings:** Submit and view feedback for kitchen teams.
+- **Skip Requests:** Request to skip kitchen duty and manage requests (coordinator).
+- **User Management:** Coordinators can manage student roles and statuses.
+- **Firebase Analytics:** Integrated for usage tracking.
+- **Responsive UI:** Built with React and Vite.
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Frontend:** React, Vite, CSS Modules
+- **Backend:** Node.js, Express, MongoDB, Mongoose
+- **Cloudinary:** For photo uploads
+- **Firebase Analytics:** For tracking usage
+- **Deployment:** Render (Backend), Vercel (Frontend)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- npm
+
+### Installation
+
+```bash
+git clone https://github.com/renukachouhan-24/Kitchen-turn-project.git
+cd Kitchen-turn-project/Frontend
+npm install
+```
+
+### Running Locally
+
+```bash
+npm run dev
+```
+Visit [http://localhost:5173](http://localhost:5173) (or the port shown in your terminal).
+
+### Build for Production
+
+```bash
+npm run build
+```
+
+## Environment Variables
+
+- See `.env.example` for required environment variables (if any).
+
+## Project Structure
+
+- `src/components/` — React components
+- `src/firebase.js` — Firebase Analytics initialization
+- `src/App.jsx` — Main app routes
+- `src/main.jsx` — App entry point
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+[MIT](../LICENSE)
+
+---
+
+Made with ❤️ by Navgurukul students.
