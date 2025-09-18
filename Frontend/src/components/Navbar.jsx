@@ -87,6 +87,20 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
                         <Link to="/login" className={styles.authButton}>Login</Link>
                     )}
                 </div>
+                <ul className={styles.navLinks}>
+                    
+                        <a
+                            href="https://github.com/renukachouhan-24/Kitchen-turn-project/issues"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.feedbackBtn}
+                            title="Give Feedback or Request a Feature"
+                        >
+                            
+                            Feedback
+                        </a>
+               
+                </ul>
             </div>
         </header>
     );
