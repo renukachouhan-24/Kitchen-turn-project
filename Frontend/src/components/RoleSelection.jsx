@@ -7,7 +7,6 @@ import { FaCheckCircle, FaUsers, FaClock, FaShieldAlt, FaCalendarAlt, FaChartBar
 import ajmfLogo from "../assets/AJMF.png";
 
 
-import carousel_image1 from '../assets/cooking1.jpeg'; 
 import carousel_image2 from '../assets/cooking2.jpeg'; 
 import carousel_image3 from '../assets/cooking3.jpeg'; 
 import carousel_image4 from '../assets/cooking4.jpeg'; 
@@ -20,7 +19,6 @@ const carouselImages = [
     carousel_image5,
     
     carousel_image7,
-    carousel_image1,
     carousel_image4,
      
     carousel_image2,
