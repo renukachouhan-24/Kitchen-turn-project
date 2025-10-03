@@ -1,4 +1,4 @@
-.pageWrapper {
+ .pageWrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,12 +92,40 @@
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
+    width: 100%; /* Make sure it takes full width in the denied message too */
 }
 
 .submitButton:hover {
     background-color: #fff;
     color: #f27559;
     border: solid #f27559 2px;
+}
+
+/* 💡 New styles for accessDeniedMessage */
+.accessDeniedMessage {
+    padding: 1.5rem; /* Match formBody padding */
+    text-align: center;
+    color: #e53e3e; /* Red text for error/denial */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Spacing between message and button */
+}
+
+.accessDeniedMessage p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 0.5rem; /* Adjust if needed */
+    font-weight: 500; /* Make text a bit bolder */
+}
+
+.accessDeniedMessage p strong {
+    color: #f27559; /* Highlight the coordinator role */
+    font-weight: 700;
+}
+
+.accessDeniedMessage .submitButton {
+    /* Re-use submitButton styles, but ensure it aligns well */
+    margin-top: 1rem; /* Space from the text above */
 }
 
  @media (max-width: 576px) {
@@ -133,5 +161,13 @@
     .submitButton {
         font-size: 1.1rem;
     }
-}
 
+    /* Adjust for mobile on access denied message */
+    .accessDeniedMessage {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    .accessDeniedMessage p {
+        font-size: 1rem;
+    }
+}
