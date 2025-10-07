@@ -22,7 +22,7 @@ const StudentDashboard = () => {
 
     const fetchAllStudents = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/students/all');
+            const response = await axios.get('https://kitchen-turn-project-1-mq2g.onrender.com/students/all');
             const sortedStudents = response.data.sort((a, b) => {
                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -38,7 +38,7 @@ const StudentDashboard = () => {
 
     const fetchActiveStudentsForTeams = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/students/active');
+            const response = await axios.get('https://kitchen-turn-project-1-mq2g.onrender.com/students/active');
             let activeStudents = response.data.filter(student => student.role !== 'coordinator');
 
             if (activeStudents.length >= 5) {
@@ -64,7 +64,7 @@ const StudentDashboard = () => {
         const confirmSkip = window.confirm("Are you sure you want to skip today's student rotation? The Campus Team will be on duty.");
         if (confirmSkip) {
             try {
-                const response = await axios.post('http://localhost:5000/api/skip-rotation');
+                const response = await axios.post('https://kitchen-turn-project-1-mq2g.onrender.com/api/skip-rotation');
                 alert(response.data.message);
             } catch (err) {
                 console.error("Error skipping rotation:", err);
@@ -88,13 +88,13 @@ const StudentDashboard = () => {
             if (newStatus === 'off_campus') {
                 const confirmDelete = window.confirm("Are you sure you want to set this student as Off-Campus? They will be permanently removed from the system.");
                 if (confirmDelete) {
-                    await axios.delete(`http://localhost:5000/students/delete-student/${studentId}`);
+                    await axios.delete(`https://kitchen-turn-project-1-mq2g.onrender.com/students/delete-student/${studentId}`);
                     alert("Student successfully removed from the system.");
                 } else {
                     return;
                 }
             } else {
-                await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
+                await axios.patch(`https://kitchen-turn-project-1-mq2g.onrender.com/students/update-status/${studentId}`, { status: newStatus });
             }
             
             fetchAllStudents();
