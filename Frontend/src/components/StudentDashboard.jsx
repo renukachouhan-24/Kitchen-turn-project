@@ -24,7 +24,7 @@
 //     // 🔹 Fetch all students
 //     const fetchAllStudents = async () => {
 //         try {
-//             const response = await axios.get('https://kitchen-turn-project-2-6t8e.onrender.com/students/all');
+//             const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/all');
 //             const sortedStudents = response.data.sort((a, b) => {
 //                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
 //                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -41,7 +41,7 @@
 //     // 🔹 Fetch active students (excluding coordinators) for today/tomorrow teams
 //     const fetchActiveStudentsForTeams = async () => {
 //         try {
-//             const response = await axios.get('https://kitchen-turn-project-2-6t8e.onrender.com/students/active');
+//             const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/active');
 //             let activeStudents = response.data.filter(student => student.role !== 'coordinator');
 
 //             if (activeStudents.length >= 5) {
@@ -55,6 +55,24 @@
 //         } catch (err) {
 //             setError('Failed to load kitchen teams.');
 //             console.error("Error fetching active students:", err);
+//         }
+//     };
+    
+//     const handleSkipRotation = async () => {
+//         if (!isCoordinator) {
+//             alert("Only coordinators can skip rotation.");
+//             return;
+//         }
+
+//         const confirmSkip = window.confirm("Are you sure you want to skip today's student rotation? The Campus Team will be on duty.");
+//         if (confirmSkip) {
+//             try {
+//                 const response = await axios.post('https://kitchen-turn-project-4.onrender.com/api/skip-rotation');
+//                 alert(response.data.message);
+//             } catch (err) {
+//                 console.error("Error skipping rotation:", err);
+//                 alert("Failed to skip rotation. Please try again.");
+//             }
 //         }
 //     };
 
@@ -71,7 +89,7 @@
 //             return;
 //         }
 //         try {
-//             await axios.patch(`https://kitchen-turn-project-2-6t8e.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+//             await axios.patch(`https://kitchen-turn-project-4.onrender.com/students/update-status/${studentId}`, { status: newStatus });
 //             fetchAllStudents();
 //             fetchActiveStudentsForTeams();
 //             setError(null);
@@ -88,6 +106,11 @@
 //             <main className={styles.overviewContainer}>
 //                 <div className={styles.overviewHeader}>
 //                     <h1>Kitchen Turn Overview</h1>
+//                     {isCoordinator && (
+//                         <button onClick={handleSkipRotation} className={styles.skipBtn}>
+//                             <FaCalendarAlt /> Holiday
+//                         </button>
+//                     )}
 //                 </div>
 //                 <p className={styles.overviewSubtitle}>
 //                     A recipe has no soul. You, as the cook, must bring soul to the recipe.
@@ -158,8 +181,7 @@
 //     );
 // };
 
-// export default StudentDashboard;1
-
+// export default StudentDashboard;
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -252,12 +274,28 @@ const StudentDashboard = () => {
             return;
         }
         try {
-            await axios.patch(`https://kitchen-turn-project-4.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+            // 💡 Check if the coordinator selected the new 'off_campus' status
+            if (newStatus === 'off_campus') {
+                const confirmDelete = window.confirm("Are you sure you want to set this student as Off-Campus? They will be permanently removed from the system.");
+                if (confirmDelete) {
+                    // Send a DELETE request to the new backend route
+                    await axios.delete(`https://kitchen-turn-project-4.onrender.com/students/delete-student/${studentId}`);
+                    alert("Student successfully removed from the system.");
+                } else {
+                    // If the coordinator cancels the delete, just exit the function
+                    return;
+                }
+            } else {
+                // For 'active', 'inactive', 'on_leave', use the existing PATCH update
+                await axios.patch(`https://kitchen-turn-project-4.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+            }
+            
+            // Re-fetch data after a successful operation (both update and delete)
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);
         } catch (err) {
-            setError('Failed to update student status.');
+            setError(`Failed to update status: ${err.message}`);
             console.error("Error updating status:", err);
         }
     };
@@ -333,6 +371,7 @@ const StudentDashboard = () => {
                                         <option value="active">ACTIVE</option>
                                         <option value="inactive">INACTIVE</option>
                                         <option value="on_leave">ON LEAVE</option>
+                                        <option value="off_campus">OFF CAMPUS</option> {/* 💡 Added new option */}
                                     </select>
                                 )}
                             </div>

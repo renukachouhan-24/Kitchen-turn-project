@@ -226,3 +226,28 @@
     }
     
 }
+.feedbackBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #fff;
+    color: #f05f40;
+    border: 2px solid #f05f40;
+    border-radius: 6px; 
+    padding: 0.6rem 1.3rem; 
+    font-weight: 600; 
+    text-decoration: none;
+    transition: background 0.2s, border 0.2s, color 0.2s;
+    white-space: nowrap; 
+}
+
+.feedbackBtn:hover {
+    background-color: #f05f40;
+    color: #fff;
+    border-color: #f05f40; 
+}
+.navLinks{
+    margin-left: 0;
+    list-style: none; 
+    padding: 0; 
+}
