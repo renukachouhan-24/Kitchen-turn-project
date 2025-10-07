@@ -8,7 +8,7 @@ const UserManagement = () => {
     const [students, setStudents] = useState([]);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [message, setMessage] = useState(null); // State for custom message box
+    const [message, setMessage] = useState(null); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -24,7 +24,7 @@ const UserManagement = () => {
         try {
             const token = localStorage.getItem('token');
 
-            const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/all', {
+            const response = await axios.get('http://localhost:5000/students/all', {
 
                 headers: { Authorization: `Bearer ${token}` }
             });
@@ -46,7 +46,7 @@ const UserManagement = () => {
         try {
 
             const res = await axios.patch(
-                `https://kitchen-turn-project-4.onrender.com/students/update-role/${id}`,
+                `http://localhost:5000/students/update-role/${id}`,
                 { role: newRole },
                 { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }
             );
@@ -55,7 +55,7 @@ const UserManagement = () => {
             
             if (res.data.forceLogout && res.data.userId === currentUser._id) {
                 const token = localStorage.getItem("token");
-                const me = await axios.get("https://kitchen-turn-project-4.onrender.com/api/auth/me", { // Corrected URL
+                const me = await axios.get("http://localhost:5000/api/auth/me", { // Corrected URL
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 
@@ -66,22 +66,21 @@ const UserManagement = () => {
                     setTimeout(() => {
                         localStorage.removeItem("user");
                         localStorage.removeItem("token");
-                        navigate("/login"); // Used useNavigate
+                        navigate("/login"); 
                     }, 2000);
                     return;
                 }
 
             }
             
-            setMessage(res.data.message); // Use custom message
+            setMessage(res.data.message); 
             fetchStudents();
         } catch (err) {
             console.error("Error updating role:", err);
-            setMessage("Failed to update role."); // Use custom message
+            setMessage("Failed to update role."); 
         }
     };
     
-    // Custom Message Box component
     const MessageModal = ({ message, onClose }) => {
         if (!message) return null;
         return (

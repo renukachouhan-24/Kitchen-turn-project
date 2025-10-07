@@ -11,7 +11,6 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
     const [loggedInUser, setLoggedInUser] = useState(null);
     const navigate = useNavigate();
 
-    // and is included as a dependency for the useEffect hook.
     const handleLogout = useCallback(() => {
         localStorage.removeItem('user');
         localStorage.removeItem('token');
@@ -25,7 +24,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
             if (!token) return;
 
             try {
-                const res = await axios.get("https://kitchen-turn-project-4.onrender.com/api/auth/me", {
+                const res = await axios.get("http://localhost:5000/api/auth/me", {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -46,7 +45,7 @@ const Navbar = ({ showRegister, showSkipRequest }) => {
         };
 
         checkUser();
-    }, [navigate, handleLogout]); // `handleLogout` is now a dependency
+    }, [navigate, handleLogout]); 
 
     const isCoordinator = loggedInUser?.role === "coordinator";
 

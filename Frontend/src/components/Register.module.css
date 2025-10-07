@@ -92,7 +92,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.2s;
-    width: 100%; /* Make sure it takes full width in the denied message too */
+    width: 100%; 
 }
 
 .submitButton:hover {
@@ -101,31 +101,29 @@
     border: solid #f27559 2px;
 }
 
-/* 💡 New styles for accessDeniedMessage */
 .accessDeniedMessage {
-    padding: 1.5rem; /* Match formBody padding */
+    padding: 1.5rem; 
     text-align: center;
-    color: #e53e3e; /* Red text for error/denial */
+    color: #e53e3e; 
     display: flex;
     flex-direction: column;
-    gap: 1.5rem; /* Spacing between message and button */
+    gap: 1.5rem; 
 }
 
 .accessDeniedMessage p {
     font-size: 1.1rem;
     line-height: 1.5;
-    margin-bottom: 0.5rem; /* Adjust if needed */
-    font-weight: 500; /* Make text a bit bolder */
+    margin-bottom: 0.5rem; 
+    font-weight: 500; 
 }
 
 .accessDeniedMessage p strong {
-    color: #f27559; /* Highlight the coordinator role */
+    color: #f27559; 
     font-weight: 700;
 }
 
 .accessDeniedMessage .submitButton {
-    /* Re-use submitButton styles, but ensure it aligns well */
-    margin-top: 1rem; /* Space from the text above */
+    margin-top: 1rem; 
 }
 
  @media (max-width: 576px) {
@@ -162,7 +160,6 @@
         font-size: 1.1rem;
     }
 
-    /* Adjust for mobile on access denied message */
     .accessDeniedMessage {
         padding: 1rem;
         gap: 1rem;
@@ -171,3 +168,39 @@
         font-size: 1rem;
     }
 }
+.passwordInputWrapper {
+    position: relative; 
+    width: 100%;
+}
+
+.passwordToggle {
+    position: absolute;
+    top: 50%; 
+    right: 15px; 
+    transform: translateY(-50%); 
+    cursor: pointer;
+    color: #a0aec0; 
+    font-size: 1.2rem;
+    transition: color 0.2s;
+    z-index: 10;
+}
+
+.passwordToggle:hover {
+    color: #4a5568; 
+}
+
+.passwordInputWrapper input {
+    padding-right: 40px; 
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #cbd5e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+
+ 
