@@ -1,2 +1,5 @@
 # Environment file ko ignore karo
 .env
+
+# Node dependencies
+node_modules
