@@ -1,188 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
-// import Navbar from './Navbar';
-// import styles from './StudentDashboard.module.css';
-
-// const StudentDashboard = () => {
-//     const [allStudents, setAllStudents] = useState([]);
-//     const [todayTeam, setTodayTeam] = useState([]);
-//     const [tomorrowTeam, setTomorrowTeam] = useState([]);
-//     const [error, setError] = useState(null);
-//     const [loggedInUser, setLoggedInUser] = useState(null);
-
-//     // 🔹 Get logged-in user from localStorage
-//     useEffect(() => {
-//         const userString = localStorage.getItem('user');
-//         if (userString) {
-//             setLoggedInUser(JSON.parse(userString));
-//         }
-//     }, []);
-
-//     const isCoordinator = loggedInUser && loggedInUser.role === 'coordinator';
-
-//     // 🔹 Fetch all students
-//     const fetchAllStudents = async () => {
-//         try {
-//             const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/all');
-//             const sortedStudents = response.data.sort((a, b) => {
-//                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
-//                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
-//                 return 0;
-//             });
-//             setAllStudents(sortedStudents);
-//             setError(null);
-//         } catch (err) {
-//             setError('Failed to load all students.');
-//             console.error("Error fetching all students:", err);
-//         }
-//     };
-
-//     // 🔹 Fetch active students (excluding coordinators) for today/tomorrow teams
-//     const fetchActiveStudentsForTeams = async () => {
-//         try {
-//             const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/active');
-//             let activeStudents = response.data.filter(student => student.role !== 'coordinator');
-
-//             if (activeStudents.length >= 5) {
-//                 setTodayTeam(activeStudents.slice(0, 5));
-//                 setTomorrowTeam(activeStudents.slice(5, 10));
-//             } else {
-//                 setTodayTeam(activeStudents);
-//                 setTomorrowTeam([]);
-//             }
-//             setError(null);
-//         } catch (err) {
-//             setError('Failed to load kitchen teams.');
-//             console.error("Error fetching active students:", err);
-//         }
-//     };
-    
-//     const handleSkipRotation = async () => {
-//         if (!isCoordinator) {
-//             alert("Only coordinators can skip rotation.");
-//             return;
-//         }
-
-//         const confirmSkip = window.confirm("Are you sure you want to skip today's student rotation? The Campus Team will be on duty.");
-//         if (confirmSkip) {
-//             try {
-//                 const response = await axios.post('https://kitchen-turn-project-4.onrender.com/api/skip-rotation');
-//                 alert(response.data.message);
-//             } catch (err) {
-//                 console.error("Error skipping rotation:", err);
-//                 alert("Failed to skip rotation. Please try again.");
-//             }
-//         }
-//     };
-
-//     // 🔹 Fetch only once on component mount
-//     useEffect(() => {
-//         fetchAllStudents();
-//         fetchActiveStudentsForTeams();
-//     }, []);
-
-//     // 🔹 Handle status change (only coordinator can change)
-//     const handleStatusChange = async (studentId, newStatus) => {
-//         if (!isCoordinator) {
-//             alert("You do not have permission to change the status.");
-//             return;
-//         }
-//         try {
-//             await axios.patch(`https://kitchen-turn-project-4.onrender.com/students/update-status/${studentId}`, { status: newStatus });
-//             fetchAllStudents();
-//             fetchActiveStudentsForTeams();
-//             setError(null);
-//         } catch (err) {
-//             setError('Failed to update student status.');
-//             console.error("Error updating status:", err);
-//         }
-//     };
-
-//     return (
-//         <div className={styles.pageWrapper}>
-//             <Navbar showRegister={false} showSkipRequest={true} />
-
-//             <main className={styles.overviewContainer}>
-//                 <div className={styles.overviewHeader}>
-//                     <h1>Kitchen Turn Overview</h1>
-//                     {isCoordinator && (
-//                         <button onClick={handleSkipRotation} className={styles.skipBtn}>
-//                             <FaCalendarAlt /> Holiday
-//                         </button>
-//                     )}
-//                 </div>
-//                 <p className={styles.overviewSubtitle}>
-//                     A recipe has no soul. You, as the cook, must bring soul to the recipe.
-//                 </p>
-
-//                 {error && <div className={styles.errorMessage}>{error}</div>}
-
-//                 {/* 🔹 Today & Tomorrow Teams */}
-//                 <div className={styles.teamsDisplayContainer}>
-//                     <div className={styles.teamDisplayCard}>
-//                         <div className={styles.teamCardHeader}>
-//                             <FaUsers className={styles.teamIcon} /><h3>Today's Kitchen Team</h3>
-//                         </div>
-//                         <ul className={styles.teamList}>
-//                             {todayTeam.length > 0
-//                                 ? todayTeam.map(({ _id, name }) => <li key={_id}>{name}</li>)
-//                                 : <li>No team assigned yet.</li>}
-//                         </ul>
-//                     </div>
-//                     <div className={styles.teamDisplayCard}>
-//                         <div className={styles.teamCardHeader}>
-//                             <FaCalendarAlt className={styles.teamIcon} /><h3>Tomorrow's Kitchen Team</h3>
-//                         </div>
-//                         <ul className={styles.teamList}>
-//                             {tomorrowTeam.length > 0
-//                                 ? tomorrowTeam.map(({ _id, name }) => <li key={_id}>{name}</li>)
-//                                 : <li>No team assigned yet.</li>}
-//                         </ul>
-//                     </div>
-//                 </div>
-
-//                 {/* 🔹 All Students */}
-//                 <div className={styles.allStudentsContainer}>
-//                     <h2>All Students</h2>
-//                     <div className={styles.allStudentsGrid}>
-//                         {allStudents.map(({ _id, name, status, role, joiningDate }) => (
-//                             <div className={styles.overviewStudentCard} key={_id}>
-//                                 <div className={styles.studentInfo}>
-//                                     <p className={styles.studentName}>{name}</p>
-//                                     <p className={styles.studentPosition}>
-//                                         {`Joined: ${new Date(joiningDate).toLocaleDateString()}`}
-//                                     </p>
-//                                 </div>
-
-//                                 {role === 'coordinator' ? (
-//                                     <p className={styles.coordinatorBadge}>COORDINATOR</p>
-//                                 ) : (
-//                                     <select
-//                                         className={`${styles.studentStatusDropdown} ${status === 'inactive' || status === 'on_leave'
-//                                             ? styles.statusInactive
-//                                             : styles.statusActive}`}
-//                                         value={status}
-//                                         onChange={(e) => handleStatusChange(_id, e.target.value)}
-//                                         disabled={!isCoordinator}
-//                                         title={!isCoordinator ? "Only coordinators can change status." : ""}
-//                                     >
-//                                         <option value="active">ACTIVE</option>
-//                                         <option value="inactive">INACTIVE</option>
-//                                         <option value="on_leave">ON LEAVE</option>
-//                                     </select>
-//                                 )}
-//                             </div>
-//                         ))}
-//                     </div>
-//                 </div>
-//             </main>
-//         </div>
-//     );
-// };
-
-// export default StudentDashboard;
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaUsers, FaCalendarAlt } from 'react-icons/fa';
@@ -196,7 +11,6 @@ const StudentDashboard = () => {
     const [error, setError] = useState(null);
     const [loggedInUser, setLoggedInUser] = useState(null);
 
-    // 🔹 Get logged-in user from localStorage
     useEffect(() => {
         const userString = localStorage.getItem('user');
         if (userString) {
@@ -206,10 +20,9 @@ const StudentDashboard = () => {
 
     const isCoordinator = loggedInUser && loggedInUser.role === 'coordinator';
 
-    // 🔹 Fetch all students
     const fetchAllStudents = async () => {
         try {
-            const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/all');
+            const response = await axios.get('http://localhost:5000/students/all');
             const sortedStudents = response.data.sort((a, b) => {
                 if (a.status === 'on_leave' && b.status !== 'on_leave') return 1;
                 if (a.status !== 'on_leave' && b.status === 'on_leave') return -1;
@@ -223,10 +36,9 @@ const StudentDashboard = () => {
         }
     };
 
-    // 🔹 Fetch active students (excluding coordinators) for today/tomorrow teams
     const fetchActiveStudentsForTeams = async () => {
         try {
-            const response = await axios.get('https://kitchen-turn-project-4.onrender.com/students/active');
+            const response = await axios.get('http://localhost:5000/students/active');
             let activeStudents = response.data.filter(student => student.role !== 'coordinator');
 
             if (activeStudents.length >= 5) {
@@ -252,7 +64,7 @@ const StudentDashboard = () => {
         const confirmSkip = window.confirm("Are you sure you want to skip today's student rotation? The Campus Team will be on duty.");
         if (confirmSkip) {
             try {
-                const response = await axios.post('https://kitchen-turn-project-4.onrender.com/api/skip-rotation');
+                const response = await axios.post('http://localhost:5000/api/skip-rotation');
                 alert(response.data.message);
             } catch (err) {
                 console.error("Error skipping rotation:", err);
@@ -267,30 +79,24 @@ const StudentDashboard = () => {
         fetchActiveStudentsForTeams();
     }, []);
 
-    // 🔹 Handle status change (only coordinator can change)
     const handleStatusChange = async (studentId, newStatus) => {
         if (!isCoordinator) {
             alert("You do not have permission to change the status.");
             return;
         }
         try {
-            // 💡 Check if the coordinator selected the new 'off_campus' status
             if (newStatus === 'off_campus') {
                 const confirmDelete = window.confirm("Are you sure you want to set this student as Off-Campus? They will be permanently removed from the system.");
                 if (confirmDelete) {
-                    // Send a DELETE request to the new backend route
-                    await axios.delete(`https://kitchen-turn-project-4.onrender.com/students/delete-student/${studentId}`);
+                    await axios.delete(`http://localhost:5000/students/delete-student/${studentId}`);
                     alert("Student successfully removed from the system.");
                 } else {
-                    // If the coordinator cancels the delete, just exit the function
                     return;
                 }
             } else {
-                // For 'active', 'inactive', 'on_leave', use the existing PATCH update
-                await axios.patch(`https://kitchen-turn-project-4.onrender.com/students/update-status/${studentId}`, { status: newStatus });
+                await axios.patch(`http://localhost:5000/students/update-status/${studentId}`, { status: newStatus });
             }
             
-            // Re-fetch data after a successful operation (both update and delete)
             fetchAllStudents();
             fetchActiveStudentsForTeams();
             setError(null);
@@ -319,7 +125,6 @@ const StudentDashboard = () => {
 
                 {error && <div className={styles.errorMessage}>{error}</div>}
 
-                {/* 🔹 Today & Tomorrow Teams */}
                 <div className={styles.teamsDisplayContainer}>
                     <div className={styles.teamDisplayCard}>
                         <div className={styles.teamCardHeader}>
@@ -343,7 +148,6 @@ const StudentDashboard = () => {
                     </div>
                 </div>
 
-                {/* 🔹 All Students */}
                 <div className={styles.allStudentsContainer}>
                     <h2>All Students</h2>
                     <div className={styles.allStudentsGrid}>

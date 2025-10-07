@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'; // 💡 useEffect added
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa'; 
+import { FaArrowLeft, FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import styles from './Register.module.css';
 
 const Register = () => {
@@ -11,18 +11,17 @@ const Register = () => {
     password: '',
     joiningDate: '',
   });
-  const [isCoordinator, setIsCoordinator] = useState(false); // 💡 New state for role check
+  const [isCoordinator, setIsCoordinator] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); 
   const navigate = useNavigate();
 
   const { name, email, password, joiningDate } = formData;
 
-  // 🔹 Check user role on component mount
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const user = JSON.parse(storedUser);
-        // Assuming 'coordinator' is the role that allows registration
         if (user.role === 'coordinator') {
           setIsCoordinator(true);
         }
@@ -36,13 +35,13 @@ const Register = () => {
 
   const onSubmit = async e => {
     e.preventDefault();
-    if (!isCoordinator) { // Double check before proceeding
+    if (!isCoordinator) {
         alert('Access Denied. Only a Kitchen Coordinator can register new students.');
         return;
     }
 
     try {
-      const res = await axios.post('https://kitchen-turn-project-4.onrender.com/api/auth/register', formData);
+      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
       console.log(res.data);
       alert('Registration successful! Please log in.');
       navigate('/');
@@ -52,8 +51,13 @@ const Register = () => {
     }
   };
 
-   const handleGoBack = () => {
+  const handleGoBack = () => {
     navigate('/');
+  };
+
+  // 💡 Function to toggle password visibility
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -61,17 +65,16 @@ const Register = () => {
        <button onClick={handleGoBack} className={styles.backButton} title="Go back to main page">
         <FaArrowLeft />
       </button>
-      
+
       <div className={styles.formCard}>
         <div className={styles.formHeader}>
           <h2>Create Your Account</h2>
           <p>Register to join KitchenFlow</p>
         </div>
-        
-        {/* 💡 Conditional rendering based on role */}
+
         {!isCoordinator ? (
             <div className={styles.accessDeniedMessage}>
-                <p>⚠️ **Access Denied:** Only the **Kitchen Coordinator** is authorized to register new students.</p>
+                <p>Access Denied: Only the Kitchen Coordinator is authorized to register new students.</p>
                 <button onClick={handleGoBack} className={styles.submitButton}>Go Back</button>
             </div>
         ) : (
@@ -84,10 +87,29 @@ const Register = () => {
                     <label>Email Address *</label>
                     <input type="email" name="email" value={email} onChange={onChange} autoComplete='off' required />
                 </div>
+                
                 <div className={styles.formGroup}>
                     <label>Password *</label>
-                    <input type="password" name="password" value={password} onChange={onChange} autoComplete='off' required minLength="6" />
+                    <div className={styles.passwordInputWrapper}> 
+                        <input 
+                            type={showPassword ? "text" : "password"} 
+                            name="password" 
+                            value={password} 
+                            onChange={onChange} 
+                            autoComplete='off' 
+                            required 
+                            minLength="6" 
+                        />
+                        <span 
+                            className={styles.passwordToggle} 
+                            onClick={togglePasswordVisibility}
+                            title={showPassword ? "Hide password" : "Show password"}
+                        >
+                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
                 </div>
+                
                 <div className={styles.formGroup}>
                     <label>Joining Date *</label>
                     <input type="date" name="joiningDate" value={joiningDate} onChange={onChange} autoComplete='off' required />
@@ -101,3 +123,4 @@ const Register = () => {
 };
 
 export default Register;
+
