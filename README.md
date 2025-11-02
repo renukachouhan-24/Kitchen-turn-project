@@ -3,7 +3,7 @@
 🚀 **Solved: The Kitchen Duty Chaos!** 🚀
 A full-stack MERN application designed to **automate and simplify kitchen duty rotation** in hostels and shared living spaces — ensuring **fairness, transparency, and zero manual effort**.
 
-🔗 **Live Project:** [Kitchen Turn Project](https://lnkd.in/gHkrX-kq)
+🔗 **Live Project:** [Kitchen Turn Project]([https://lnkd.in/gHkrX-kq](https://kitchen-turn-project-iwjf.vercel.app/))
 
 ---
 
